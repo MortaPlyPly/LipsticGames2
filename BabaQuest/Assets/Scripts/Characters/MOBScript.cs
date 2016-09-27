@@ -284,9 +284,6 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void CountYourStats()
     {
-        //appearance
-        //head = Random(1, 5); like this...
-        ///
         fullLife = str * 40;
         switch (proffession) //ROUND UP CALCULATIONS!!!
         {
@@ -311,6 +308,9 @@ public class MOBScript : MonoBehaviour, CharacterInterface
     public void SetAppearance()
     {
         //set it somehow...
+        //appearance
+        //head = Random(1, 5); like this...
+        ///
     }
 
     public void SetEmotion(int[] percents)

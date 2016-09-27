@@ -307,7 +307,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
     public void CountYourStats() //this shuuld be called at Start()...
     {
-        lvl = exp / 100; //auto lvlup... //ROUND UP CALCULATIONS!!!
+        //lvl = exp / 100; //auto lvlup... //ROUND UP CALCULATIONS!!!
         fullLife = lvl * 20 + str * 10;
         if (lvl == 1) //give starting points
         {
@@ -390,7 +390,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
     public int ChooseWhatToDo()
     {
-        //choose random using chanses...
+        //zaidejas!!!!!!!!!!!!!!!!!!!!! choosinasiiii!
         return 1; //dabar visada puls
     }
 }

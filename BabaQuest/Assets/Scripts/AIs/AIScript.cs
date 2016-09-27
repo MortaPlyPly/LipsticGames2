@@ -38,6 +38,7 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
         style = new Aggressive();
         m.SetEmotion(style.normal);
         //move mob with that float speed
+        mobTurn = m.ChooseWhatToDo();//nustatomas sekanciam kartui
     }
 
     public void MoveMOB(int dmg, int full, int left)
