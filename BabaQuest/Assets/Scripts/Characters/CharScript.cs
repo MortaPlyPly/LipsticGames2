@@ -5,6 +5,8 @@ using System;
 
 public class CharScript : MonoBehaviour, CharacterInterface
 {
+    public int exp;
+    public int distributionPoints;
     int lvl;
     int intel;
     int dex;
@@ -280,30 +282,77 @@ public class CharScript : MonoBehaviour, CharacterInterface
         throw new NotImplementedException();
     }
 
-    public void Attack()
+    public void Attack(int dmg)
     {
-        //do counting
-        throw new NotImplementedException();
+        leftLife = leftLife - dmg;
+        switch (proffession)
+        {
+            case 1:
+                damage = str * 3 + lvl * 5;
+                break;
+            case 2:
+                damage = intel * 2 + str + lvl * 5;
+                break;
+            case 3:
+                damage = str + dex * 2 + lvl * 5;
+                break;
+        }
     }
 
-    public void CountYourStats()
+    public void LevelUp() //do I need this shieettt?
     {
-        throw new NotImplementedException();
+        lvl = exp / 100; //ROUND UP CALCULATIONS!!!
+        distributionPoints++;
     }
 
-    public void EvadeBlock()
+    public void CountYourStats() //this shuuld be called at Start()...
     {
-        throw new NotImplementedException();
+        lvl = exp / 100; //auto lvlup... //ROUND UP CALCULATIONS!!!
+        fullLife = lvl * 20 + str * 10;
+        if (lvl == 1) //give starting points
+        {
+            distributionPoints = 6;
+            switch (proffession)
+            {
+                case 1:
+                    str = 10;//warrior
+                    intel = 6;
+                    dex = 6;
+                    break;
+                case 2:
+                    str = 6;//wizzard
+                    intel = 10;
+                    dex = 6;
+                    break;
+                case 3:
+                    str = 6;//rogue
+                    intel = 6;
+                    dex = 10;
+                    break;
+            }
+        }
+        //points to distribute = lvl... 1lvl = 1point
+    }
+
+    public void EvadeBlock(int dmg)
+    {
+        //how th eevasion will be calculated? damage = 0? or stats?
+        /*if (mydex > enemydex)
+        {
+            //damageforme = 0;
+        }*/
     }
 
     public void SetAppearance()
     {
-        throw new NotImplementedException();
+        //set it somehow...
     }
 
     public void SetEmotion(int[] percents)
     {
-        throw new NotImplementedException();
+        chanceAtt = percents[0];
+        ChanceDef = percents[1];
+        chanceAtt = percents[2];
     }
 
     void Start ()
@@ -316,8 +365,32 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	
 	}
 
-    public void HealMove()
+    public void HealMove(int dmg)
     {
-        throw new NotImplementedException();
+        switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
+        {
+            case 1:
+                leftLife = (fullLife * (dex + intel)) / (lvl * 5);//warrior
+                break;
+            case 2:
+                leftLife = (fullLife * (dex + intel)) / (lvl * 10);//wizzard
+                break;
+            case 3:
+                leftLife = (fullLife * (dex + intel)) / (lvl * 10);//rogue
+                break;
+        }
+        
+        if (leftLife > fullLife)
+        {
+            leftLife = fullLife;
+        }
+
+        leftLife = leftLife - dmg;
+    }
+
+    public int ChooseWhatToDo()
+    {
+        //choose random using chanses...
+        return 1; //dabar visada puls
     }
 }

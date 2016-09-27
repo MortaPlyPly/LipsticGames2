@@ -30,9 +30,10 @@ namespace Assets.Scripts.Characters
         void CountYourStats(); //this can be used in Start() o recalculate players character
         void SetAppearance(); //set sprites & if needed other things for animations
         void SetEmotion(int[] percents); //this is called in every turn
-        void Attack(); //count if needed attack damage
-        void HealMove(); //count if needed heal
-        void EvadeBlock(); //evade, block algorythm
+        void Attack(int dmg); //count if needed attack damage
+        void HealMove(int dmg); //count if needed heal
+        void EvadeBlock(int dmg); //evade, block algorythm
+        int ChooseWhatToDo(); //1-attack, 2 - block/evade, 3-heal
         //////////
         void AnimWalk(); //animations.. do i need them in this manner?
         void AnimIdle();

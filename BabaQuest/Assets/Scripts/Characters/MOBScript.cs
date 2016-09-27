@@ -5,6 +5,7 @@ using System;
 
 public class MOBScript : MonoBehaviour, CharacterInterface
 {
+    public int lvlForMOB;
     int lvl;
     int intel;
     int dex;
@@ -283,27 +284,67 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void CountYourStats()
     {
-        throw new NotImplementedException();
+        //appearance
+        //head = Random(1, 5); like this...
+        ///
+        fullLife = str * 40;
+        switch (proffession) //ROUND UP CALCULATIONS!!!
+        {
+            case 1:
+                str = lvlForMOB + 6;//warrior
+                intel = lvlForMOB / 2 + 4;
+                dex = lvlForMOB / 2 + 4;
+                break;
+            case 2:
+                str = lvlForMOB / 2 + 4;//wizzard
+                intel = lvlForMOB + 6;
+                dex = lvlForMOB / 2 + 4;
+                break;
+            case 3:
+                str = lvlForMOB / 2 + 4;//rogue
+                intel = lvlForMOB / 2 + 4;
+                dex = lvlForMOB + 6;
+                break;
+        }
     }
 
     public void SetAppearance()
     {
-        throw new NotImplementedException();
+        //set it somehow...
     }
 
     public void SetEmotion(int[] percents)
     {
-        throw new NotImplementedException();
+        chanceAtt = percents[0];
+        ChanceDef = percents[1];
+        chanceAtt = percents[2];
     }
 
-    public void Attack()
+    public void Attack(int dmg)
     {
-        throw new NotImplementedException();
+        leftLife = leftLife - dmg;
+
+        switch (proffession)
+        {
+            case 1:
+                damage = str * 3 + lvl * 5;
+                break;
+            case 2:
+                damage = intel * 2 + str + lvl * 5;
+                break;
+            case 3:
+                damage = str + dex * 2 + lvl * 5;
+                break;
+        }
     }
 
-    public void EvadeBlock()
+    public void EvadeBlock(int dmg)
     {
-        throw new NotImplementedException();
+        //how th eevasion will be calculated? damage = 0? or stats?
+        /*if (mydex > enemydex)
+        {
+            //damageforme = 0;
+        }*/
     }
 
     public void AnimWalk()
@@ -341,8 +382,32 @@ public class MOBScript : MonoBehaviour, CharacterInterface
         throw new NotImplementedException();
     }
 
-    public void HealMove()
+    public void HealMove(int dmg)
     {
-        throw new NotImplementedException();
+        switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
+        {
+            case 1:
+                leftLife = (fullLife * (dex + intel)) / (lvl * 5);//warrior
+                break;
+            case 2:
+                leftLife = (fullLife * (dex + intel)) / (lvl * 10);//wizzard
+                break;
+            case 3:
+                leftLife = (fullLife * (dex + intel)) / (lvl * 10);//rogue
+                break;
+        }
+        
+        if (leftLife > fullLife)
+        {
+            leftLife = fullLife;
+        }
+
+        leftLife = leftLife - dmg;
+    }
+
+    public int ChooseWhatToDo()
+    {
+        //choose random using chanses...
+        return 1; //dabar visada puls
     }
 }
