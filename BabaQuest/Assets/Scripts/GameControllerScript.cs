@@ -6,7 +6,7 @@ public class GameControllerScript : MonoBehaviour
 
     public new Camera camera; //to stop and move camera and players character
     public GameObject player; //just to set animations? Do I need this? and I need to store lvl somehow
-    public GameObject playerControlls; //to activate players fight moves
+    //public GameObject playerControlls; //to activate players fight moves (gal playeris gali pasidaryti sita);
     public GameObject ai;
 
     void Start ()
@@ -20,7 +20,7 @@ public class GameControllerScript : MonoBehaviour
         {
             camera.GetComponent<CameraResoliutionScript>().fight = false;
             camera.GetComponent<CameraResoliutionScript>().speed = 0f;
-            //AI.SpawnMob(player.GetLevel());
+            ai.SpawnMob(player.GetLevel());
             //playerControlls.transform.position = ???; //start to show
             Moves();
             StartCoroutine(Wait()); //this is fight next if

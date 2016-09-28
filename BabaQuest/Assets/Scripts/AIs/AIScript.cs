@@ -31,14 +31,59 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
         //new mob?? prefab = new prefab??
         //m -> prefab!
         m.lvlForMOB = playerLvl;
-        //who the fuck mob is: wiz, figt, roug RANDOM?
+        System.Random rnd = new System.Random();
+        m.Proffession = rnd.Next(1, 4); //proffesion 1-4 //who the fuck mob is: wiz, figt, roug RANDOM?
         m.CountYourStats();
-        m.SetAppearance(); //do inside randomising;
-        //roll the dice for fighting style
-        style = new Aggressive();
+        m.SetAppearance(); //do inside randomising and setting;
+        int fightStyle = rnd.Next(1, 101);//roll the dice for fighting style
+        switch (m.Proffession)
+        {
+            case 1:
+                if (fightStyle < 50)//fight
+                {
+                    style = new Aggressive();
+                }
+                else if (fightStyle < 75)
+                {
+                    style = new Defensive();
+                }
+                else
+                {
+                    style = new Mixed();
+                }
+                break;
+            case 2:
+                if (fightStyle < 25) //wiz
+                {
+                    style = new Aggressive();
+                }
+                else if (fightStyle < 50)
+                {
+                    style = new Defensive();
+                }
+                else
+                {
+                    style = new Mixed();
+                }
+                break;
+            case 3:
+                if (fightStyle < 25)//rogue
+                {
+                    style = new Aggressive();
+                }
+                else if (fightStyle < 50)
+                {
+                    style = new Defensive();
+                }
+                else
+                {
+                    style = new Mixed();
+                }
+                break;
+        }
         m.SetEmotion(style.normal);
         //move mob with that float speed
-        mobTurn = m.ChooseWhatToDo();//nustatomas sekanciam kartui
+        mobTurn = m.ChooseWhatToDo();//nustatomas sekanciam kartui (pirma eina playeris)
     }
 
     public void MoveMOB(int dmg, int full, int left)

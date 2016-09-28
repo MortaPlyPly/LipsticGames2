@@ -307,10 +307,14 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void SetAppearance()
     {
+        
+        System.Random rnd = new System.Random();
+        hair = rnd.Next(1, 10); //colour
+        skin = rnd.Next(1, 10); //colour
+        eyes = rnd.Next(1, 10); //colour
+        clothes = rnd.Next(1, 7);
+        head = rnd.Next(1, 6); //hair style basicaly
         //set it somehow...
-        //appearance
-        //head = Random(1, 5); like this...
-        ///
     }
 
     public void SetEmotion(int[] percents)
@@ -408,7 +412,21 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public int ChooseWhatToDo()
     {
-        //choose random using chanses...
-        return 1; //dabar visada puls
+        int choiseForNextMove;
+        System.Random rnd = new System.Random();
+        int choise = rnd.Next(1, 101);
+        if (choise < chanceAtt)
+        {
+            choiseForNextMove = 1;
+        }
+        else if (choise < chanceAtt + chanceDef)
+        {
+            choiseForNextMove = 2;
+        }
+        else
+        {
+            choiseForNextMove = 3;
+        }
+        return choiseForNextMove;
     }
 }
