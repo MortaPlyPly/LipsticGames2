@@ -340,6 +340,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void EvadeBlock(int dmg)
     {
+        //now it just dont let the damage through
         //how th eevasion will be calculated? damage = 0? or stats?
         /*if (mydex > enemydex)
         {
