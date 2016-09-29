@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 public class GameControllerScript : MonoBehaviour
 {
 
     public new Camera camera; //to stop and move camera and players character
     public GameObject player; //just to set animations? Do I need this? and I need to store lvl somehow
-    //public GameObject playerControlls; //to activate players fight moves (gal playeris gali pasidaryti sita);
     public GameObject ai;
+    bool fightTime = false;
 
     void Start ()
     {
@@ -20,40 +21,37 @@ public class GameControllerScript : MonoBehaviour
         {
             camera.GetComponent<CameraResoliutionScript>().fight = false;
             camera.GetComponent<CameraResoliutionScript>().speed = 0f;
-            //ai.SpawnMob(player.GetLevel());
-            //playerControlls.transform.position = ???; //start to show
+            Vector2 v = new Vector2();
+            v = camera.GetComponent<Transform>().position;
+            ai.GetComponent<AIScript>().SpawnMOB(player.GetComponent<CharScript>().Lvl, v);
+            player.GetComponent<CharScript>().SpawnControlls();
             Moves();
-            StartCoroutine(Wait()); //this is fight next if
         }
     }
 
     void Moves()
     {
-        /*
-        if (AI.isDead)
-          {
-               camera.GetComponent<CameraResoliutionScript>().speed = 100f;
-               playerControlls.transform.position = ???;
-          }
-          else
-          {
-            if (player.turn!)
+        while (fightTime)//jei playerio eile, tai sukasi ilgai sitas, kol ne jo eile ir kol mobas ne dead
+        {
+            if (ai.GetComponent<AIScript>().isDead)
             {
-                AI.MoveMOB(player.lastMoveDMG, player.fullLife, player.leftLife);
-                player.dmgFromMOB = AI.myDMG;
-                player.turn = true;
+                camera.GetComponent<CameraResoliutionScript>().speed = 100f;
+                player.GetComponent<CharScript>().GetComponent<CharScript>().CloseControlls();
+                player.GetComponent<CharScript>().GetComponent<CharScript>().exp = player.GetComponent<CharScript>().GetComponent<CharScript>().exp + 100;
+                fightTime = false;
             }
-            else
+            else if (!player.GetComponent<CharScript>().turn)
             {
-                //do nothing till player does its job and sais its mobs turn
+                ai.GetComponent<AIScript>().MoveMOB(player.GetComponent<CharScript>().Damage, player.GetComponent<CharScript>().FullLife, player.GetComponent<CharScript>().LeftLife);
+                player.GetComponent<CharScript>().GetDMG(ai.GetComponent<AIScript>().myDMG);
+                player.GetComponent<CharScript>().turn = true;
             }
-          }
-        */
+        }
     }
 
-    IEnumerator Wait()
+    /*IEnumerator Wait()
     {
         yield return new WaitForSeconds(5); //this is not after 10 seconds, but after fight
         camera.GetComponent<CameraResoliutionScript>().speed = 100f;
-    }
+    }*/
 }

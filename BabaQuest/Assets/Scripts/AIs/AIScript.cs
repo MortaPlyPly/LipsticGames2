@@ -9,8 +9,8 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
     private Vector2 vector = new Vector2(0, 1);
     float speed = 100f;
 
-    bool isDead = true; //is mob dead?
-    int myDMG = 0; //dmg for players character
+    public bool isDead = true; //is mob dead?
+    public int myDMG = 0; //dmg for players character
     public AbstractFightingStyle style; //mobs fighting style
     public GameObject m;
     //MOBScript m = new MOBScript(); //mobs script.. idk if i need this or do it in other way... btw, need mob prefab

@@ -344,6 +344,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void EvadeBlock(int dmg)
     {
+        damage = 0;
         //now it just dont let the damage through
         //how th eevasion will be calculated? damage = 0? or stats?
         /*if (mydex > enemydex)
@@ -389,6 +390,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void HealMove(int dmg)
     {
+        damage = 0;
         switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
         {
             case 1:

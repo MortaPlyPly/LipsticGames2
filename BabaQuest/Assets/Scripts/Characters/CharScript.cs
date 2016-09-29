@@ -2,11 +2,15 @@
 using System.Collections;
 using Assets.Scripts.Characters;
 using System;
+using UnityEngine.SceneManagement;
 
 public class CharScript : MonoBehaviour, CharacterInterface
 {
+    public Canvas controlls;
     public int exp;
     public int distributionPoints;
+    //public int lastMoveDMG;
+    public bool turn = true;
     int lvl;
     int intel;
     int dex;
@@ -392,5 +396,25 @@ public class CharScript : MonoBehaviour, CharacterInterface
     {
         //zaidejas!!!!!!!!!!!!!!!!!!!!! choosinasiiii!
         return 1; //dabar visada puls
+    }
+
+    public void SpawnControlls()
+    {
+        Instantiate(controlls);
+        //change coord?
+    }
+
+    public void CloseControlls()
+    {
+        Destroy(controlls);
+    }
+
+    public void GetDMG (int dmg)
+    {
+        leftLife = leftLife - dmg;
+        if (leftLife < 1)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 }
