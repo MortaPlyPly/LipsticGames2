@@ -20,7 +20,7 @@ public class GameControllerScript : MonoBehaviour
         {
             camera.GetComponent<CameraResoliutionScript>().fight = false;
             camera.GetComponent<CameraResoliutionScript>().speed = 0f;
-            ai.SpawnMob(player.GetLevel());
+            //ai.SpawnMob(player.GetLevel());
             //playerControlls.transform.position = ???; //start to show
             Moves();
             StartCoroutine(Wait()); //this is fight next if
