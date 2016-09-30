@@ -9,6 +9,7 @@ public class GameControllerScript : MonoBehaviour
     public GameObject player; //just to set animations? Do I need this? and I need to store lvl somehow
     public GameObject ai;
     bool fightTime = false;
+    //public Canvas playerControlls;
 
     void Start ()
     {
@@ -19,6 +20,8 @@ public class GameControllerScript : MonoBehaviour
     {
         if (camera.GetComponent<CameraResoliutionScript>().fight)
         {
+            //Instantiate(playerControlls);
+            player.GetComponent<CharScript>().SpawnControlls();
             camera.GetComponent<CameraResoliutionScript>().fight = false;
             camera.GetComponent<CameraResoliutionScript>().speed = 0f;
             Vector2 v = new Vector2();
@@ -35,6 +38,7 @@ public class GameControllerScript : MonoBehaviour
         {
             if (ai.GetComponent<AIScript>().isDead)
             {
+                player.GetComponent<CharScript>().CloseControlls();
                 camera.GetComponent<CameraResoliutionScript>().speed = 100f;
                 player.GetComponent<CharScript>().GetComponent<CharScript>().CloseControlls();
                 player.GetComponent<CharScript>().GetComponent<CharScript>().exp = player.GetComponent<CharScript>().GetComponent<CharScript>().exp + 100;

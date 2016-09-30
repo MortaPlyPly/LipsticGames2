@@ -12,6 +12,11 @@ public class CameraResoliutionScript : MonoBehaviour {
     private Vector2 vector = new Vector2(1,0);
     public bool fight = false;
 
+    void Start()
+    {
+        Instantiate(meniuButton);
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("EnemySpawnPoint"))
@@ -21,7 +26,8 @@ public class CameraResoliutionScript : MonoBehaviour {
         if (other.gameObject.CompareTag("Stop"))
         {
             speed = 0f;
-            hiddenScene.transform.position = new Vector2(240, 150);
+            //hiddenScene.transform.position = new Vector2(240, 150);
+            Instantiate(hiddenScene);
         }
         Destroy(other.gameObject);
     }
@@ -44,16 +50,16 @@ public class CameraResoliutionScript : MonoBehaviour {
 
     public void ShowHiddenMeniu()
     {
-        hiddenMeniu.transform.position = new Vector2(240, 150);
-        meniuButton.transform.position = new Vector2(500, 500);
+        Destroy(meniuButton);
+        Instantiate(hiddenMeniu);
         speed = 0f;
         //char speed = 0f;
     }
 
     public void HideHiddenMeniu()
     {
-        hiddenMeniu.transform.position = new Vector2(850, 500);
-        meniuButton.transform.position = new Vector2(240, 150);
+        Destroy(hiddenMeniu);
+        Instantiate(meniuButton);
         speed = 100f;
         //char speed = 100f;6
     }
