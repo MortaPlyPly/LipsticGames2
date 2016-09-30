@@ -288,6 +288,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
     public void Attack(int dmg)
     {
+        Debug.Log("Player attacks: " + damage);
         leftLife = leftLife - dmg;
         switch (proffession)
         {
@@ -301,6 +302,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
                 damage = str + dex * 2 + lvl * 5;
                 break;
         }
+        Debug.Log("Player attacks: " + damage);
     }
 
     public void LevelUp() //do I need this shieettt?
@@ -340,6 +342,8 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
     public void EvadeBlock(int dmg)
     {
+        damage = 0;
+        Debug.Log("Player evades.");
         //how th eevasion will be calculated? damage = 0? or stats?
         /*if (mydex > enemydex)
         {
@@ -371,6 +375,9 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
     public void HealMove(int dmg)
     {
+        damage = 0;
+        Debug.Log("Players left life: " + leftLife);
+        Debug.Log("Player heals.");
         switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
         {
             case 1:
@@ -390,6 +397,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
         }
 
         leftLife = leftLife - dmg;
+        Debug.Log("Players left life: " + leftLife);
     }
 
     public int ChooseWhatToDo()
@@ -411,10 +419,13 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
     public void GetDMG (int dmg)
     {
+        Debug.Log("Players left life: " + leftLife);
+        Debug.Log("Players gains dmg: " + dmg);
         leftLife = leftLife - dmg;
         if (leftLife < 1)
         {
             SceneManager.LoadScene(0);
         }
+        Debug.Log("Players left life: " + leftLife);
     }
 }

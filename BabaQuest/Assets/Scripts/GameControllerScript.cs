@@ -20,6 +20,7 @@ public class GameControllerScript : MonoBehaviour
     {
         if (camera.GetComponent<CameraResoliutionScript>().fight)
         {
+            Debug.Log("Fight is initiated.");
             //Instantiate(playerControlls);
             player.GetComponent<CharScript>().SpawnControlls();
             camera.GetComponent<CameraResoliutionScript>().fight = false;
@@ -38,6 +39,7 @@ public class GameControllerScript : MonoBehaviour
         {
             if (ai.GetComponent<AIScript>().isDead)
             {
+                Debug.Log("Fight is over. Player won.");
                 player.GetComponent<CharScript>().CloseControlls();
                 camera.GetComponent<CameraResoliutionScript>().speed = 100f;
                 player.GetComponent<CharScript>().GetComponent<CharScript>().CloseControlls();
@@ -46,9 +48,13 @@ public class GameControllerScript : MonoBehaviour
             }
             else if (!player.GetComponent<CharScript>().turn)
             {
+                Debug.Log("MOBs turn.");
+                Debug.Log("Sending dmg for MOB: " + player.GetComponent<CharScript>().Damage);
                 ai.GetComponent<AIScript>().MoveMOB(player.GetComponent<CharScript>().Damage, player.GetComponent<CharScript>().FullLife, player.GetComponent<CharScript>().LeftLife);
                 player.GetComponent<CharScript>().GetDMG(ai.GetComponent<AIScript>().myDMG);
+                Debug.Log("Sending dmg for player: " + ai.GetComponent<AIScript>().myDMG);
                 player.GetComponent<CharScript>().turn = true;
+                Debug.Log("Players turn.");
             }
         }
     }

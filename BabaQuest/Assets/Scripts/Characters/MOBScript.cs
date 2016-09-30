@@ -285,6 +285,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
     public void CountYourStats()
     {
         fullLife = str * 40;
+        Debug.Log("MOBs full life: " + fullLife);
         switch (proffession) //ROUND UP CALCULATIONS!!!
         {
             case 1:
@@ -307,7 +308,6 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void SetAppearance()
     {
-        
         System.Random rnd = new System.Random();
         hair = rnd.Next(1, 10); //colour
         skin = rnd.Next(1, 10); //colour
@@ -319,15 +319,18 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void SetEmotion(int[] percents)
     {
+        Debug.Log("This is where error shown.");
         chanceAtt = percents[0];
         ChanceDef = percents[1];
-        chanceAtt = percents[2];
+        chanceHeal = percents[2];
+        Debug.Log("MOBs chance to attack " + chanceAtt + " to defend " + chanceDef + " to heal " + chanceHeal);
     }
 
     public void Attack(int dmg)
     {
         leftLife = leftLife - dmg;
-
+        //Debug.Log("MOB is hurt by " + dmg);
+        //Debug.Log("MOBs left life " + leftLife);
         switch (proffession)
         {
             case 1:
@@ -340,10 +343,12 @@ public class MOBScript : MonoBehaviour, CharacterInterface
                 damage = str + dex * 2 + lvl * 5;
                 break;
         }
+        Debug.Log("MOB attacks by " + damage);
     }
 
     public void EvadeBlock(int dmg)
     {
+        Debug.Log("MOB blocks.");
         damage = 0;
         //now it just dont let the damage through
         //how th eevasion will be calculated? damage = 0? or stats?
@@ -390,6 +395,8 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void HealMove(int dmg)
     {
+        Debug.Log("MOBs left life: " + leftLife);
+        Debug.Log("MOB heals.");
         damage = 0;
         switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
         {
@@ -410,6 +417,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
         }
 
         leftLife = leftLife - dmg;
+        Debug.Log("MOBs left life: " + leftLife);
     }
 
     public int ChooseWhatToDo()

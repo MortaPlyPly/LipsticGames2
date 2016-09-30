@@ -50,55 +50,76 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
         switch (m.GetComponent<MOBScript>().Proffession)
         {
             case 1:
+                Debug.Log("MOBs proffession: Fighter");
                 if (fightStyle < 50)//fight
                 {
+                    Debug.Log("MOBs style: Aggressive");
                     style = new Aggressive();
                 }
                 else if (fightStyle < 75)
                 {
+                    Debug.Log("MOBs style: Defensive");
                     style = new Defensive();
                 }
                 else
                 {
+                    Debug.Log("MOBs style: Mixed");
                     style = new Mixed();
                 }
                 break;
             case 2:
+                Debug.Log("MOBs proffession: Mage");
                 if (fightStyle < 25) //wiz
                 {
+                    Debug.Log("MOBs style: Aggressive");
                     style = new Aggressive();
                 }
                 else if (fightStyle < 50)
                 {
+                    Debug.Log("MOBs style: Defensive");
                     style = new Defensive();
                 }
                 else
                 {
+                    Debug.Log("MOBs style: Mixed");
                     style = new Mixed();
                 }
                 break;
             case 3:
+                Debug.Log("MOBs proffession: Rogue");
                 if (fightStyle < 25)//rogue
                 {
+                    Debug.Log("MOBs style: Aggressive");
                     style = new Aggressive();
                 }
                 else if (fightStyle < 50)
                 {
+                    Debug.Log("MOBs style: Defensive");
                     style = new Defensive();
                 }
                 else
                 {
+                    Debug.Log("MOBs style: Mixed");
                     style = new Mixed();
                 }
                 break;
         }
-        m.GetComponent<MOBScript>().SetEmotion(style.normal);
+        Debug.Log("This is errors start if it starts from AI");
+        //m.GetComponent<MOBScript>().SetEmotion(style.normal);
+        int[] em = new int[3];
+        em[0] = style.normal[0];
+        em[1] = style.normal[1];
+        em[2] = style.normal[2];
+        Debug.Log("em set: " + em[0] + em[1] + em[2]);
+        m.GetComponent<MOBScript>().SetEmotion(em);
+        Debug.Log("Does this even shows?");
         //move mob with that float speed
         mobTurn = m.GetComponent<MOBScript>().ChooseWhatToDo();//nustatomas sekanciam kartui (pirma eina playeris)
     }
 
     public void MoveMOB(int dmg, int full, int left)
     {
+        Debug.Log("MOBs turn from AI");
         if (mobTurn == 1)
         {
             m.GetComponent<MOBScript>().Attack(dmg);
@@ -116,39 +137,48 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
         ////////// bad emotions
         if (m.GetComponent<MOBScript>().LeftLife/ m.GetComponent<MOBScript>().FullLife < 0.1) //dot?? 0,5??
         {
+            Debug.Log("MOBs emotion fear3");
             m.GetComponent<MOBScript>().SetEmotion(style.fear3);
         }
         else if (m.GetComponent<MOBScript>().LeftLife/ m.GetComponent<MOBScript>().FullLife < 0.25)
         {
+            Debug.Log("MOBs emotion fear2");
             m.GetComponent<MOBScript>().SetEmotion(style.fear2);
         }
         else if (dmg/ m.GetComponent<MOBScript>().FullLife > 0.6)
         {
+            Debug.Log("MOBs emotion anger2");
             m.GetComponent<MOBScript>().SetEmotion(style.anger2);
         }
         else if (m.GetComponent<MOBScript>().LeftLife/ m.GetComponent<MOBScript>().FullLife < 0.5)
         {
+            Debug.Log("MOBs emotion fear1");
             m.GetComponent<MOBScript>().SetEmotion(style.fear1);
         }
         else if (dmg/ m.GetComponent<MOBScript>().FullLife > 0.3)
         {
+            Debug.Log("MOBs emotion anger1");
             m.GetComponent<MOBScript>().SetEmotion(style.anger1);
         }
         //////////// good emotions
         else if (left/full < 0.2)
         {
+            Debug.Log("MOBs emotion finishIT");
             m.GetComponent<MOBScript>().SetEmotion(style.finishIt);
         }
         else if (m.GetComponent<MOBScript>().Damage/full > 0.6)
         {
+            Debug.Log("MOBs emotion winningMood2");
             m.GetComponent<MOBScript>().SetEmotion(style.winningMood2);
         }
         else if (m.GetComponent<MOBScript>().Damage/full > 0.3)
         {
+            Debug.Log("MOBs emotion winningMood1");
             m.GetComponent<MOBScript>().SetEmotion(style.winningMood1);
         }
         else
         {
+            Debug.Log("MOBs emotion normal");
             m.GetComponent<MOBScript>().SetEmotion(style.normal);
         }
         mobTurn = m.GetComponent<MOBScript>().ChooseWhatToDo();//nustatomas sekanciam kartui
