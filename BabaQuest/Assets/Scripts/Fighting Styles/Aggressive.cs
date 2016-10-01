@@ -5,16 +5,19 @@ using System.Text;
 
 namespace Assets.Scripts.Fighting_Styles
 {
-    class Aggressive : AbstractFightingStyle
-    {
-        public new int[] normal = { 70, 10, 20 };
-        public new int[] fear1 = { 70, 10, 20 };
-        public new int[] fear2 = { 60, 20, 20 };
-        public new int[] fear3 = { 50, 20, 30 };
-        public new int[] anger1 = { 90, 5, 5 };
-        public new int[] anger2 = { 100, 0, 0 };
-        public new int[] winningMood1 = { 70, 20, 10 };
-        public new int[] winningMood2 = { 80, 20, 0 };
-        private new int[] finishIt = { 100, 0, 0 };
-    }
+	class Aggressive : AbstractFightingStyle
+	{
+		public Aggressive()
+		{
+		normal = new int[] { 70, 10, 20 };
+		fear1 = new int[] { 70, 10, 20 };
+		fear2 = new int[] { 60, 20, 20 };
+		fear3 = new int[] { 50, 20, 30 };
+		anger1 = new int[] { 90, 5, 5 };
+		anger2 = new int[] { 100, 0, 0 };
+		winningMood1 = new int[] { 70, 20, 10 };
+		winningMood2 = new int[] { 80, 20, 0 };
+		finishIt = new int[] { 100, 0, 0 };
+	}
+}
 }
