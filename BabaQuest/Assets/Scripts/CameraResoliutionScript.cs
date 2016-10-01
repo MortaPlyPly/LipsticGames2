@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CameraResoliutionScript : MonoBehaviour {
 
+    public Canvas menius;
     public GameObject hiddenMeniu;
     public GameObject hiddenScene;
     public GameObject meniuButton;
@@ -14,7 +15,10 @@ public class CameraResoliutionScript : MonoBehaviour {
 
     void Start()
     {
+        Debug.Log("This is where MENIU button should start to show");
+        //Instantiate(menius);
         Instantiate(meniuButton);
+        meniuButton.transform.parent = menius.transform;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -27,6 +31,7 @@ public class CameraResoliutionScript : MonoBehaviour {
         {
             speed = 0f;
             //hiddenScene.transform.position = new Vector2(240, 150);
+            Debug.Log("This is where HIDDEN SCENE button should start to show");
             Instantiate(hiddenScene);
         }
         Destroy(other.gameObject);
