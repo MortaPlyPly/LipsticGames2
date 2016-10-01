@@ -104,7 +104,7 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
                 }
                 break;
         }
-        Debug.Log("This is errors start if it starts from AI");
+		Debug.Log("This is errors start if it starts from AI");
         //m.GetComponent<MOBScript>().SetEmotion(style.normal);
         int[] em = new int[3];
         em[0] = style.normal[0];
