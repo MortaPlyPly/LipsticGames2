@@ -314,7 +314,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
     public void CountYourStats() //this shuuld be called at Start()...
     {
         //lvl = exp / 100; //auto lvlup... //ROUND UP CALCULATIONS!!!
-        fullLife = lvl * 20 + str * 10;
+        lvl = 5;
         if (lvl == 1) //give starting points
         {
             distributionPoints = 6;
@@ -336,6 +336,31 @@ public class CharScript : MonoBehaviour, CharacterInterface
                     dex = 10;
                     break;
             }
+            fullLife = lvl * 20 + str * 10;
+        }
+        proffession = 1;
+        if (lvl == 5) //give starting points
+        {
+            distributionPoints = 6;
+            switch (proffession)
+            {
+                case 1:
+                    str = 10;//warrior
+                    intel = 6;
+                    dex = 6;
+                    break;
+                case 2:
+                    str = 6;//wizzard
+                    intel = 10;
+                    dex = 6;
+                    break;
+                case 3:
+                    str = 6;//rogue
+                    intel = 6;
+                    dex = 10;
+                    break;
+            }
+            fullLife = lvl * 20 + str * 10;
         }
         //points to distribute = lvl... 1lvl = 1point
     }
