@@ -284,8 +284,6 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void CountYourStats()
     {
-        fullLife = str * 40;
-        Debug.Log("MOBs full life: " + fullLife);
         switch (proffession) //ROUND UP CALCULATIONS!!!
         {
             case 1:
@@ -304,6 +302,8 @@ public class MOBScript : MonoBehaviour, CharacterInterface
                 dex = lvlForMOB + 6;
                 break;
         }
+        fullLife = str * 40;
+        Debug.Log("MOBs full life: " + fullLife);
     }
 
     public void SetAppearance()
