@@ -25,7 +25,8 @@ public class MOBScript : MonoBehaviour, CharacterInterface
     int eyes;
     int clothes;
 
-    public int ChanceAtt
+	#region get & set
+	public int ChanceAtt
     {
         get
         {
@@ -245,8 +246,9 @@ public class MOBScript : MonoBehaviour, CharacterInterface
             this.str = value;
         }
     }
+	#endregion
 
-    void Start ()
+	void Start ()
     {
         //StartCoroutine(MoveABit());
     }

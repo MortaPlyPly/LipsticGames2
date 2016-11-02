@@ -30,6 +30,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	int eyes;
 	int clothes;
 
+	#region get & set
 	public int ChanceAtt
 	{
 		get
@@ -250,6 +251,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 			this.str = value;
 		}
 	}
+	#endregion
 
 	public void AnimAttack()
 	{
@@ -302,7 +304,9 @@ public class CharScript : MonoBehaviour, CharacterInterface
 				damage = str + dex * 2 + lvl * 5;
 				break;
 		}
+		damage *= 3;
 		Debug.Log("Player attacks: " + damage);
+		turn = false;
 	}
 
 	public void LevelUp() //do I need this shieettt?
@@ -362,7 +366,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 			}
 			fullLife = lvl * 20 + str * 10;
 		}
-
+		fullLife *= 10;
 		Debug.Log("Player life after" + fullLife);
 		//points to distribute = lvl... 1lvl = 1point
 	}
@@ -376,6 +380,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 		{
 			//damageforme = 0;
 		}*/
+		turn = false;
 	}
 
 	public void SetAppearance()
@@ -425,6 +430,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
 		leftLife = leftLife - dmg;
 		Debug.Log("Players left life: " + leftLife);
+		turn = false;
 	}
 
 	public int ChooseWhatToDo()

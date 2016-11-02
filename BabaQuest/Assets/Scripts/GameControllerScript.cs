@@ -35,6 +35,7 @@ public class GameControllerScript : MonoBehaviour
 
     void Moves()
 	{
+		Debug.Log(ai.GetComponent<AIScript>().isDead);
 		if (fightTime)//jei playerio eile, tai sukasi ilgai sitas, kol ne jo eile ir kol mobas ne dead
 		{
 			if (ai.GetComponent<AIScript>().isDead)

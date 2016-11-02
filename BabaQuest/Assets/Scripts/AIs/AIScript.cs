@@ -41,7 +41,8 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
                                                         //nuo spawn point, kad galetu "ateiti" iki playerio
         m.GetComponent<Rigidbody2D>().velocity = vector.normalized * speed * Time.deltaTime;
         StartCoroutine(Wait()); //sustabdom moba po sekundes
-        m.GetComponent<MOBScript>().lvlForMOB = playerLvl;
+        //m.GetComponent<MOBScript>().lvlForMOB = playerLvl;
+		m.GetComponent<MOBScript>().Lvl = playerLvl;
         System.Random rnd = new System.Random();
         m.GetComponent<MOBScript>().Proffession = rnd.Next(1, 4); //proffesion 1-4 //who the fuck mob is: wiz, figt, roug RANDOM?
         m.GetComponent<MOBScript>().CountYourStats();
@@ -185,7 +186,7 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
         if (m.GetComponent<MOBScript>().LeftLife < 1)
         {
           isDead = true;
-          Destroy(m);
+          //Destroy(m);
         }
         //perduodama zaidejui automatiskai dabar :D per GameController'i
     }
