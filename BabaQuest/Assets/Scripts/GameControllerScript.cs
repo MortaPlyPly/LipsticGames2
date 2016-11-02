@@ -18,26 +18,26 @@ public class GameControllerScript : MonoBehaviour
 
 	void Update ()
     {
-        if (camera.GetComponent<CameraResoliutionScript>().fight)
-        {
-            Debug.Log("Fight is initiated.");
-            //Instantiate(playerControlls);
-            player.GetComponent<CharScript>().SpawnControlls();
-            camera.GetComponent<CameraResoliutionScript>().fight = false;
-            camera.GetComponent<CameraResoliutionScript>().speed = 0f;
-            Vector2 v = new Vector2();
-            v = camera.GetComponent<Transform>().position;
-            ai.GetComponent<AIScript>().SpawnMOB(player.GetComponent<CharScript>().Lvl, v);
-            player.GetComponent<CharScript>().SpawnControlls();
-            Moves();
-        }
+		if (camera.GetComponent<CameraResoliutionScript>().fight)
+		{
+			Debug.Log("Fight is initiated.");
+			//Instantiate(playerControlls);
+			player.GetComponent<CharScript>().SpawnControlls();
+			camera.GetComponent<CameraResoliutionScript>().fight = false;
+			camera.GetComponent<CameraResoliutionScript>().speed = 0f;
+			Vector2 v = new Vector2();
+			v = camera.GetComponent<Transform>().position;
+			ai.GetComponent<AIScript>().SpawnMOB(player.GetComponent<CharScript>().Lvl, v);
+			fightTime = true;
+		}
+		Moves();
     }
 
     void Moves()
-    {
-        while (fightTime)//jei playerio eile, tai sukasi ilgai sitas, kol ne jo eile ir kol mobas ne dead
-        {
-            if (ai.GetComponent<AIScript>().isDead)
+	{
+		if (fightTime)//jei playerio eile, tai sukasi ilgai sitas, kol ne jo eile ir kol mobas ne dead
+		{
+			if (ai.GetComponent<AIScript>().isDead)
             {
                 Debug.Log("Fight is over. Player won.");
                 player.GetComponent<CharScript>().CloseControlls();
@@ -56,7 +56,7 @@ public class GameControllerScript : MonoBehaviour
                 player.GetComponent<CharScript>().turn = true;
                 Debug.Log("Players turn.");
             }
-        }
+		}
     }
 
     /*IEnumerator Wait()

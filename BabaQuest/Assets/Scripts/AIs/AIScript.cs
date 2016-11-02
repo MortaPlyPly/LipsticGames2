@@ -18,7 +18,7 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
 
     // Use this for initialization
     void Start () {
-	    
+
 	}
 	
 	// Update is called once per frame

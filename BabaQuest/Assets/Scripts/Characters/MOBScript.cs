@@ -268,13 +268,6 @@ public class MOBScript : MonoBehaviour, CharacterInterface
     public void Heal()
     {
         leftLife = leftLife + heal;
-    }
-
-    public void SetEmotion (int[] percents)
-    {
-        chanceAtt = percents[0];
-        chanceDef = percents[1];
-        chanceHeal = percents[2];
     }*/
     
     void Update ()
@@ -344,6 +337,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
                 break;
         }
         Debug.Log("MOB attacks by " + damage);
+		Debug.Log("Mob leftlife:" + leftLife);
     }
 
     public void EvadeBlock(int dmg)
