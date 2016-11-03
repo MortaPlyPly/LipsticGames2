@@ -18,6 +18,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	int proffession;
 	int fullLife;
 	int leftLife;
+    //int dm
 	int damage;
 	int heal;
 	int chanceAtt;
@@ -304,7 +305,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 				damage = str + dex * 2 + lvl * 5;
 				break;
 		}
-		damage *= 3;
+		//damage *= ;
 		Debug.Log("Player attacks: " + damage);
 		turn = false;
 	}
@@ -313,6 +314,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	{
 		lvl = exp / 100; //ROUND UP CALCULATIONS!!!
 		distributionPoints++;
+        CountYourStats();
 	}
 
 	public void CountYourStats() //this shuuld be called at Start()...
@@ -368,7 +370,8 @@ public class CharScript : MonoBehaviour, CharacterInterface
 		}
 		fullLife *= 10;
 		Debug.Log("Player life after" + fullLife);
-		//points to distribute = lvl... 1lvl = 1point
+        //points to distribute = lvl... 1lvl = 1point
+        leftLife = fullLife;
 	}
 
 	public void EvadeBlock(int dmg)
@@ -413,13 +416,13 @@ public class CharScript : MonoBehaviour, CharacterInterface
 		switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
 		{
 			case 1:
-				leftLife = (fullLife * (dex + intel)) / (lvl * 5);//warrior
+				leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 5);//warrior
 				break;
 			case 2:
-				leftLife = (fullLife * (dex + intel)) / (lvl * 10);//wizzard
+				leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 10);//wizzard
 				break;
 			case 3:
-				leftLife = (fullLife * (dex + intel)) / (lvl * 10);//rogue
+				leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 10);//rogue
 				break;
 		}
 		
@@ -447,18 +450,16 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
 	public void CloseControlls()
 	{
-		Destroy(controlls);
+        //Destroy(controlls);
 	}
 
 	public void GetDMG (int dmg)
 	{
-		Debug.Log("Players left life: " + leftLife);
-		Debug.Log("Players gains dmg: " + dmg);
 		leftLife = leftLife - dmg;
 		if (leftLife < 1)
 		{
 			SceneManager.LoadScene(0);
 		}
-		Debug.Log("Players left life: " + leftLife);
+		Debug.Log("Players gains dmg: " + dmg + " Players left life: " + leftLife);
 	}
 }

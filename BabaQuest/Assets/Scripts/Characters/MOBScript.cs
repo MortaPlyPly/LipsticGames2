@@ -299,6 +299,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
         }
         fullLife = str * 40;
         Debug.Log("MOBs full life: " + fullLife);
+        leftLife = fullLife;
     }
 
     public void SetAppearance()
@@ -338,8 +339,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
                 damage = str + dex * 2 + lvl * 5;
                 break;
         }
-        Debug.Log("MOB attacks by " + damage);
-		Debug.Log("Mob leftlife:" + leftLife);
+        Debug.Log("MOB attacks by " + damage + "Mob leftlife:" + leftLife);
     }
 
     public void EvadeBlock(int dmg)
@@ -391,20 +391,27 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
     public void HealMove(int dmg)
     {
-        Debug.Log("MOBs left life: " + leftLife);
-        Debug.Log("MOB heals.");
         damage = 0;
         switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
         {
             case 1:
-                leftLife = (fullLife * (dex + intel)) / (lvl * 5);//warrior
-                break;
+                {
+                    leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 20);//warrior
+                    Debug.Log("life: " + leftLife);
+                        break;
+                }
             case 2:
-                leftLife = (fullLife * (dex + intel)) / (lvl * 10);//wizzard
-                break;
+                {
+                    leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 30);//wizzard
+                    Debug.Log("life: " + leftLife);
+                    break;
+                }
             case 3:
-                leftLife = (fullLife * (dex + intel)) / (lvl * 10);//rogue
-                break;
+                {
+                    leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 30);//rogue
+                    Debug.Log("life: " + leftLife);
+                    break;
+                }
         }
         
         if (leftLife > fullLife)
@@ -413,7 +420,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
         }
 
         leftLife = leftLife - dmg;
-        Debug.Log("MOBs left life: " + leftLife);
+        Debug.Log("MOB heals. MOBs left life: " + leftLife+ "==" + dmg);
     }
 
     public int ChooseWhatToDo()

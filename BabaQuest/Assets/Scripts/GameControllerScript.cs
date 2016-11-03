@@ -35,13 +35,14 @@ public class GameControllerScript : MonoBehaviour
 
     void Moves()
 	{
-		Debug.Log(ai.GetComponent<AIScript>().isDead);
+		//Debug.Log(ai.GetComponent<AIScript>().isDead);
 		if (fightTime)//jei playerio eile, tai sukasi ilgai sitas, kol ne jo eile ir kol mobas ne dead
 		{
 			if (ai.GetComponent<AIScript>().isDead)
             {
                 Debug.Log("Fight is over. Player won.");
                 player.GetComponent<CharScript>().CloseControlls();
+                ai.GetComponent<AIScript>().DestroyMOB();//deletinamas MOB!!!
                 camera.GetComponent<CameraResoliutionScript>().speed = 100f;
                 player.GetComponent<CharScript>().GetComponent<CharScript>().CloseControlls();
                 player.GetComponent<CharScript>().GetComponent<CharScript>().exp = player.GetComponent<CharScript>().GetComponent<CharScript>().exp + 100;
@@ -54,6 +55,8 @@ public class GameControllerScript : MonoBehaviour
                 ai.GetComponent<AIScript>().MoveMOB(player.GetComponent<CharScript>().Damage, player.GetComponent<CharScript>().FullLife, player.GetComponent<CharScript>().LeftLife);
                 player.GetComponent<CharScript>().GetDMG(ai.GetComponent<AIScript>().myDMG);
                 Debug.Log("Sending dmg for player: " + ai.GetComponent<AIScript>().myDMG);
+                //Debug.Log("Player life " + player.GetComponent<CharScript>().LeftLife);
+                Debug.Log("Mob life " + ai.GetComponent<AIScript>().m.GetComponent<MOBScript>().LeftLife);
                 player.GetComponent<CharScript>().turn = true;
                 Debug.Log("Players turn.");
             }

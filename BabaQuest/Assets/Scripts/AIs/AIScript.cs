@@ -37,6 +37,10 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
     {
         isDead = false;
         Instantiate(m); //new mob
+        //Debug.Log(m.active);
+        m.SetActive(true);
+        //m.active = true;
+        //Debug.Log(m.active);
         m.transform.position = v + new Vector2 (10, 0); //pastumiam i desine (i krasta) 
                                                         //nuo spawn point, kad galetu "ateiti" iki playerio
         m.GetComponent<Rigidbody2D>().velocity = vector.normalized * speed * Time.deltaTime;
@@ -111,9 +115,9 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
         em[0] = style.normal[0];
         em[1] = style.normal[1];
         em[2] = style.normal[2];
-        Debug.Log("em set: " + em[0] + em[1] + em[2]);
+        //Debug.Log("em set: " + em[0] + em[1] + em[2]);
         m.GetComponent<MOBScript>().SetEmotion(em);
-        Debug.Log("Does this even shows?");
+        //Debug.Log("Does this even shows?");
         //move mob with that float speed
         mobTurn = m.GetComponent<MOBScript>().ChooseWhatToDo();//nustatomas sekanciam kartui (pirma eina playeris)
     }
@@ -129,14 +133,16 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
         if (mobTurn == 2)
         {
             m.GetComponent<MOBScript>().HealMove(dmg);
+            myDMG = m.GetComponent<MOBScript>().Damage;
         }
         if (mobTurn == 3)
         {
             m.GetComponent<MOBScript>().EvadeBlock(dmg);
+            myDMG = m.GetComponent<MOBScript>().Damage;
         }
         //emocijos atsiranda po veiksmu XD
         ////////// bad emotions
-        if (m.GetComponent<MOBScript>().LeftLife/ m.GetComponent<MOBScript>().FullLife < 0.1) //dot?? 0,5??
+        if (m.GetComponent<MOBScript>().LeftLife/ m.GetComponent<MOBScript>().FullLife < 0.1)
         {
             Debug.Log("MOBs emotion fear3");
             m.GetComponent<MOBScript>().SetEmotion(style.fear3);
@@ -189,5 +195,13 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
           //Destroy(m);
         }
         //perduodama zaidejui automatiskai dabar :D per GameController'i
+    }
+
+    public void DestroyMOB()
+    {
+        // remove mob corpse, dabar net nauja mob padaro inactive
+        //Destroy(m);
+        //m.active = false;
+        m.SetActive(false); //realiai turetume delete daryti, bet kolkas bus gerai :D
     }
 }
