@@ -5,441 +5,420 @@ using System;
 
 public class MOBScript : MonoBehaviour, CharacterInterface
 {
-    public int lvlForMOB;
-    int lvl;
-    int intel;
-    int dex;
-    int str;
-    int proffession;
-    int fullLife;
-    int leftLife;
-    int damage;
-    int heal;
-    int chanceAtt;
-    int chanceDef;
-    int chanceHeal;
-    ////// APPEARANCE FOR TYPE 1
-    int head;
-    int hair;
-    int skin;
-    int eyes;
-    int clothes;
+	public int lvlForMOB;
+	int lvl;
+	int intel;
+	int dex;
+	int str;
+	int proffession;
+	int fullLife;
+	int leftLife;
+	int damage;
+	int heal;
+	int chanceAtt;
+	int chanceDef;
+	int chanceHeal;
+	////// APPEARANCE FOR TYPE 1
+	int head;
+	int hair;
+	int skin;
+	int eyes;
+	int clothes;
 
 	#region get & set
 	public int ChanceAtt
-    {
-        get
-        {
-            return chanceAtt;
-        }
+	{
+		get { return chanceAtt; }
+		set { this.chanceAtt = value; }
+	}
 
-        set
-        {
-            this.chanceAtt = value;
-        }
-    }
+	public int ChanceDef
+	{
+		get
+		{
+			return chanceDef;
+		}
 
-    public int ChanceDef
-    {
-        get
-        {
-            return chanceDef;
-        }
+		set
+		{
+			this.chanceDef = value;
+		}
+	}
 
-        set
-        {
-            this.chanceDef = value;
-        }
-    }
+	public int ChanceHeal
+	{
+		get
+		{
+			return chanceHeal;
+		}
 
-    public int ChanceHeal
-    {
-        get
-        {
-            return chanceHeal;
-        }
+		set
+		{
+			this.chanceHeal = value;
+		}
+	}
 
-        set
-        {
-            this.chanceHeal = value;
-        }
-    }
+	public int Clothes
+	{
+		get
+		{
+			return clothes;
+		}
 
-    public int Clothes
-    {
-        get
-        {
-            return clothes;
-        }
+		set
+		{
+			this.clothes = value;
+		}
+	}
 
-        set
-        {
-            this.clothes = value;
-        }
-    }
+	public int Damage
+	{
+		get
+		{
+			return damage;
+		}
 
-    public int Damage
-    {
-        get
-        {
-            return damage;
-        }
+		set
+		{
+			this.damage = value;
+		}
+	}
 
-        set
-        {
-            this.damage = value;
-        }
-    }
+	public int Dex
+	{
+		get
+		{
+			return dex;
+		}
 
-    public int Dex
-    {
-        get
-        {
-            return dex;
-        }
+		set
+		{
+			this.dex = value;
+		}
+	}
 
-        set
-        {
-            this.dex = value;
-        }
-    }
+	public int Eyes
+	{
+		get
+		{
+			return eyes;
+		}
 
-    public int Eyes
-    {
-        get
-        {
-            return eyes;
-        }
+		set
+		{
+			this.eyes = value;
+		}
+	}
 
-        set
-        {
-            this.eyes = value;
-        }
-    }
+	public int FullLife
+	{
+		get
+		{
+			return fullLife;
+		}
 
-    public int FullLife
-    {
-        get
-        {
-            return fullLife;
-        }
+		set
+		{
+			this.fullLife = value;
+		}
+	}
 
-        set
-        {
-            this.fullLife = value;
-        }
-    }
+	public int Hair
+	{
+		get
+		{
+			return hair;
+		}
 
-    public int Hair
-    {
-        get
-        {
-            return hair;
-        }
+		set
+		{
+			this.hair = value;
+		}
+	}
 
-        set
-        {
-            this.hair = value;
-        }
-    }
+	public int Head
+	{
+		get
+		{
+			return head;
+		}
 
-    public int Head
-    {
-        get
-        {
-            return head;
-        }
+		set
+		{
+			this.head = value;
+		}
+	}
 
-        set
-        {
-            this.head = value;
-        }
-    }
+	public int Heal
+	{
+		get
+		{
+			return heal;
+		}
 
-    public int Heal
-    {
-        get
-        {
-            return heal;
-        }
+		set
+		{
+			this.heal = value;
+		}
+	}
 
-        set
-        {
-            this.heal = value;
-        }
-    }
+	public int Intel
+	{
+		get
+		{
+			return intel;
+		}
 
-    public int Intel
-    {
-        get
-        {
-            return intel;
-        }
+		set
+		{
+			this.intel = value;
+		}
+	}
 
-        set
-        {
-            this.intel = value;
-        }
-    }
+	public int LeftLife
+	{
+		get
+		{
+			return leftLife;
+		}
 
-    public int LeftLife
-    {
-        get
-        {
-            return leftLife;
-        }
+		set
+		{
+			this.leftLife = value;
+		}
+	}
 
-        set
-        {
-            this.leftLife = value;
-        }
-    }
+	public int Lvl
+	{
+		get
+		{
+			return lvl;
+		}
 
-    public int Lvl
-    {
-        get
-        {
-            return lvl;
-        }
+		set
+		{
+			this.lvl = value;
+		}
+	}
 
-        set
-        {
-            this.lvl = value;
-        }
-    }
+	public int Proffession
+	{
+		get
+		{
+			return proffession;
+		}
 
-    public int Proffession
-    {
-        get
-        {
-            return proffession;
-        }
+		set
+		{
+			this.proffession = value;
+		}
+	}
 
-        set
-        {
-            this.proffession = value;
-        }
-    }
+	public int Skin
+	{
+		get
+		{
+			return skin;
+		}
 
-    public int Skin
-    {
-        get
-        {
-            return skin;
-        }
+		set
+		{
+			this.skin = value;
+		}
+	}
 
-        set
-        {
-            this.skin = value;
-        }
-    }
+	public int Str
+	{
+		get
+		{
+			return str;
+		}
 
-    public int Str
-    {
-        get
-        {
-            return str;
-        }
-
-        set
-        {
-            this.str = value;
-        }
-    }
+		set
+		{
+			this.str = value;
+		}
+	}
 	#endregion
 
 	void Start ()
-    {
-        //StartCoroutine(MoveABit());
-    }
-
-    /*IEnumerator MoveABit()
-    {
-        float speed = 100f;
-        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 1).normalized * speed * Time.deltaTime;
-        yield return new WaitForSeconds(1);
-        speed = 0f;
-    }
-
-    public void CountYourStats()
-    {
-        //caounting heal, damage and fullLife.
-        // probably this is good place to set appearance with sprites
-    }
-
-    public void Heal()
-    {
-        leftLife = leftLife + heal;
-    }*/
-    
-    void Update ()
-    {
-	
+	{
+		//StartCoroutine(MoveABit());
 	}
 
-    public void CountYourStats()
-    {
-        switch (proffession) //ROUND UP CALCULATIONS!!!
-        {
-            case 1:
-                str = lvlForMOB + 6;//warrior
-                intel = lvlForMOB / 2 + 4;
-                dex = lvlForMOB / 2 + 4;
-                break;
-            case 2:
-                str = lvlForMOB / 2 + 4;//wizzard
-                intel = lvlForMOB + 6;
-                dex = lvlForMOB / 2 + 4;
-                break;
-            case 3:
-                str = lvlForMOB / 2 + 4;//rogue
-                intel = lvlForMOB / 2 + 4;
-                dex = lvlForMOB + 6;
-                break;
-        }
-        fullLife = str * 40;
-        Debug.Log("MOBs full life: " + fullLife);
-        leftLife = fullLife;
-    }
+	/*IEnumerator MoveABit()
+	{
+		float speed = 100f;
+		gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 1).normalized * speed * Time.deltaTime;
+		yield return new WaitForSeconds(1);
+		speed = 0f;
+	}*/
 
-    public void SetAppearance()
-    {
-        System.Random rnd = new System.Random();
-        hair = rnd.Next(1, 10); //colour
-        skin = rnd.Next(1, 10); //colour
-        eyes = rnd.Next(1, 10); //colour
-        clothes = rnd.Next(1, 7);
-        head = rnd.Next(1, 6); //hair style basicaly
-        //set it somehow...
-    }
+			/*spawn mob on right screen side
+			 * move from screen side more to the center in 2s, then stop n stay till mob turn
+			 */
+	/*public void MoveABit()
+	{
+		float speed = 100f;
+		gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 1).normalized * speed * 2000;	//2s
+	}*/
+	
+	void Update ()
+	{ }
 
-    public void SetEmotion(int[] percents)
-    {
-        Debug.Log("This is where error shown.");
-        chanceAtt = percents[0];
-        ChanceDef = percents[1];
-        chanceHeal = percents[2];
-        Debug.Log("MOBs chance to attack " + chanceAtt + " to defend " + chanceDef + " to heal " + chanceHeal);
-    }
+	public void CountYourStats()
+	{
+		switch (proffession) //ROUND UP CALCULATIONS!!!
+		{
+			case 1:
+				str = lvlForMOB + 6;//warrior
+				intel = lvlForMOB / 2 + 4;
+				dex = lvlForMOB / 2 + 4;
+				break;
+			case 2:
+				str = lvlForMOB / 2 + 4;//wizzard
+				intel = lvlForMOB + 6;
+				dex = lvlForMOB / 2 + 4;
+				break;
+			case 3:
+				str = lvlForMOB / 2 + 4;//rogue
+				intel = lvlForMOB / 2 + 4;
+				dex = lvlForMOB + 6;
+				break;
+		}
+		fullLife = str * 40;
+		//Debug.Log("MOBs full life: " + fullLife);
+		leftLife = fullLife;
+	}
 
-    public void Attack(int dmg)
-    {
-        leftLife = leftLife - dmg;
-        //Debug.Log("MOB is hurt by " + dmg);
-        //Debug.Log("MOBs left life " + leftLife);
-        switch (proffession)
-        {
-            case 1:
-                damage = str * 3 + lvl * 5;
-                break;
-            case 2:
-                damage = intel * 2 + str + lvl * 5;
-                break;
-            case 3:
-                damage = str + dex * 2 + lvl * 5;
-                break;
-        }
-        Debug.Log("MOB attacks by " + damage + "Mob leftlife:" + leftLife);
-    }
+	public void SetAppearance()
+	{
+		System.Random rnd = new System.Random();
+		hair = rnd.Next(1, 10); //colour
+		skin = rnd.Next(1, 10); //colour
+		eyes = rnd.Next(1, 10); //colour
+		clothes = rnd.Next(1, 7);
+		head = rnd.Next(1, 6); //hair style basicaly
+		//set it somehow...
+	}
 
-    public void EvadeBlock(int dmg)
-    {
-        Debug.Log("MOB blocks.");
-        damage = 0;
-        //now it just dont let the damage through
-        //how th eevasion will be calculated? damage = 0? or stats?
-        /*if (mydex > enemydex)
-        {
-            //damageforme = 0;
-        }*/
-    }
+	public void SetEmotion(int[] percents)
+	{
+		chanceAtt = percents[0];
+		ChanceDef = percents[1];
+		chanceHeal = percents[2];
+		//Debug.Log("MOBs chance to attack " + chanceAtt + " to defend " + chanceDef + " to heal " + chanceHeal);
+	}
 
-    public void AnimWalk()
-    {
-        throw new NotImplementedException();
-    }
+	public void Attack(int dmg)
+	{
+		leftLife = leftLife - dmg;
+		switch (proffession)
+		{
+			case 1:
+				damage = str * 3 + lvl * 5;
+				break;
+			case 2:
+				damage = intel * 2 + str + lvl * 5;
+				break;
+			case 3:
+				damage = str + dex * 2 + lvl * 5;
+				break;
+		}
+		//Debug.Log("MOB attacks by " + damage + "Mob leftlife:" + leftLife);
+	}
 
-    public void AnimIdle()
-    {
-        throw new NotImplementedException();
-    }
+	public void EvadeBlock(int dmg)
+	{
+		//Debug.Log("MOB blocks.");
+		damage = 0;
+		//now it just dont let the damage through
+		//how th eevasion will be calculated? damage = 0? or stats?
+		/*if (mydex > enemydex)
+		{
+			//damageforme = 0;
+		}*/
+	}
 
-    public void AnimAttack()
-    {
-        throw new NotImplementedException();
-    }
+	#region Animations
+	public void AnimWalk()
+	{
+		throw new NotImplementedException();
+	}
 
-    public void AnimHeal()
-    {
-        throw new NotImplementedException();
-    }
+	public void AnimIdle()
+	{
+		throw new NotImplementedException();
+	}
 
-    public void AnimDeff()
-    {
-        throw new NotImplementedException();
-    }
+	public void AnimAttack()
+	{
+		throw new NotImplementedException();
+	}
 
-    public void AnimHit()
-    {
-        throw new NotImplementedException();
-    }
+	public void AnimHeal()
+	{
+		throw new NotImplementedException();
+	}
 
-    public void AnimDeath()
-    {
-        throw new NotImplementedException();
-    }
+	public void AnimDeff()
+	{
+		throw new NotImplementedException();
+	}
 
-    public void HealMove(int dmg)
-    {
-        damage = 0;
-        switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
-        {
-            case 1:
-                {
-                    leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 20);//warrior
-                    Debug.Log("life: " + leftLife);
-                        break;
-                }
-            case 2:
-                {
-                    leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 30);//wizzard
-                    Debug.Log("life: " + leftLife);
-                    break;
-                }
-            case 3:
-                {
-                    leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 30);//rogue
-                    Debug.Log("life: " + leftLife);
-                    break;
-                }
-        }
-        
-        if (leftLife > fullLife)
-        {
-            leftLife = fullLife;
-        }
+	public void AnimHit()
+	{
+		throw new NotImplementedException();
+	}
 
-        leftLife = leftLife - dmg;
-        Debug.Log("MOB heals. MOBs left life: " + leftLife+ "==" + dmg);
-    }
+	public void AnimDeath()
+	{
+		throw new NotImplementedException();
+	}
+	#endregion
 
-    public int ChooseWhatToDo()
-    {
-        int choiseForNextMove;
-        System.Random rnd = new System.Random();
-        int choise = rnd.Next(1, 101);
-        if (choise < chanceAtt)
-        {
-            choiseForNextMove = 1;
-        }
-        else if (choise < chanceAtt + chanceDef)
-        {
-            choiseForNextMove = 2;
-        }
-        else
-        {
-            choiseForNextMove = 3;
-        }
-        return choiseForNextMove;
-    }
+	public void HealMove(int dmg)
+	{
+		damage = 0;
+		switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
+		{
+			case 1:
+					leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 20);//warrior
+						break;
+			case 2:
+					leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 30);//wizzard
+					break;
+			case 3:
+					leftLife = leftLife + (fullLife * (dex + intel)) / (lvl * 30);//rogue
+					break;
+		}
+		
+		if (leftLife > fullLife)
+		{
+			leftLife = fullLife;
+		}
+
+		leftLife = leftLife - dmg;
+		//Debug.Log("MOB heals. MOBs left life: " + leftLife+ "==" + dmg);
+	}
+
+	public int ChooseWhatToDo()
+	{
+		int choiseForNextMove;
+		System.Random rnd = new System.Random();
+		int choise = rnd.Next(1, 101);
+		if (choise < chanceAtt)
+		{
+			choiseForNextMove = 1;
+		}
+		else if (choise < chanceAtt + chanceDef)
+		{
+			choiseForNextMove = 2;
+		}
+		else
+		{
+			choiseForNextMove = 3;
+		}
+		return choiseForNextMove;
+	}
 }

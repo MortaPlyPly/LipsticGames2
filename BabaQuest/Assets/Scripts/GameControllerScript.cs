@@ -5,19 +5,19 @@ using Assets.Scripts;
 public class GameControllerScript : MonoBehaviour
 {
 
-    public new Camera camera; //to stop and move camera and players character
-    public GameObject player; //just to set animations? Do I need this? and I need to store lvl somehow
-    public GameObject ai;
-    bool fightTime = false;
-    //public Canvas playerControlls;
+	public new Camera camera; //to stop and move camera and players character
+	public GameObject player; //just to set animations? Do I need this? and I need to store lvl somehow
+	public GameObject ai;
+	bool fightTime = false;
+	//public Canvas playerControlls;
 
-    void Start ()
-    {
+	void Start ()
+	{
 	
 	}
 
 	void Update ()
-    {
+	{
 		if (camera.GetComponent<CameraResoliutionScript>().fight)
 		{
 			Debug.Log("Fight is initiated.");
@@ -31,41 +31,40 @@ public class GameControllerScript : MonoBehaviour
 			fightTime = true;
 		}
 		Moves();
-    }
+	}
 
-    void Moves()
+	void Moves()
 	{
-		//Debug.Log(ai.GetComponent<AIScript>().isDead);
 		if (fightTime)//jei playerio eile, tai sukasi ilgai sitas, kol ne jo eile ir kol mobas ne dead
 		{
 			if (ai.GetComponent<AIScript>().isDead)
-            {
-                Debug.Log("Fight is over. Player won.");
-                player.GetComponent<CharScript>().CloseControlls();
-                ai.GetComponent<AIScript>().DestroyMOB();//deletinamas MOB!!!
-                camera.GetComponent<CameraResoliutionScript>().speed = 100f;
-                player.GetComponent<CharScript>().GetComponent<CharScript>().CloseControlls();
-                player.GetComponent<CharScript>().GetComponent<CharScript>().exp = player.GetComponent<CharScript>().GetComponent<CharScript>().exp + 100;
-                fightTime = false;
-            }
-            else if (!player.GetComponent<CharScript>().turn)
-            {
-                Debug.Log("MOBs turn.");
-                Debug.Log("Sending dmg for MOB: " + player.GetComponent<CharScript>().Damage);
-                ai.GetComponent<AIScript>().MoveMOB(player.GetComponent<CharScript>().Damage, player.GetComponent<CharScript>().FullLife, player.GetComponent<CharScript>().LeftLife);
-                player.GetComponent<CharScript>().GetDMG(ai.GetComponent<AIScript>().myDMG);
-                Debug.Log("Sending dmg for player: " + ai.GetComponent<AIScript>().myDMG);
-                //Debug.Log("Player life " + player.GetComponent<CharScript>().LeftLife);
-                Debug.Log("Mob life " + ai.GetComponent<AIScript>().m.GetComponent<MOBScript>().LeftLife);
-                player.GetComponent<CharScript>().turn = true;
-                Debug.Log("Players turn.");
-            }
+			{
+				Debug.Log("Fight is over. Player won.");
+				player.GetComponent<CharScript>().CloseControlls();
+				ai.GetComponent<AIScript>().DestroyMOB();//deletinamas MOB!!!
+				camera.GetComponent<CameraResoliutionScript>().speed = 100f;
+				player.GetComponent<CharScript>().GetComponent<CharScript>().CloseControlls();
+				player.GetComponent<CharScript>().GetComponent<CharScript>().exp = player.GetComponent<CharScript>().GetComponent<CharScript>().exp + 100;
+				fightTime = false;
+			}
+			else if (!player.GetComponent<CharScript>().turn)
+			{
+				Debug.Log("MOBs turn.");
+				//Debug.Log("Sending dmg for MOB: " + player.GetComponent<CharScript>().Damage);
+				ai.GetComponent<AIScript>().MoveMOB(player.GetComponent<CharScript>().Damage, player.GetComponent<CharScript>().FullLife, player.GetComponent<CharScript>().LeftLife);
+				player.GetComponent<CharScript>().GetDMG(ai.GetComponent<AIScript>().myDMG);
+				/*Debug.Log("Sending dmg for player: " + ai.GetComponent<AIScript>().myDMG);
+				Debug.Log("Player life " + player.GetComponent<CharScript>().LeftLife);
+				Debug.Log("Mob life " + ai.GetComponent<AIScript>().m.GetComponent<MOBScript>().LeftLife);*/
+				player.GetComponent<CharScript>().turn = true;
+				Debug.Log("Players turn.");
+			}
 		}
-    }
+	}
 
-    /*IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(5); //this is not after 10 seconds, but after fight
-        camera.GetComponent<CameraResoliutionScript>().speed = 100f;
-    }*/
+	/*IEnumerator Wait()
+	{
+		yield return new WaitForSeconds(5); //this is not after 10 seconds, but after fight
+		camera.GetComponent<CameraResoliutionScript>().speed = 100f;
+	}*/
 }

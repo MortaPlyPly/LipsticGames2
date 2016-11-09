@@ -29,7 +29,7 @@ public class CameraResoliutionScript : MonoBehaviour {
 
     void Start()
     {
-        Debug.Log("This is where MENIU button should start to show");
+        //Debug.Log("This is where MENIU button should start to show");
         //c = canvasObj.transform.GetComponent<Canvas>();//Find<Canvas>("GameMainCanvas");
         /*Instantiate(menius);
         Instantiate(meniuButton);

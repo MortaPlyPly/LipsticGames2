@@ -18,7 +18,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	int proffession;
 	int fullLife;
 	int leftLife;
-    //int dm
+	//int dmg
 	int damage;
 	int heal;
 	int chanceAtt;
@@ -254,6 +254,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	}
 	#endregion
 
+	#region Animations
 	public void AnimAttack()
 	{
 		throw new NotImplementedException();
@@ -288,33 +289,13 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	{
 		throw new NotImplementedException();
 	}
-
-	public void Attack(int dmg)
-	{
-		Debug.Log("Player attacks: " + damage);
-		leftLife = leftLife - dmg;
-		switch (proffession)
-		{
-			case 1:
-				damage = str * 3 + lvl * 5;
-				break;
-			case 2:
-				damage = intel * 2 + str + lvl * 5;
-				break;
-			case 3:
-				damage = str + dex * 2 + lvl * 5;
-				break;
-		}
-		//damage *= ;
-		Debug.Log("Player attacks: " + damage);
-		turn = false;
-	}
+	#endregion
 
 	public void LevelUp() //do I need this shieettt?
 	{
 		lvl = exp / 100; //ROUND UP CALCULATIONS!!!
 		distributionPoints++;
-        CountYourStats();
+		CountYourStats();
 	}
 
 	public void CountYourStats() //this shuuld be called at Start()...
@@ -369,9 +350,29 @@ public class CharScript : MonoBehaviour, CharacterInterface
 			fullLife = lvl * 20 + str * 10;
 		}
 		fullLife *= 10;
-		Debug.Log("Player life after" + fullLife);
-        //points to distribute = lvl... 1lvl = 1point
-        leftLife = fullLife;
+		//Debug.Log("Player life after" + fullLife);
+		//points to distribute = lvl... 1lvl = 1point
+		leftLife = fullLife;
+	}
+
+	public void Attack(int dmg)
+	{
+		leftLife = leftLife - dmg;
+		switch (proffession)
+		{
+			case 1:
+				damage = str * 3 + lvl * 5;
+				break;
+			case 2:
+				damage = intel * 2 + str + lvl * 5;
+				break;
+			case 3:
+				damage = str + dex * 2 + lvl * 5;
+				break;
+		}
+		damage *= 50;
+		//Debug.Log("Player attacks: " + damage);
+		turn = false;
 	}
 
 	public void EvadeBlock(int dmg)
@@ -411,8 +412,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	public void HealMove(int dmg)
 	{
 		damage = 0;
-		Debug.Log("Players left life: " + leftLife);
-		Debug.Log("Player heals.");
+		//Debug.Log("Player heals.");
 		switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
 		{
 			case 1:
@@ -432,7 +432,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 		}
 
 		leftLife = leftLife - dmg;
-		Debug.Log("Players left life: " + leftLife);
+		//Debug.Log("Players left life: " + leftLife);
 		turn = false;
 	}
 
@@ -450,7 +450,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
 	public void CloseControlls()
 	{
-        //Destroy(controlls);
+		//Destroy(controlls);
 	}
 
 	public void GetDMG (int dmg)
@@ -460,6 +460,6 @@ public class CharScript : MonoBehaviour, CharacterInterface
 		{
 			SceneManager.LoadScene(0);
 		}
-		Debug.Log("Players gains dmg: " + dmg + " Players left life: " + leftLife);
+		//Debug.Log("Players gains dmg: " + dmg + " Players left life: " + leftLife);
 	}
 }
