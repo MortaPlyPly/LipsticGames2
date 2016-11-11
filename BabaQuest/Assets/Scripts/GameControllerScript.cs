@@ -53,6 +53,7 @@ public class GameControllerScript : MonoBehaviour
 				//Debug.Log("Sending dmg for MOB: " + player.GetComponent<CharScript>().Damage);
 				ai.GetComponent<AIScript>().MoveMOB(player.GetComponent<CharScript>().Damage, player.GetComponent<CharScript>().FullLife, player.GetComponent<CharScript>().LeftLife);
 				player.GetComponent<CharScript>().GetDMG(ai.GetComponent<AIScript>().myDMG);
+	// parasyt kiek dmg received (player & mob) in fancy text :D
 				/*Debug.Log("Sending dmg for player: " + ai.GetComponent<AIScript>().myDMG);
 				Debug.Log("Player life " + player.GetComponent<CharScript>().LeftLife);
 				Debug.Log("Mob life " + ai.GetComponent<AIScript>().m.GetComponent<MOBScript>().LeftLife);*/
