@@ -328,17 +328,17 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 		//Debug.Log("MOB attacks by " + damage + "Mob leftlife:" + leftLife);
 	}
 
-	public void EvadeBlock(int dmg)
+	/*public void EvadeBlock(int dmg)
 	{
 		//Debug.Log("MOB blocks.");
 		damage = 0;
 		//now it just dont let the damage through
 		//how th eevasion will be calculated? damage = 0? or stats?
-		/*if (mydex > enemydex)
-		{
-			//damageforme = 0;
-		}*/
-	}
+		//if (mydex > enemydex)
+		//{
+		//	damageforme = 0;
+		//}
+	}*/
 
 	#region Animations
 	public void AnimWalk()

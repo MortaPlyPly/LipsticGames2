@@ -102,11 +102,11 @@ public class AIScript : MonoBehaviour //shows warings... ??? bloodina :D
 			m.GetComponent<MOBScript>().HealMove(dmg);
 			myDMG = m.GetComponent<MOBScript>().Damage;
 		}
-		if (mobTurn == 3)
+		/*if (mobTurn == 3)
 		{
 			m.GetComponent<MOBScript>().EvadeBlock(dmg);
 			myDMG = m.GetComponent<MOBScript>().Damage;
-		}
+		}*/
 		//emocijos atsiranda po veiksmu XD
 		////////// bad emotions
 		if (m.GetComponent<MOBScript>().LeftLife/ m.GetComponent<MOBScript>().FullLife < 0.1)

@@ -375,17 +375,17 @@ public class CharScript : MonoBehaviour, CharacterInterface
 		turn = false;
 	}
 
-	public void EvadeBlock(int dmg)
+	/*public void EvadeBlock(int dmg)
 	{
 		damage = 0;
 		Debug.Log("Player evades.");
 		//how th eevasion will be calculated? damage = 0? or stats?
-		/*if (mydex > enemydex)
-		{
-			//damageforme = 0;
-		}*/
+		//if (mydex > enemydex)
+		//{
+		//	//damageforme = 0;
+		//}
 		turn = false;
-	}
+	}*/
 
 	public void SetAppearance()
 	{

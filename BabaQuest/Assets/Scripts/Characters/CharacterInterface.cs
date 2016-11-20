@@ -32,7 +32,7 @@ namespace Assets.Scripts.Characters
         void SetEmotion(int[] percents); //this is called in every turn
         void Attack(int dmg); //count if needed attack damage
         void HealMove(int dmg); //count if needed heal
-        void EvadeBlock(int dmg); //evade, block algorythm
+        //void EvadeBlock(int dmg); //evade, block algorythm
         int ChooseWhatToDo(); //1-attack, 2 - block/evade, 3-heal
         //////////
         void AnimWalk(); //animations.. do i need them in this manner?
