@@ -356,6 +356,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
 	public void Attack(int dmg)
 	{
+			//show attack anim -> idel
 		leftLife = leftLife - dmg;
 		switch (proffession)
 		{
@@ -389,13 +390,13 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	public void SetAppearance()
 	{
 		//set it somehow...
-		int choices = 5;
+		/*int choices = 5;
 		System.Random rand = new System.Random();
 		head = rand.Next(choices);
 		hair = rand.Next(choices);
 		skin = rand.Next(choices);
 		eyes = rand.Next(choices);
-		clothes = rand.Next(choices);
+		clothes = rand.Next(choices);*/
 	}
 
 	public void SetEmotion(int[] percents)
@@ -417,6 +418,7 @@ public class CharScript : MonoBehaviour, CharacterInterface
 
 	public void HealMove(int dmg)
 	{
+			//show heal anim -> idel
 		damage = 0;
 		//Debug.Log("Player heals.");
 		switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!

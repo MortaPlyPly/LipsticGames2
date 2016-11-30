@@ -312,6 +312,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
 	public void Attack(int dmg)
 	{
+			//show attack anim -> idel
 		leftLife = leftLife - dmg;
 		switch (proffession)
 		{
@@ -379,6 +380,7 @@ public class MOBScript : MonoBehaviour, CharacterInterface
 
 	public void HealMove(int dmg)
 	{
+			//show heal anim -> idel
 		damage = 0;
 		switch (proffession) //ar reik skirstyti? //ROUND UP CALCULATIONS!!!
 		{
