@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Assets.Scripts.Characters;
 using System;
 using UnityEngine.SceneManagement;
@@ -390,6 +389,13 @@ public class CharScript : MonoBehaviour, CharacterInterface
 	public void SetAppearance()
 	{
 		//set it somehow...
+		int choices = 5;
+		System.Random rand = new System.Random();
+		head = rand.Next(choices);
+		hair = rand.Next(choices);
+		skin = rand.Next(choices);
+		eyes = rand.Next(choices);
+		clothes = rand.Next(choices);
 	}
 
 	public void SetEmotion(int[] percents)
