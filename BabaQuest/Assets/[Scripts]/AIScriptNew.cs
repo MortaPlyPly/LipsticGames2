@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Assets._Scripts_._Character_Types_;
+using Assets._Scripts_._AI_Types_;
 
 public class AIScriptNew : MonoBehaviour
 {
     //PRIVATE
     private List<GameObject> characters = new List<GameObject>();
+    private int[] possition = new int[7];
+    private bool[] good = new bool[4]; //later 6 "is good"
     //private aiStyle[] ai;
 
     //PUBLIC
-    //...
+    public int dmgForPlayer;
+    //public int[] dmgForMob this shoul be sent straight from player to mob by touch
 
 	void Start ()
     {
@@ -23,6 +28,11 @@ public class AIScriptNew : MonoBehaviour
         RollTurns();
     }
 
+    public void Move()
+    {
+        //itterate list
+    }
+
     private List<GameObject> SpawnFriends()
     {
         //not implemented
@@ -34,6 +44,7 @@ public class AIScriptNew : MonoBehaviour
     {
         List<GameObject> enemies = new List<GameObject>();
         //roll what to spawn
+        //generic enemy...
         foreach (GameObject g in enemies)
         {
             RollAIType(g.transform.name);
