@@ -1,6 +1,6 @@
 ﻿namespace Assets._Scripts_._Character_Types_
 {
-    interface CharacterTypeInterface
+    public interface CharacterTypeInterface
     {
         int LeftLife { get; }
         int FullLife { get; }

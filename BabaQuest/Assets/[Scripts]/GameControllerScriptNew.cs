@@ -2,9 +2,11 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using Assets._Scripts_._Character_Types_;
 
 public class GameControllerScriptNew : MonoBehaviour
 {
+    // UI
     public GameObject meniuB;
     public GameObject meniuT;
     public GameObject fullMeniuB;
@@ -19,53 +21,99 @@ public class GameControllerScriptNew : MonoBehaviour
     public GameObject exitT;
     public GameObject exitY;
     public GameObject exitN;
-
+    // GAME OBJECTS OR PREFABS
+    public GameObject grid;
+    public GameObject ai;
+    public Sprite red;
+    public Sprite blue;
+    //public GameObject player;
     public GameObject background; //background prefab
+    // PUBLIC
+    public float backgroundSpeed = 0.04f; //backround moving speed script
+    public bool backgroundMove = false;
+    // PRIVATE
     GameObject background1; //background gameobj
     GameObject background2; //background gameobj
     Vector3 backgroundPossition = new Vector3(18.2f, 0, 0);
-    public float backgroundSpeed = 0.01f; //backround moving speed script
-    public bool backgroundMove = false;
-
     private bool encounter = false;
-    //private int characterCount;
     private bool playerTurn = true;
     private int playerMoveCount = 0;
+    private List<GameObject> gridParts = new List<GameObject>();
+    private CharacterTypeInterface player;
 
-    public GameObject ai;
-    public GameObject player;
-    private List<GameObject> friends = new List<GameObject>();
-    private List<GameObject> enemies = new List<GameObject>();
-
-	void Start ()
+    void Start ()
     {
         background1 = (GameObject)Instantiate(background, new Vector3(0, 0, 0), Quaternion.identity);
-        /*
-        SET EVERYTHING
-        public GameObject ai;
-        public GameObject player;
-        private List<GameObject> friends = new List<GameObject>();
-        private List<GameObject> enemies = new List<GameObject>();
-        */
+        
+        int i = 0;
+        foreach (Transform child in grid.transform) // getting grid tiles
+        {
+            gridParts.Add(child.gameObject);
+            i++;
+        }
+
+        // get player from save file or smth
+        player = new Rogue();
+        // SET STATS BEFORE DEBUGGING
     }
 	
 	void Update ()
     {
         MoveBackground();
+        // ENCOUNTER
         if (encounter) //starting from playing and iterating through others
         {
+            grid.SetActive(true);
             if (playerTurn)//this is where player pokes screen
             {
                 //do nothing.. comands are called through different functions in this code
             }
             else
             {
+                ai.GetComponent<AIScriptNew>().finishedTurn = false;
+                ai.GetComponent<AIScriptNew>().NPCTurn(); // i hope that ai sends dmg for player too
+                ai.GetComponent<AIScriptNew>().finishedTurn = false;
                 playerMoveCount = 0;
-                //...
-                //ai move your ass and move everyone thats left
-                //...
                 playerTurn = true;
             }
+            // TILES
+            int myTile = 0;
+            for (int i = 0; i < 7; i++) // finding players tile
+            {
+                if (ai.GetComponent<AIScriptNew>().possition[i] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
+                {
+                    myTile = i;
+                }
+            }
+            for (int i = 0; i < 7; i++)
+            {
+                if (i == myTile) // blue if player stans there
+                {
+                    gridParts[i].GetComponent<SpriteRenderer>().sprite = blue;
+                }
+                else
+                {
+                    if (Mathf.Abs(i - myTile) <= player.ReachW) // if its in players reach
+                    {
+                        if (ai.GetComponent<AIScriptNew>().possition[i] > -1) // is enemies standing there?
+                        {
+                            gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
+                        }
+                        else // its free
+                        {
+                            gridParts[i].GetComponent<SpriteRenderer>().sprite = blue;
+                        }
+                    }
+                    else //its not in players reach
+                    {
+                        gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
+                    }
+                }
+            }
+        }
+        else
+        {
+            grid.SetActive(false);
         }
     }
 
@@ -80,18 +128,16 @@ public class GameControllerScriptNew : MonoBehaviour
 
     private void StartEncounter()
     {
-        //call AI to spawn MOB/MOBS
-    }
-
-    private void OneCharTurn(int charIndex)
-    {
-
+        ai.GetComponent<AIScriptNew>().Spawn(player); // PLAYER
+        ai.GetComponent<AIScriptNew>().finishedTurn = true;
+        playerTurn = true;
     }
 
     private void PlayerWalk ()
     {
         //check if can walk here if not error & return... wait for another command
         //if yes, send info to player to walk
+        player.Walk(); // animation
         playerMoveCount++;
         if (playerMoveCount == 3)
         {
@@ -99,9 +145,9 @@ public class GameControllerScriptNew : MonoBehaviour
         }
     }
 
-    private void PlayerHeal()
+    private void PlayerHeal() // player tapped himself
     {
-        //send command to heal player
+        player.Heal();
         playerMoveCount++;
         if (playerMoveCount == 3)
         {
@@ -109,12 +155,9 @@ public class GameControllerScriptNew : MonoBehaviour
         }
     }
 
-    private void PlayerAttack()
+    private void PlayerAttack(int i) // i - pushed person
     {
-        //get info from player about attack
-        //can he attack?
-        //if no return and wait for another command
-        //if yes attack -> KINTAMIEJI!!!
+        player.Attack();
         playerMoveCount++;
         if (playerMoveCount == 3)
         {

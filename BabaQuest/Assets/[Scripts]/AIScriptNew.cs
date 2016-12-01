@@ -7,17 +7,20 @@ using Assets._Scripts_._AI_Types_;
 public class AIScriptNew : MonoBehaviour
 {
     //PRIVATE
-    private List<CharacterTypeInterface> characters = new List<CharacterTypeInterface>();
     private List<AITypeInterface> aiType = new List<AITypeInterface>();
-    private int[] possition = new int[7];
+    private List<GameObject> gameObj = new List<GameObject>();
     private bool[] good = new bool[4]; //later 6 "is good"
     //private aiStyle[] ai;
 
     //PUBLIC
+    public List<CharacterTypeInterface> characters = new List<CharacterTypeInterface>();
+    public int[] possition = new int[7] { -1, -1, -1, -1, -1, -1, -1 };
+    public GameObject charTry;
     public int dmgForPlayer;
     public int lvl;
     public int encExp = 0;
     public bool allEnemiesDead = false;
+    public bool finishedTurn = true;
     //public int[] dmgForMob this shoul be sent straight from player to mob by touch
 
 	void Start ()
@@ -27,12 +30,12 @@ public class AIScriptNew : MonoBehaviour
 
     void Update()
     {
-        foreach(CharacterTypeInterface c in characters)
+        for (int i = 0; i < characters.Count; i++) // checking who is dead and is everybody dead
         {
-            if (c.LeftLife < 1)
+            if (characters[i].LeftLife < 1)
             {
-                characters.Remove(c);
-                //c.enabled = false;
+                characters.Remove(characters[i]);
+                gameObj[i].SetActive(false);
             }
         }
         if (characters.Count == 0)
@@ -41,25 +44,54 @@ public class AIScriptNew : MonoBehaviour
         }
     }
     
-    public void Spawn()
+    public void Spawn(CharacterTypeInterface player)
     {
         //roll exp by lvl
         SpawnFriends(); //done (empty)
-        Spawnenemies(); //done
+        Spawnenemies(player); //done
         RollTurns(); //whatevs for now
     }
 
-    public void Move()
+    public void NPCTurn()
     {
-        int[] actions = new int[9]; // action, action, action, tile, tile, tile, tile, target, target, target
-        foreach (CharacterTypeInterface c in characters)
+        int[] actions = new int[9]; // action, action, action, tile, tile, tile, target, target, target
+        for (int i = 0; i < characters.Count - 1; i++) // turns for everybody, except player, who is last in characters array
         {
-            if (c.LeftLife < 1)
+            actions = aiType[i].Turn(characters, possition, i, good);
+            for (int j = 0; j < 3; j++)
             {
-                characters.Remove(c);
-                //c.enabled = false;
+                switch(actions[j])
+                {
+                    case 1:
+                        {
+                            gameObj[i].transform.position = new Vector3(-7.5f + 2.5f * possition[j + 3], -2.3f, 0);
+                            characters[i].Walk(); //animation shit
+                            // tiles/possition
+                            for (int x = 0; x < 7; x++)
+                            {
+                                if (possition[x] == i)
+                                {
+                                    possition[x] = -1; // empty possition
+                                }
+                                possition[j + 3] = i;
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            //actions[j+6] -> target
+                            characters[actions[j + 6]].GetHurt(characters[i].Attack());
+                            break;
+                        }
+                    case 3:
+                        {
+                            characters[i].Heal();
+                            break;
+                        }
+                }
             }
         }
+        finishedTurn = true;
     }
 
     private List<GameObject> SpawnFriends()
@@ -69,16 +101,41 @@ public class AIScriptNew : MonoBehaviour
         return new List<GameObject>(); //empty for now
     }
 
-    private void Spawnenemies()
+    private void Spawnenemies(CharacterTypeInterface player)
     {
-        System.Random r = new System.Random();
-        for (int i = 0; i < r.Next(1, 3); i++)
+        int mages = 0;
+        if (player.GetType().Name == "Mage")
         {
-            switch (r.Next(1, 3))
+            mages++;
+        }
+        System.Random r = new System.Random();
+        for (int i = 0; i < r.Next(1, 3); i++) // how much enemies
+        {
+            switch (r.Next(1, 3)) // getting proffession
             {
                 case 1:
                     {
-                        characters.Add(new Mage());
+                        if (mages < 2)
+                        {
+                            characters.Add(new Mage());
+                            mages++;
+                        }
+                        else
+                        {
+                            switch (r.Next(1, 2))
+                            {
+                                case 1:
+                                    {
+                                        characters.Add(new Warior());
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        characters.Add(new Rogue());
+                                        break;
+                                    }
+                            }
+                        }
                         break;
                     }
                 case 2:
@@ -93,11 +150,11 @@ public class AIScriptNew : MonoBehaviour
                     }
             }
         }
-        foreach (CharacterTypeInterface g in characters)
+        foreach (CharacterTypeInterface g in characters) // setting stats
         {
             g.CalculateStats(lvl);
         }
-        foreach (CharacterTypeInterface g in characters)
+        foreach (CharacterTypeInterface g in characters) // setting AI type
         {
             switch (r.Next(1, 2))
             {
@@ -113,6 +170,25 @@ public class AIScriptNew : MonoBehaviour
                     }
             }
         }
+        characters.Add(player); // add player
+        int y = 4;
+        for (int i = 0; i < characters.Count - 1; i++) // setting good/bad, prefabs and TILES
+        {
+            good[i] = false;
+            if (characters[i].GetType().Name == "Mage")
+            {
+                possition[6] = i;
+            }
+            else
+            {
+                possition[y] = i;
+                y++;
+            }
+            // create prefab -> set vector by possition index
+            gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * y, -2.3f, 0), Quaternion.identity));
+        }
+        good[characters.Count - 1] = true;
+        possition[0] = characters.Count - 1;
     }
 
     private void RollTurns()
