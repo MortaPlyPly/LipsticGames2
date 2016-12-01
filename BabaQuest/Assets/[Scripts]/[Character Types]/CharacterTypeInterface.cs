@@ -1,9 +1,11 @@
 ﻿namespace Assets._Scripts_._Character_Types_
 {
-    interface CharacterTypeInterface
+    public interface CharacterTypeInterface
     {
         int LeftLife { get; }
         int FullLife { get; }
+        int ReachA { get; }
+        int ReachW { get; }
         //int: lvl, exp, hp, att, heal, leftLife, fullLife, str, int, dex
         void CalculateStats(int lvl);
         int Attack(); //basically return att
