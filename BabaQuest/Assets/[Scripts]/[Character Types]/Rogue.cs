@@ -28,6 +28,22 @@ namespace Assets._Scripts_._Character_Types_
             }
         }
 
+        public int ReachA
+        {
+            get
+            {
+                return 2;
+            }
+        }
+
+        public int ReachW
+        {
+            get
+            {
+                return 2;
+            }
+        }
+
         public int Attack()
         {
             return att;
