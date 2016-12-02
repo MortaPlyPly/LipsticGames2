@@ -3,6 +3,9 @@ using System.Collections;
 
 public class ViewNoticeBoard : MonoBehaviour {
 
+	public GameObject Page;
+	public GameObject ExitPage;
+
 	// Use this for initialization
 	void Start () {
 	

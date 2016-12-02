@@ -14,7 +14,7 @@ namespace Assets._Scripts_._AI_Types_
         int[] actions = new int[9]; //1 - walk; 2 - attack; 3 - heal;
         int target = 0;
 
-        public int[] Turn(List<CharacterTypeInterface> characters, int[] possitions, int myNr, bool[] good)
+        public int[] Turn(List<CharacterTypeInterface> characters, int[] possitions, int myNr, bool myAlignment, bool[] good)
         {
             int mages = 0;
             target = myNr;
@@ -58,21 +58,21 @@ namespace Assets._Scripts_._AI_Types_
                 actions[4] = myNewPos;
                 actions[6] = target;
                 actions[7] = target;
-                CheckAttack(characters[myNr], possitions, good[myNr], good, 2);
+                CheckAttack(characters[myNr], possitions, myAlignment, good, 2);
             }
             else if (characters[myNr].LeftLife / characters[myNr].FullLife < 0.3)
             {
                 actions[0] = 3;
                 actions[3] = myNewPos;
                 actions[6] = target;
-                CheckAttack(characters[myNr], possitions, good[myNr], good, 1);
-                CheckAttack(characters[myNr], possitions, good[myNr], good, 2);
+                CheckAttack(characters[myNr], possitions, myAlignment, good, 1);
+                CheckAttack(characters[myNr], possitions, myAlignment, good, 2);
             }
             else
             {
-                CheckAttack(characters[myNr], possitions, good[myNr], good, 0);
-                CheckAttack(characters[myNr], possitions, good[myNr], good, 1);
-                CheckAttack(characters[myNr], possitions, good[myNr], good, 2);
+                CheckAttack(characters[myNr], possitions, myAlignment, good, 0);
+                CheckAttack(characters[myNr], possitions, myAlignment, good, 1);
+                CheckAttack(characters[myNr], possitions, myAlignment, good, 2);
             }
             return actions; //action, action, action, tile, tile, tile, target, target, target
         }
@@ -80,11 +80,31 @@ namespace Assets._Scripts_._AI_Types_
         private void CheckAttack(CharacterTypeInterface character, int[] possitions, bool myAlignment, bool[] good, int action)
         {
             int min = 7;
-            int myReach = character.ReachA;
-            int myWalk = character.ReachW;
+            int myReach = 0;
+            int myWalk = 0;
             int nr = target;
             int pos = myNewPos;
-
+            switch (character.GetType().Name) //works? need not CharacterTypeInterface, but mage, rogue, warior
+            {
+                case "Mage": //reach 5, walk 2
+                    {
+                        myReach = 5;
+                        myWalk = 2;
+                        break;
+                    }
+                case "Rogue": //reach 2, walk diff
+                    {
+                        myReach = 2;
+                        myWalk = 0;
+                        break;
+                    }
+                case "Warior": //reach 1, walk 1
+                    {
+                        myReach = 1;
+                        myWalk = 1;
+                        break;
+                    }
+            }
             for (int j = 0; j < 7; j++) // itterating through tiles
             {
                 for(int i = 0; i < 4; i++) //later 6; itterating through alignment
@@ -108,28 +128,10 @@ namespace Assets._Scripts_._AI_Types_
             }
             else if (character.GetType().Name != "Mage") //walk for rogue & warrior
             {
-                int walk = character.ReachW;
-                while (walk != 0)
-                {
-                    if (good[possitions[myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * myWalk]] != myAlignment) // is it against me and is he standing on this tile?
-                    {
-                        walk--;
-                        if (walk == 0) // I cannot neither walk, nor attack, I just heal
-                        {
-                            actions[action] = 3;
-                            actions[action + 3] = myNewPos;
-                            actions[action + 6] = target;
-                        }
-                    }
-                    else
-                    {
-                        myNewPos = myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * myWalk;
-                        actions[action] = 1;
-                        actions[action + 3] = myNewPos;
-                        actions[action + 6] = target;
-                        walk = 0;
-                    }
-                }
+                myNewPos = myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * myWalk;
+                actions[action] = 1;
+                actions[action + 3] = myNewPos;
+                actions[action + 6] = target;
             }
             else // walk for mage
             {
