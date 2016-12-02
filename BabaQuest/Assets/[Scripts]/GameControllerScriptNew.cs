@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Assets._Scripts_._Character_Types_;
 
-public class GameControllerScriptNew : MonoBehaviour
+public class GameControllerScriptNew : MonoBehaviour //pakeitimas
 {
     // UI
     public GameObject meniuB;
