@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Assets._Scripts_._Character_Types_;
 
-public class GameControllerScriptNew : MonoBehaviour //pakeitimas
+public class GameControllerScriptNew : MonoBehaviour
 {
     // UI
     public GameObject meniuB;
@@ -26,7 +26,6 @@ public class GameControllerScriptNew : MonoBehaviour //pakeitimas
     public GameObject ai;
     public Sprite red;
     public Sprite blue;
-    //public GameObject player;
     public GameObject background; //background prefab
     // PUBLIC
     public float backgroundSpeed = 0.04f; //backround moving speed script
@@ -40,9 +39,16 @@ public class GameControllerScriptNew : MonoBehaviour //pakeitimas
     private int playerMoveCount = 0;
     private List<GameObject> gridParts = new List<GameObject>();
     private CharacterTypeInterface player;
+    private GameObject playerGameObj;
 
     void Start ()
     {
+        ///////////////////////////
+        //////////DEBUG////////////
+        ///////////////////////////
+        Debug.Log("GameControllerScriptNew -> Start()");
+        ///////////////////////////
+
         background1 = (GameObject)Instantiate(background, new Vector3(0, 0, 0), Quaternion.identity);
         
         int i = 0;
@@ -53,26 +59,110 @@ public class GameControllerScriptNew : MonoBehaviour //pakeitimas
         }
 
         // get player from save file or smth
-        player = new Rogue();
+        player = new Rogue(); // CAN BE AN ERROR!!! Monobehavior is not allowed with new keyword!
         // SET STATS BEFORE DEBUGGING
+        player.CalculateStats(10);
+        playerGameObj = (GameObject)Instantiate(ai.GetComponent<AIScriptNew>().charTry, new Vector3(-7.5f, -2.3f, 0), Quaternion.identity);
+        // set appearance
     }
 	
 	void Update ()
     {
+        ///////////////////////////
+        //////////DEBUG////////////
+        ///////////////////////////
+        Debug.Log("GameControllerScriptNew -> Update()");
+        ///////////////////////////
+
         MoveBackground();
         // ENCOUNTER
         if (encounter) //starting from playing and iterating through others
         {
+            ///////////////////////////
+            //////////DEBUG////////////
+            ///////////////////////////
+            Debug.Log("ENCOUNTER");
+            ///////////////////////////
+            backgroundMove = false;
             grid.SetActive(true);
             if (playerTurn)//this is where player pokes screen
             {
-                //do nothing.. comands are called through different functions in this code
+                ///////////////////////////
+                //////////DEBUG////////////
+                ///////////////////////////
+                Debug.Log("PLAYERS TURN");
+                ///////////////////////////
+                Touch touch = Input.GetTouch(0);
+                Vector2 v = touch.position;
+                int x = Mathf.FloorToInt(v.x / 41.143f); // turn x coord to index [0..6]
+                int playerPos = 0;
+                for (int i = 0; i < 7; i++) // getting players possition
+                {
+                    if (ai.GetComponent<AIScriptNew>().possition[i] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
+                    {
+                        playerPos = i;
+                    }
+                }
+                if (gridParts[x].GetComponent<SpriteRenderer>().sprite == blue && v.y < 130f)
+                {
+                    if (ai.GetComponent<AIScriptNew>().possition[x] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
+                    {
+                        player.Heal();
+                        playerMoveCount++;
+                    }
+                    else
+                    {
+                        player.Walk();
+                        playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);
+                        ai.GetComponent<AIScriptNew>().possition[x] = ai.GetComponent<AIScriptNew>().characters.Count - 1;
+                        ai.GetComponent<AIScriptNew>().possition[playerPos] = -1;
+                        playerMoveCount++;
+                    }
+                }
+                else if (Mathf.Abs(x - playerPos) <= player.ReachA && v.y < 130f) // if red tile in players reach
+                {
+                    for (int i = 0; i < ai.GetComponent<AIScriptNew>().characters.Count - 1; i++)
+                    {
+                        if (ai.GetComponent<AIScriptNew>().possition[x] == i) // itterating through enemes is any of them on this tile?
+                        {
+                            ai.GetComponent<AIScriptNew>().characters[i].GetHurt(player.Attack()); // bug? every enemy on this tile will get hurt
+                            playerMoveCount++;
+                        }
+                    }
+                }
+                if (playerMoveCount >= 3)
+                {
+                    playerTurn = false;
+                }
             }
             else
             {
+                ///////////////////////////
+                //////////DEBUG////////////
+                ///////////////////////////
+                Debug.Log("NPC TURN");
+                ///////////////////////////
                 ai.GetComponent<AIScriptNew>().finishedTurn = false;
                 ai.GetComponent<AIScriptNew>().NPCTurn(); // i hope that ai sends dmg for player too
                 ai.GetComponent<AIScriptNew>().finishedTurn = false;
+                if (ai.GetComponent<AIScriptNew>().allEnemiesDead)
+                {
+                    ///////////////////////////
+                    //////////DEBUG////////////
+                    ///////////////////////////
+                    Debug.Log("YOU WIN");
+                    ///////////////////////////
+                    encounter = false;
+                }
+                if (player.LeftLife <= 0)
+                {
+                    ///////////////////////////
+                    //////////DEBUG////////////
+                    ///////////////////////////
+                    Debug.Log("YOU LOSE");
+                    ///////////////////////////
+                    SceneManager.LoadScene(1);
+                }
                 playerMoveCount = 0;
                 playerTurn = true;
             }
@@ -113,56 +203,37 @@ public class GameControllerScriptNew : MonoBehaviour //pakeitimas
         }
         else
         {
+            backgroundMove = true;
             grid.SetActive(false);
         }
     }
 
-    void OnTriggerEnter(Collider other) //spawning trigger
+    void OnTriggerEnter2D(Collider2D other) //spawning trigger
     {
+        ///////////////////////////
+        //////////DEBUG////////////
+        ///////////////////////////
+        Debug.Log("GameControllerScriptNew -> OnTriggerEnter2D()");
+        ///////////////////////////
+
         if (other.transform.tag == "Spawn")
         {
             encounter = true;
+            other.enabled = false;
             StartEncounter();
         }
     }
 
     private void StartEncounter()
     {
+        ///////////////////////////
+        //////////DEBUG////////////
+        ///////////////////////////
+        Debug.Log("GameControllerScriptNew -> StartEncounter()");
+        ///////////////////////////
         ai.GetComponent<AIScriptNew>().Spawn(player); // PLAYER
         ai.GetComponent<AIScriptNew>().finishedTurn = true;
         playerTurn = true;
-    }
-
-    private void PlayerWalk ()
-    {
-        //check if can walk here if not error & return... wait for another command
-        //if yes, send info to player to walk
-        player.Walk(); // animation
-        playerMoveCount++;
-        if (playerMoveCount == 3)
-        {
-            playerTurn = false;
-        }
-    }
-
-    private void PlayerHeal() // player tapped himself
-    {
-        player.Heal();
-        playerMoveCount++;
-        if (playerMoveCount == 3)
-        {
-            playerTurn = false;
-        }
-    }
-
-    private void PlayerAttack(int i) // i - pushed person
-    {
-        player.Attack();
-        playerMoveCount++;
-        if (playerMoveCount == 3)
-        {
-            playerTurn = false;
-        }
     }
 
     private void MoveBackground()

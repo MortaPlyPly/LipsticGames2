@@ -10,8 +10,6 @@ namespace Assets._Scripts_._Character_Types_
         int leftLife;
         int fullLife;
 
-        // appearance variable list...
-
         public int LeftLife
         {
             get
@@ -54,7 +52,6 @@ namespace Assets._Scripts_._Character_Types_
             fullLife = 100 * lvl;
             att = 10 * lvl;
             heal = fullLife / 10;
-            // set appearance...
         }
 
         public void GetHurt(int dmg)
