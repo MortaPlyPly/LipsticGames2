@@ -58,6 +58,7 @@ public class GameControllerScriptNew : MonoBehaviour
 			i++;
 		}
 
+
 		// get player from save file or smth
 		player = new Rogue(); // CAN BE AN ERROR!!! Monobehavior is not allowed with new keyword!
 		// SET STATS BEFORE DEBUGGING
