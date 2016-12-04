@@ -5,6 +5,7 @@ namespace Assets._Scripts_._AI_Types_
 {
     interface AITypeInterface
     {
-        int[] Turn(List<CharacterTypeInterface> characters, int[] possitions, int myNr, bool[] good);
-    }
+		//int[] Turn(List<CharacterTypeInterface> characters, int[] possitions, int myNr, bool[] good);
+		int[] Turn(List<CharacterTypeInterface> characters, int[] possitions, int myNr, List<bool> good1);
+	}
 }
