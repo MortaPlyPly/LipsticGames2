@@ -88,19 +88,48 @@ public class GameControllerScriptNew : MonoBehaviour
 			grid.SetActive(true);
 			if (playerTurn)//this is where player pokes screen
 			{
-				///////////////////////////
-				//////////DEBUG////////////
-				///////////////////////////
-				//Debug.Log("PLAYERS TURN");
-				///////////////////////////
-				/*Touch touch = Input.GetTouch(0);
+                ///////////////////////////
+                //////////DEBUG////////////
+                ///////////////////////////
+                //Debug.Log("PLAYERS TURN");
+                ///////////////////////////
+
+                /*Touch touch = Input.GetTouch(0);
 				Vector2 v = touch.position;*/
+                //int x = Mathf.FloorToInt(v.x / 41.143f); // turn x coord to index [0..6]
+                int x;
+                ///
+                if (Input.GetKey("q"))
+                {
+                    x = 0;
+                }
+                if (Input.GetKey("w"))
+                {
+                    x = 1;
+                }
+                if (Input.GetKey("e"))
+                {
+                    x = 2;
+                }
+                if (Input.GetKey("r"))
+                {
+                    x = 3;
+                }
+                if (Input.GetKey("t"))
+                {
+                    x = 4;
+                }
+                if (Input.GetKey("y"))
+                {
+                    x = 5;
+                }
+                if (Input.GetKey("u"))
+                {
+                    x = 6;
+                }
+                ///
 
-				Vector2 v = new Vector2(100, 100);
-
-
-				int x = Mathf.FloorToInt(v.x / 41.143f); // turn x coord to index [0..6]
-				int playerPos = 0;
+                int playerPos = 0;
 				for (int i = 0; i < 7; i++) // getting players possition
 				{
 					if (ai.GetComponent<AIScriptNew>().possition[i] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
