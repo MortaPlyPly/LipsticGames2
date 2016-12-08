@@ -98,7 +98,7 @@ public class GameControllerScriptNew : MonoBehaviour
 				{
 					if (Mathf.Abs(i - myTile) <= player.ReachW) // if its in players reach
 					{
-						if (ai.GetComponent<AIScriptNew>().possition[i] != -1) // is free? later to do is enemies standing there?
+						if (ai.GetComponent<AIScriptNew>().possition[i] != -1 && !ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]) // is enemies standing there?
 						{
 							Debug.Log(ai.GetComponent<AIScriptNew>().possition[i]);
 							Debug.Log("e");
@@ -227,7 +227,7 @@ public class GameControllerScriptNew : MonoBehaviour
 			Debug.Log("a");
 			for (int i = 1; i < ai.GetComponent<AIScriptNew>().characters.Count; i++)
 			{
-				if (ai.GetComponent<AIScriptNew>().possition[x] == i) // itterating through enemes is any of them on this tile?
+				if (ai.GetComponent<AIScriptNew>().possition[x] == i && !ai.GetComponent<AIScriptNew>().good1[i]) // itterating through enemes is any of them on this tile?
 				{
 					ai.GetComponent<AIScriptNew>().characters[i].GetHurt(player.Attack()); // bug? every enemy on this tile will get hurt
 					Debug.Log("Player attacks: " + player.Attack() + " tile " + x + " left life " + ai.GetComponent<AIScriptNew>().characters[i].LeftLife);

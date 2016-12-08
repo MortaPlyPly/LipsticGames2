@@ -11,7 +11,7 @@ public class AIScriptNew : MonoBehaviour
 	private List<AITypeInterface> aiType = new List<AITypeInterface>();
 	private List<GameObject> gameObj = new List<GameObject>();
 	//private bool[] good = new bool[4]; //later 6 "is good"
-	private List<bool> good1 = new List<bool>();
+	public List<bool> good1 = new List<bool>();
 	//private aiStyle[] ai;
 
 	//PUBLIC
@@ -58,7 +58,7 @@ public class AIScriptNew : MonoBehaviour
 					///////////////////////////
 					characters.Remove(characters[i]);
 					good1.Remove(good1[i]);
-					aiType.Remove(aiType[i]); // ERROR
+					aiType.Remove(aiType[i]);
 					gameObj[i - 1].SetActive(false);
 
 					//*********
@@ -143,7 +143,7 @@ public class AIScriptNew : MonoBehaviour
 							///////////////////////////
 							Debug.Log("WALK");
 							///////////////////////////
-							gameObj[i].transform.position = new Vector3(-7.5f + 2.5f * possition[j + 3], -2.3f, 0);
+							gameObj[i - 1].transform.position = new Vector3(-7.5f + 2.5f * possition[j + 3], -2.3f, 0);
 							characters[i].Walk(); //animation shit
 												  // tiles/possition
 							for (int x = 0; x < 7; x++)
