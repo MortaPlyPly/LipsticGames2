@@ -69,6 +69,7 @@ public class GameControllerScriptNew : MonoBehaviour
 	
 	void Update ()
 	{
+		bool keyPressed;
 		///////////////////////////
 		//////////DEBUG////////////
 		///////////////////////////
@@ -88,85 +89,97 @@ public class GameControllerScriptNew : MonoBehaviour
 			grid.SetActive(true);
 			if (playerTurn)//this is where player pokes screen
 			{
-                ///////////////////////////
-                //////////DEBUG////////////
-                ///////////////////////////
-                //Debug.Log("PLAYERS TURN");
-                ///////////////////////////
+				///////////////////////////
+				//////////DEBUG////////////
+				///////////////////////////
+				//Debug.Log("PLAYERS TURN");
+				///////////////////////////
 
-                /*Touch touch = Input.GetTouch(0);
+				/*Touch touch = Input.GetTouch(0);
 				Vector2 v = touch.position;*/
-                //int x = Mathf.FloorToInt(v.x / 41.143f); // turn x coord to index [0..6]
-                int x;
-                ///
-                if (Input.GetKey("q"))
-                {
-                    x = 0;
-                }
-                if (Input.GetKey("w"))
-                {
-                    x = 1;
-                }
-                if (Input.GetKey("e"))
-                {
-                    x = 2;
-                }
-                if (Input.GetKey("r"))
-                {
-                    x = 3;
-                }
-                if (Input.GetKey("t"))
-                {
-                    x = 4;
-                }
-                if (Input.GetKey("y"))
-                {
-                    x = 5;
-                }
-                if (Input.GetKey("u"))
-                {
-                    x = 6;
-                }
-                ///
-
+				//int x = Mathf.FloorToInt(v.x / 41.143f); // turn x coord to index [0..6]
+				keyPressed = false;
+                int x = 0;
+				///
+				
+				if (Input.GetKey("q"))
+				{
+					x = 0;
+					keyPressed = true;
+				}
+				if (Input.GetKey("w"))
+				{
+					x = 1;
+					keyPressed = true;
+				}
+				if (Input.GetKey("e"))
+				{
+					x = 2;
+					keyPressed = true;
+				}
+				if (Input.GetKey("r"))
+				{
+					x = 3;
+					keyPressed = true;
+				}
+				if (Input.GetKey("t"))
+				{
+					x = 4;
+					keyPressed = true;
+				}
+				if (Input.GetKey("y"))
+				{
+					x = 5;
+					keyPressed = true;
+				}
+				if (Input.GetKey("u"))
+				{
+					x = 6;
+					keyPressed = true;
+				}
+				///
                 int playerPos = 0;
-				for (int i = 0; i < 7; i++) // getting players possition
+				if (keyPressed)
 				{
-					if (ai.GetComponent<AIScriptNew>().possition[i] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
+					keyPressed = false;
+					for (int i = 0; i < 7; i++) // getting players possition
 					{
-						playerPos = i;
-					}
-				}
-				if (gridParts[x].GetComponent<SpriteRenderer>().sprite == blue && v.y < 130f)
-				{
-					if (ai.GetComponent<AIScriptNew>().possition[x] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
-					{
-						player.Heal();
-						playerMoveCount++;
-					}
-					else
-					{
-						player.Walk();
-						playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);
-						ai.GetComponent<AIScriptNew>().possition[x] = ai.GetComponent<AIScriptNew>().characters.Count - 1;
-						ai.GetComponent<AIScriptNew>().possition[playerPos] = -1;
-						playerMoveCount++;
-					}
-				}
-				else if (Mathf.Abs(x - playerPos) <= player.ReachA && v.y < 130f) // if red tile in players reach
-				{
-					for (int i = 0; i < ai.GetComponent<AIScriptNew>().characters.Count - 1; i++)
-					{
-						if (ai.GetComponent<AIScriptNew>().possition[x] == i) // itterating through enemes is any of them on this tile?
+						if (ai.GetComponent<AIScriptNew>().possition[i] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
 						{
-							ai.GetComponent<AIScriptNew>().characters[i].GetHurt(player.Attack()); // bug? every enemy on this tile will get hurt
+							playerPos = i;
+						}
+					}
+					if (gridParts[x].GetComponent<SpriteRenderer>().sprite == blue /*&& v.y < 130f*/)
+					{
+						if (ai.GetComponent<AIScriptNew>().possition[x] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
+						{
+							player.Heal();
+							playerMoveCount++;
+						}
+						else
+						{
+							player.Walk();
+							playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);
+							ai.GetComponent<AIScriptNew>().possition[x] = ai.GetComponent<AIScriptNew>().characters.Count - 1;
+							ai.GetComponent<AIScriptNew>().possition[playerPos] = -1;
 							playerMoveCount++;
 						}
 					}
-				}
-				if (playerMoveCount >= 3)
-				{
-					playerTurn = false;
+					else if (Mathf.Abs(x - playerPos) <= player.ReachA /*&& v.y < 130f*/) // if red tile in players reach
+					{
+						for (int i = 0; i < ai.GetComponent<AIScriptNew>().characters.Count - 1; i++)
+						{
+							if (ai.GetComponent<AIScriptNew>().possition[x] == i) // itterating through enemes is any of them on this tile?
+							{
+								ai.GetComponent<AIScriptNew>().characters[i].GetHurt(player.Attack()); // bug? every enemy on this tile will get hurt
+								playerMoveCount++;
+							}
+						}
+					}
+					if (playerMoveCount >= 3)
+					{
+						playerTurn = false;
+					}
 				}
 			}
 			else
