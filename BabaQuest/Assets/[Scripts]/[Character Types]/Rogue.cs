@@ -10,7 +10,14 @@ namespace Assets._Scripts_._Character_Types_
         int leftLife;
         int fullLife;
 
-        public int LeftLife
+		public Rogue(int lvl)
+		{
+			Debug.Log(lvl);
+			CalculateStats(lvl);
+			//Debug.Log(leftLife);
+		}
+
+		public int LeftLife
         {
             get
             {
@@ -22,7 +29,7 @@ namespace Assets._Scripts_._Character_Types_
         {
             get
             {
-                return FullLife;
+                return fullLife;
             }
         }
 
@@ -52,6 +59,7 @@ namespace Assets._Scripts_._Character_Types_
             fullLife = 70 * lvl;
             att = 5 * lvl;
             heal = fullLife / 10;
+			leftLife = fullLife;
         }
 
         public void GetHurt(int dmg)
@@ -61,7 +69,10 @@ namespace Assets._Scripts_._Character_Types_
 
         public void Heal()
         {
-            leftLife += heal;
+			if (leftLife + heal <= fullLife)
+			{
+				leftLife += heal;
+			}
         }
 
         public void Walk()

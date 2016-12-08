@@ -60,9 +60,9 @@ public class GameControllerScriptNew : MonoBehaviour
 
 
 		// get player from save file or smth
-		player = new Rogue(); // CAN BE AN ERROR!!! Monobehavior is not allowed with new keyword!
+		player = new Rogue(10); // CAN BE AN ERROR!!! Monobehavior is not allowed with new keyword!
 		// SET STATS BEFORE DEBUGGING
-		player.CalculateStats(10);
+		//player.CalculateStats(10);
 		playerGameObj = (GameObject)Instantiate(ai.GetComponent<AIScriptNew>().charTry, new Vector3(-7.5f, -2.3f, 0), Quaternion.identity);
 		// set appearance
 	}
@@ -82,11 +82,10 @@ public class GameControllerScriptNew : MonoBehaviour
 			// TILES
 			for (int i = 0; i < 7; i++) // finding players tile
 			{
-				Debug.Log(ai.GetComponent<AIScriptNew>().possition[i]);
+				//Debug.Log(ai.GetComponent<AIScriptNew>().possition[i]);
 				if (ai.GetComponent<AIScriptNew>().possition[i] == 0)
 				{
 					myTile = i;
-					//Debug.Log(ai.GetComponent<AIScriptNew>().possition[i] + "   mytile" + myTile);
 				}
 			}
 			for (int i = 0; i < 7; i++)
@@ -99,8 +98,9 @@ public class GameControllerScriptNew : MonoBehaviour
 				{
 					if (Mathf.Abs(i - myTile) <= player.ReachW) // if its in players reach
 					{
-						if (ai.GetComponent<AIScriptNew>().possition[i] > -1) // is enemies standing there?
+						if (ai.GetComponent<AIScriptNew>().possition[i] != -1) // is free? later to do is enemies standing there?
 						{
+							Debug.Log(ai.GetComponent<AIScriptNew>().possition[i]);
 							Debug.Log("e");
 							gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
 						}
@@ -173,8 +173,11 @@ public class GameControllerScriptNew : MonoBehaviour
 					Debug.Log("YOU WIN");
 					///////////////////////////
 					encounter = false;
+					ai.GetComponent<AIScriptNew>().allEnemiesDead = false;
+					ai.GetComponent<AIScriptNew>().EmptyLists();
+					ai.GetComponent<AIScriptNew>().created = false;
 				}
-				if (player.LeftLife <= 0)
+				else if (player.LeftLife <= 0)
 				{
 					Debug.Log("YOU LOSE");
 					///////////////////////////
@@ -196,7 +199,7 @@ public class GameControllerScriptNew : MonoBehaviour
 		playerPos = 0;
 		for (int i = 0; i < 7; i++) // getting players possition
 		{
-			if (ai.GetComponent<AIScriptNew>().possition[i] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
+			if (ai.GetComponent<AIScriptNew>().possition[i] == 0)
 			{
 				playerPos = i;
 			}
@@ -211,7 +214,7 @@ public class GameControllerScriptNew : MonoBehaviour
 			}
 			else
 			{
-				Debug.Log("w");
+				Debug.Log("Player walks.");
 				player.Walk();
 				playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);
 				ai.GetComponent<AIScriptNew>().possition[x] = 0;
@@ -222,7 +225,7 @@ public class GameControllerScriptNew : MonoBehaviour
 		else if (Mathf.Abs(x - playerPos) <= player.ReachA /*&& v.y < 130f*/) // if red tile in players reach
 		{
 			Debug.Log("a");
-			for (int i = 0; i < ai.GetComponent<AIScriptNew>().characters.Count - 1; i++)
+			for (int i = 1; i < ai.GetComponent<AIScriptNew>().characters.Count; i++)
 			{
 				if (ai.GetComponent<AIScriptNew>().possition[x] == i) // itterating through enemes is any of them on this tile?
 				{
@@ -248,6 +251,7 @@ public class GameControllerScriptNew : MonoBehaviour
 
 		if (other.transform.tag == "Spawn")
 		{
+			ai.GetComponent<AIScriptNew>().lvl = 10; // should be from player...
 			encounter = true;
 			other.enabled = false;
 			StartEncounter();

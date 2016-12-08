@@ -24,6 +24,7 @@ public class AIScriptNew : MonoBehaviour
 	public bool allEnemiesDead = false;
 	public bool finishedTurn = true;
 	//public int[] dmgForMob this shoul be sent straight from player to mob by touch
+	public bool created = false;
 
 	void Start()
 	{
@@ -35,36 +36,51 @@ public class AIScriptNew : MonoBehaviour
 
 	void Update()
 	{
-		for (int i = 1; i < characters.Count; i++) // checking who is dead and is everybody dead
+		lvl = 5;
+		int bad = 0;
+		if (created)
 		{
-			if (characters[i].LeftLife < 1)
+			for (int i = 1; i < characters.Count; i++) // checking every not player is it dead
 			{
-				for (int j = 0; j < 7; j++)
+				if (characters[i].LeftLife < 1)
 				{
-					if (possition[j] == i)
+					for (int j = 0; j < 7; j++)
 					{
-						possition[j] = -1;
+						if (possition[j] == i)
+						{
+							possition[j] = -1;
+						}
 					}
+					///////////////////////////
+					//////////DEBUG////////////
+					///////////////////////////
+					Debug.Log("NPC " + i + " DIED");
+					///////////////////////////
+					characters.Remove(characters[i]);
+					good1.Remove(good1[i]);
+					aiType.Remove(aiType[i]); // ERROR
+					gameObj[i - 1].SetActive(false);
+
+					//*********
+					//gameObj.ElementAt(i).SetActive(false);
 				}
+			}
+			if (bad == 0) // FIX THIS!
+			{
 				///////////////////////////
 				//////////DEBUG////////////
 				///////////////////////////
-				Debug.Log("ENEMY " + i + "DIED");
+				Debug.Log("ALL ENEMIES DEAD");
 				///////////////////////////
-				characters.Remove(characters[i]);
-
-				//*********
-				//gameObj.ElementAt(i).SetActive(false);
+				allEnemiesDead = true;
 			}
 		}
-		if (characters.Count == 2) // FIX THIS!
+		foreach (bool b in good1)
 		{
-			///////////////////////////
-			//////////DEBUG////////////
-			///////////////////////////
-			Debug.Log("ALL ENEMIES DEAD");
-			///////////////////////////
-			allEnemiesDead = true;
+			if (!b)
+			{
+				bad++;
+			}
 		}
 	}
 
@@ -76,9 +92,26 @@ public class AIScriptNew : MonoBehaviour
 		Debug.Log("SPAWNING NPCS");
 		///////////////////////////
 		//roll exp by lvl
+		// CHARACTER SPAWNING
+		characters.Add(player);
+		good1.Add(true);
+		possition[0] = 0;
+		aiType.Add(new AISmart()); // not used but needed for better indexing
+		// SPAWN ELSE
 		SpawnFriends(); //done (empty)
 		Spawnenemies(player); //done
 		RollTurns(); //whatevs for now
+	}
+
+	public void EmptyLists()
+	{
+		good1.Clear();
+		characters.Clear();
+		aiType.Clear();
+		for (int i = 0; i < 7; i++)
+		{
+			possition[i] = -1;
+		}
 	}
 
 	public void NPCTurn()
@@ -160,11 +193,16 @@ public class AIScriptNew : MonoBehaviour
 		finishedTurn = true;
 	}
 
-	private List<GameObject> SpawnFriends()
+	private void SpawnFriends()
 	{
-		//not implemented
-		//AI types from save files!
-		return new List<GameObject>(); //empty for now
+		// AI types from save files!
+		// Later 0-2 friends, for now it's only 1
+		characters.Add(new Warior(lvl)); // [1]
+		good1.Add(true);
+		aiType.Add(new AISmart());
+		Debug.Log("friend " + characters[1].FullLife);
+		possition[1] = 1;
+		gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * 1, -2.3f, 0), Quaternion.identity));
 	}
 
 	private void Spawnenemies(CharacterTypeInterface player)
@@ -174,7 +212,7 @@ public class AIScriptNew : MonoBehaviour
 		{
 			mages++;
 		}
-		System.Random r = new System.Random();
+		/*System.Random r = new System.Random();
 		for (int i = 0; i < r.Next(1, 3); i++) // how much enemies
 		{
 			switch (r.Next(1, 3)) // getting proffession
@@ -220,10 +258,10 @@ public class AIScriptNew : MonoBehaviour
 		{
 			g.CalculateStats(lvl);
 		}
-		characters.Add(player); // add player
+		//characters.Add(player); // add player
 		foreach (CharacterTypeInterface g in characters) // setting AI type
 		{
-			switch (r.Next(1, 2))
+			switch (r.Next(1, 2)) // DO NOT DELETE!!!
 			{
 				case 1:
 					{
@@ -236,9 +274,23 @@ public class AIScriptNew : MonoBehaviour
 						break;
 					}
 			}
-		}
+			aiType.Add(new AISimple()); // simplyfied for destytojas :D
+		}*/
+		Debug.Log("lvl " + lvl);
+		characters.Add(new Warior(lvl)); // [1]
+		good1.Add(true);
+		aiType.Add(new AISimple());
+		Debug.Log("mob 1 " + characters[2].FullLife);
+		characters.Add(new Rogue(lvl)); // [2]
+		good1.Add(true);
+		aiType.Add(new AISimple());
+		Debug.Log("mob 2 " + characters[3].FullLife);
+		characters.Add(new Mage(lvl)); // [3]
+		good1.Add(true);
+		aiType.Add(new AISimple());
+		Debug.Log("mob 3 " + characters[4].FullLife);
 		int y = 4;
-		for (int i = 1; i < characters.Count; i++) // setting good/bad, prefabs and TILES
+		for (int i = 2; i < characters.Count; i++) // setting good/bad, prefabs and TILES
 		{
 			//good[i] = false;
 			good1.Add(false);
@@ -256,8 +308,9 @@ public class AIScriptNew : MonoBehaviour
 			// set appearance ...
 		}
 		//good[0] = true;
-		good1.Insert(0, true);
-		possition[0] = 0;
+		//good1.Insert(0, true);
+		//possition[0] = 0;
+		created = true;
 	}
 
 	private void RollTurns()
