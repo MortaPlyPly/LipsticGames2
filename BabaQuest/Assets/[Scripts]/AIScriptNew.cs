@@ -27,20 +27,14 @@ public class AIScriptNew : MonoBehaviour
 
 	void Start()
 	{
-		///////////////////////////
-		//////////DEBUG////////////
-		///////////////////////////
-		//Debug.Log("AIScriptNew -> Start()");
-		///////////////////////////
+		for (int i = 0; i < 7; i++)
+		{
+			possition[i] = -1;
+		}
 	}
 
 	void Update()
 	{
-		///////////////////////////
-		//////////DEBUG////////////
-		///////////////////////////
-		//Debug.Log("AIScriptNew -> Update()");
-		///////////////////////////
 		for (int i = 1; i < characters.Count; i++) // checking who is dead and is everybody dead
 		{
 			if (characters[i].LeftLife < 1)

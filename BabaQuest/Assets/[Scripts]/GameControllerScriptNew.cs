@@ -40,6 +40,10 @@ public class GameControllerScriptNew : MonoBehaviour
 	private List<GameObject> gridParts = new List<GameObject>();
 	private CharacterTypeInterface player;
 	private GameObject playerGameObj;
+	int playerPos;
+	//int x;
+	private float myTimeWas;
+	private float myTime;
 
 	void Start ()
 	{
@@ -65,16 +69,9 @@ public class GameControllerScriptNew : MonoBehaviour
 	
 	void Update ()
 	{
-		Debug.Log(encounter);
 		grid.SetActive(encounter);
-		//grid.active = encounter;
-		Debug.Log("Encounter " + encounter);
-		if (grid != null)
-		{
-			Debug.Log("Grid is not null");
-		}
-
-		bool keyPressed;
+		//Debug.Log("Encounter " + encounter);
+		
 
 		int myTile = 0;
 		MoveBackground();
@@ -104,6 +101,7 @@ public class GameControllerScriptNew : MonoBehaviour
 					{
 						if (ai.GetComponent<AIScriptNew>().possition[i] > -1) // is enemies standing there?
 						{
+							Debug.Log("e");
 							gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
 						}
 						else // its free
@@ -117,94 +115,51 @@ public class GameControllerScriptNew : MonoBehaviour
 					}
 				}
 			}
-			if (playerTurn)//this is where player pokes screen
+
+			if (playerTurn /*&& (myTime - myTimeWas) > 0.3f */)//this is where player pokes screen
 			{
 				Debug.Log("PLAYERS TURN");
 				/*Touch touch = Input.GetTouch(0);
 				Vector2 v = touch.position;*/
 				//int x = Mathf.FloorToInt(v.x / 41.143f); // turn x coord to index [0..6]
-				keyPressed = false;
-				int x = 0;
 				///
-				if (Input.GetKey("q"))
+				float timeElapsed = 0.3f;
+				if (Input.GetKey("q") && (Time.time - myTimeWas) > timeElapsed)
 				{
-					x = 0;
-					keyPressed = true;
+					myTimeWas = Time.time;
+					PlayerInputKey(0);
 				}
-				if (Input.GetKey("w"))
+				if (Input.GetKey("w") && (Time.time - myTimeWas) > timeElapsed)
 				{
-					x = 1;
-					keyPressed = true;
+					myTimeWas = Time.time;
+					PlayerInputKey(1);
 				}
-				if (Input.GetKey("e"))
+				if (Input.GetKey("e") && (Time.time - myTimeWas) > timeElapsed)
 				{
-					x = 2;
-					keyPressed = true;
+					myTimeWas = Time.time;
+					PlayerInputKey(2);
 				}
-				if (Input.GetKey("r"))
+				if (Input.GetKey("r") && (Time.time - myTimeWas) > timeElapsed)
 				{
-					x = 3;
-					keyPressed = true;
+					myTimeWas = Time.time;
+					PlayerInputKey(3);
 				}
-				if (Input.GetKey("t"))
+				if (Input.GetKey("t") && (Time.time - myTimeWas) > timeElapsed)
 				{
-					x = 4;
-					keyPressed = true;
+					myTimeWas = Time.time;
+					PlayerInputKey(4);
 				}
-				if (Input.GetKey("y"))
+				if (Input.GetKey("y") && (Time.time - myTimeWas) > timeElapsed)
 				{
-					x = 5;
-					keyPressed = true;
+					myTimeWas = Time.time;
+					PlayerInputKey(5);
 				}
-				if (Input.GetKey("u"))
+				if (Input.GetKey("u") && (Time.time - myTimeWas) > timeElapsed)
 				{
-					x = 6;
-					keyPressed = true;
+					myTimeWas = Time.time;
+					PlayerInputKey(6);
 				}
 				///
-				int playerPos = 0;
-				if (keyPressed)
-				{
-					keyPressed = false;
-					for (int i = 0; i < 7; i++) // getting players possition
-					{
-						if (ai.GetComponent<AIScriptNew>().possition[i] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
-						{
-							playerPos = i;
-						}
-					}
-					if (gridParts[x].GetComponent<SpriteRenderer>().sprite == blue /*&& v.y < 130f*/)
-					{
-						if (ai.GetComponent<AIScriptNew>().possition[x] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
-						{
-							player.Heal();
-							playerMoveCount++;
-						}
-						else
-						{
-							player.Walk();
-							playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);
-							ai.GetComponent<AIScriptNew>().possition[x] = 0;
-							ai.GetComponent<AIScriptNew>().possition[playerPos] = -1;
-							playerMoveCount++;
-						}
-					}
-					else if (Mathf.Abs(x - playerPos) <= player.ReachA /*&& v.y < 130f*/) // if red tile in players reach
-					{
-						for (int i = 0; i < ai.GetComponent<AIScriptNew>().characters.Count - 1; i++)
-						{
-							if (ai.GetComponent<AIScriptNew>().possition[x] == i) // itterating through enemes is any of them on this tile?
-							{
-								ai.GetComponent<AIScriptNew>().characters[i].GetHurt(player.Attack()); // bug? every enemy on this tile will get hurt
-								playerMoveCount++;
-							}
-						}
-					}
-					if (playerMoveCount >= 3)
-					{
-						playerTurn = false;
-					}
-				}
 			}
 			else
 			{
@@ -236,12 +191,59 @@ public class GameControllerScriptNew : MonoBehaviour
 		}
 	}
 
+	private void PlayerInputKey(int x)
+	{
+		playerPos = 0;
+		for (int i = 0; i < 7; i++) // getting players possition
+		{
+			if (ai.GetComponent<AIScriptNew>().possition[i] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
+			{
+				playerPos = i;
+			}
+		}
+		if (gridParts[x].GetComponent<SpriteRenderer>().sprite == blue /*&& v.y < 130f*/)
+		{
+			if (ai.GetComponent<AIScriptNew>().possition[x] == 0)
+			{
+				player.Heal();
+				Debug.Log("Player heals: " + player.LeftLife);
+				playerMoveCount++;
+			}
+			else
+			{
+				Debug.Log("w");
+				player.Walk();
+				playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);
+				ai.GetComponent<AIScriptNew>().possition[x] = 0;
+				ai.GetComponent<AIScriptNew>().possition[playerPos] = -1;
+				playerMoveCount++;
+			}
+		}
+		else if (Mathf.Abs(x - playerPos) <= player.ReachA /*&& v.y < 130f*/) // if red tile in players reach
+		{
+			Debug.Log("a");
+			for (int i = 0; i < ai.GetComponent<AIScriptNew>().characters.Count - 1; i++)
+			{
+				if (ai.GetComponent<AIScriptNew>().possition[x] == i) // itterating through enemes is any of them on this tile?
+				{
+					ai.GetComponent<AIScriptNew>().characters[i].GetHurt(player.Attack()); // bug? every enemy on this tile will get hurt
+					Debug.Log("Player attacks: " + player.Attack() + " tile " + x + " left life " + ai.GetComponent<AIScriptNew>().characters[i].LeftLife);
+					playerMoveCount++;
+				}
+			}
+		}
+		if (playerMoveCount >= 3)
+		{
+			playerTurn = false;
+		}		
+	}
+
 	void OnTriggerEnter2D(Collider2D other) //spawning trigger
 	{
 		///////////////////////////
 		//////////DEBUG////////////
 		///////////////////////////
-		Debug.Log("GameControllerScriptNew -> OnTriggerEnter2D()");
+		//Debug.Log("GameControllerScriptNew -> OnTriggerEnter2D()");
 		///////////////////////////
 
 		if (other.transform.tag == "Spawn")
@@ -257,7 +259,7 @@ public class GameControllerScriptNew : MonoBehaviour
 		///////////////////////////
 		//////////DEBUG////////////
 		///////////////////////////
-		Debug.Log("GameControllerScriptNew -> StartEncounter()");
+		//Debug.Log("GameControllerScriptNew -> StartEncounter()");
 		///////////////////////////
 		ai.GetComponent<AIScriptNew>().Spawn(player); // PLAYER
 		ai.GetComponent<AIScriptNew>().finishedTurn = true;
