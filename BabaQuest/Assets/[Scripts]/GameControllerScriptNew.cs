@@ -43,11 +43,7 @@ public class GameControllerScriptNew : MonoBehaviour
 
 	void Start ()
 	{
-		///////////////////////////
-		//////////DEBUG////////////
-		///////////////////////////
-		Debug.Log("GameControllerScriptNew -> Start()");
-		///////////////////////////
+		//Debug.Log("GameControllerScriptNew -> Start()");
 
 		background1 = (GameObject)Instantiate(background, new Vector3(0, 0, 0), Quaternion.identity);
 		
@@ -69,39 +65,67 @@ public class GameControllerScriptNew : MonoBehaviour
 	
 	void Update ()
 	{
-		bool keyPressed;
-		///////////////////////////
-		//////////DEBUG////////////
-		///////////////////////////
-		//Debug.Log("GameControllerScriptNew -> Update()");
-		///////////////////////////
+		Debug.Log(encounter);
+		grid.SetActive(encounter);
+		//grid.active = encounter;
+		Debug.Log("Encounter " + encounter);
+		if (grid != null)
+		{
+			Debug.Log("Grid is not null");
+		}
 
+		bool keyPressed;
+
+		int myTile = 0;
 		MoveBackground();
 		// ENCOUNTER
 		if (encounter) //starting from playing and iterating through others
 		{
-			///////////////////////////
-			//////////DEBUG////////////
-			///////////////////////////
-			//Debug.Log("ENCOUNTER");
-			///////////////////////////
 			backgroundMove = false;
-			grid.SetActive(true);
+			// TILES
+			for (int i = 0; i < 7; i++) // finding players tile
+			{
+				Debug.Log(ai.GetComponent<AIScriptNew>().possition[i]);
+				if (ai.GetComponent<AIScriptNew>().possition[i] == 0)
+				{
+					myTile = i;
+					//Debug.Log(ai.GetComponent<AIScriptNew>().possition[i] + "   mytile" + myTile);
+				}
+			}
+			for (int i = 0; i < 7; i++)
+			{
+				if (i == myTile) // blue if player stans there
+				{
+					gridParts[i].GetComponent<SpriteRenderer>().sprite = blue;
+				}
+				else
+				{
+					if (Mathf.Abs(i - myTile) <= player.ReachW) // if its in players reach
+					{
+						if (ai.GetComponent<AIScriptNew>().possition[i] > -1) // is enemies standing there?
+						{
+							gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
+						}
+						else // its free
+						{
+							gridParts[i].GetComponent<SpriteRenderer>().sprite = blue;
+						}
+					}
+					else //its not in players reach
+					{
+						gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
+					}
+				}
+			}
 			if (playerTurn)//this is where player pokes screen
 			{
-				///////////////////////////
-				//////////DEBUG////////////
-				///////////////////////////
-				//Debug.Log("PLAYERS TURN");
-				///////////////////////////
-
+				Debug.Log("PLAYERS TURN");
 				/*Touch touch = Input.GetTouch(0);
 				Vector2 v = touch.position;*/
 				//int x = Mathf.FloorToInt(v.x / 41.143f); // turn x coord to index [0..6]
 				keyPressed = false;
-                int x = 0;
+				int x = 0;
 				///
-				
 				if (Input.GetKey("q"))
 				{
 					x = 0;
@@ -138,7 +162,7 @@ public class GameControllerScriptNew : MonoBehaviour
 					keyPressed = true;
 				}
 				///
-                int playerPos = 0;
+				int playerPos = 0;
 				if (keyPressed)
 				{
 					keyPressed = false;
@@ -160,7 +184,7 @@ public class GameControllerScriptNew : MonoBehaviour
 						{
 							player.Walk();
 							playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);
-							ai.GetComponent<AIScriptNew>().possition[x] = ai.GetComponent<AIScriptNew>().characters.Count - 1;
+							ai.GetComponent<AIScriptNew>().possition[x] = 0;
 							ai.GetComponent<AIScriptNew>().possition[playerPos] = -1;
 							playerMoveCount++;
 						}
@@ -184,9 +208,6 @@ public class GameControllerScriptNew : MonoBehaviour
 			}
 			else
 			{
-				///////////////////////////
-				//////////DEBUG////////////
-				///////////////////////////
 				Debug.Log("NPC TURN");
 				///////////////////////////
 				ai.GetComponent<AIScriptNew>().finishedTurn = false;
@@ -194,18 +215,12 @@ public class GameControllerScriptNew : MonoBehaviour
 				ai.GetComponent<AIScriptNew>().finishedTurn = false;
 				if (ai.GetComponent<AIScriptNew>().allEnemiesDead)
 				{
-					///////////////////////////
-					//////////DEBUG////////////
-					///////////////////////////
 					Debug.Log("YOU WIN");
 					///////////////////////////
 					encounter = false;
 				}
 				if (player.LeftLife <= 0)
 				{
-					///////////////////////////
-					//////////DEBUG////////////
-					///////////////////////////
 					Debug.Log("YOU LOSE");
 					///////////////////////////
 					SceneManager.LoadScene(1);
@@ -213,45 +228,11 @@ public class GameControllerScriptNew : MonoBehaviour
 				playerMoveCount = 0;
 				playerTurn = true;
 			}
-			// TILES
-			int myTile = 0;
-			for (int i = 0; i < 7; i++) // finding players tile
-			{
-				if (ai.GetComponent<AIScriptNew>().possition[i] == ai.GetComponent<AIScriptNew>().characters.Count - 1)
-				{
-					myTile = i;
-				}
-			}
-			for (int i = 0; i < 7; i++)
-			{
-				if (i == myTile) // blue if player stans there
-				{
-					gridParts[i].GetComponent<SpriteRenderer>().sprite = blue;
-				}
-				else
-				{
-					if (Mathf.Abs(i - myTile) <= player.ReachW) // if its in players reach
-					{
-						if (ai.GetComponent<AIScriptNew>().possition[i] > -1) // is enemies standing there?
-						{
-							gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
-						}
-						else // its free
-						{
-							gridParts[i].GetComponent<SpriteRenderer>().sprite = blue;
-						}
-					}
-					else //its not in players reach
-					{
-						gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
-					}
-				}
-			}
 		}
 		else
 		{
 			backgroundMove = true;
-			grid.SetActive(false);
+			//grid.SetActive(false);
 		}
 	}
 
