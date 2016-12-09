@@ -112,7 +112,7 @@ namespace Assets._Scripts_._AI_Types_
 			else if (character.GetType().Name != "Mage") //walk for rogue & warrior
 			{
 				int walk = character.ReachW;
-				while (walk != 0)
+				while (walk > 0)
 				{
                     if ((myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk) >= 0 && (myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk) < 7)
                     {
@@ -122,14 +122,16 @@ namespace Assets._Scripts_._AI_Types_
                             actions[action] = 1;
                             actions[action + 3] = myNewPos;
                             actions[action + 6] = target;
-                        }
+							walk = 0;
+						}
                         else if (good1[possitions[myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk]] == myAlignment)
                         {
                             myNewPos = myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk;
                             actions[action] = 1;
                             actions[action + 3] = myNewPos;
                             actions[action + 6] = target;
-                        }
+							walk = 0;
+						}
                         else
                         {
                             walk--;
@@ -141,6 +143,10 @@ namespace Assets._Scripts_._AI_Types_
                             }
                         }
                     }
+					else
+					{
+						walk--;
+					}
 					/*if (good1[possitions[myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * myWalk]] != myAlignment) // is it against me and is he standing on this tile?
 					{
 						walk--;

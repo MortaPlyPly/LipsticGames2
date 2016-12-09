@@ -114,7 +114,7 @@ public class AIScriptNew : MonoBehaviour
 		}
 	}
 
-	public void NPCTurn()
+	public int NPCTurn()
 	{
 		int[] actions = new int[9]; // action, action, action, tile, tile, tile, target, target, target
 		for (int i = 1; i < characters.Count; i++) // turns for everybody, except player, who is last in characters array
@@ -143,7 +143,7 @@ public class AIScriptNew : MonoBehaviour
 							///////////////////////////
 							Debug.Log("WALK");
 							///////////////////////////
-							gameObj[i - 1].transform.position = new Vector3(-7.5f + 2.5f * possition[j + 3], -2.3f, 0);
+							gameObj[i - 1].transform.position = new Vector3(-7.5f + 2.5f * actions[j + 3], -2.3f, 0);
 							characters[i].Walk(); //animation shit
 												  // tiles/possition
 							for (int x = 0; x < 7; x++)
@@ -191,6 +191,7 @@ public class AIScriptNew : MonoBehaviour
 			///////////////////////////
 		}
 		finishedTurn = true;
+		return 0;
 	}
 
 	private void SpawnFriends()

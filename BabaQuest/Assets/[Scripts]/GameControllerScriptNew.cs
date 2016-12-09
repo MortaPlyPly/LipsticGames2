@@ -71,7 +71,6 @@ public class GameControllerScriptNew : MonoBehaviour
 	{
 		grid.SetActive(encounter);
 		//Debug.Log("Encounter " + encounter);
-		
 
 		int myTile = 0;
 		MoveBackground();
@@ -99,12 +98,10 @@ public class GameControllerScriptNew : MonoBehaviour
 					if (Mathf.Abs(i - myTile) <= player.ReachW) // if its in players reach
 					{
                         //Debug.Log(!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]);
-						if (ai.GetComponent<AIScriptNew>().possition[i] != -1) // is someone standing there?
-						{
-                            Debug.Log("not empty");
+						if (ai.GetComponent<AIScriptNew>().possition[i] > -1) // is someone standing there?
+						{// ERROR
                             if(!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]) // is enemy standing there?
                             {
-                                Debug.Log("enemy on tile");
                                 gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
                             }
                             else
@@ -124,6 +121,11 @@ public class GameControllerScriptNew : MonoBehaviour
 				}
 			}
 
+			if (ai.GetComponent<AIScriptNew>().finishedTurn)
+			{
+				playerTurn = true;
+			}
+
 			if (playerTurn /*&& (myTime - myTimeWas) > 0.3f */)//this is where player pokes screen
 			{
 				Debug.Log("PLAYERS TURN");
@@ -137,45 +139,43 @@ public class GameControllerScriptNew : MonoBehaviour
 					myTimeWas = Time.time;
 					PlayerInputKey(0);
 				}
-				if (Input.GetKey("w") && (Time.time - myTimeWas) > timeElapsed)
+				else if (Input.GetKey("w") && (Time.time - myTimeWas) > timeElapsed)
 				{
 					myTimeWas = Time.time;
 					PlayerInputKey(1);
 				}
-				if (Input.GetKey("e") && (Time.time - myTimeWas) > timeElapsed)
+				else if (Input.GetKey("e") && (Time.time - myTimeWas) > timeElapsed)
 				{
 					myTimeWas = Time.time;
 					PlayerInputKey(2);
 				}
-				if (Input.GetKey("r") && (Time.time - myTimeWas) > timeElapsed)
+				else if (Input.GetKey("r") && (Time.time - myTimeWas) > timeElapsed)
 				{
 					myTimeWas = Time.time;
 					PlayerInputKey(3);
 				}
-				if (Input.GetKey("t") && (Time.time - myTimeWas) > timeElapsed)
+				else if (Input.GetKey("t") && (Time.time - myTimeWas) > timeElapsed)
 				{
 					myTimeWas = Time.time;
 					PlayerInputKey(4);
 				}
-				if (Input.GetKey("y") && (Time.time - myTimeWas) > timeElapsed)
+				else if (Input.GetKey("y") && (Time.time - myTimeWas) > timeElapsed)
 				{
 					myTimeWas = Time.time;
 					PlayerInputKey(5);
 				}
-				if (Input.GetKey("u") && (Time.time - myTimeWas) > timeElapsed)
+				else if (Input.GetKey("u") && (Time.time - myTimeWas) > timeElapsed)
 				{
 					myTimeWas = Time.time;
 					PlayerInputKey(6);
 				}
+
 				///
 			}
 			else
 			{
 				Debug.Log("NPC TURN");
-				///////////////////////////
-				ai.GetComponent<AIScriptNew>().finishedTurn = false;
-				ai.GetComponent<AIScriptNew>().NPCTurn(); // i hope that ai sends dmg for player too
-				ai.GetComponent<AIScriptNew>().finishedTurn = false;
+				/////////////////////////////
 				if (ai.GetComponent<AIScriptNew>().allEnemiesDead)
 				{
 					Debug.Log("YOU WIN");
@@ -185,14 +185,12 @@ public class GameControllerScriptNew : MonoBehaviour
 					ai.GetComponent<AIScriptNew>().EmptyLists();
 					ai.GetComponent<AIScriptNew>().created = false;
 				}
-				else if (player.LeftLife <= 0)
+				else if (player.LeftLife < 1)
 				{
 					Debug.Log("YOU LOSE");
 					///////////////////////////
 					SceneManager.LoadScene(1);
 				}
-				playerMoveCount = 0;
-				playerTurn = true;
 			}
 		}
 		else
@@ -232,7 +230,6 @@ public class GameControllerScriptNew : MonoBehaviour
 		}
 		else if (Mathf.Abs(x - playerPos) <= player.ReachA /*&& v.y < 130f*/) // if red tile in players reach
 		{
-			Debug.Log("a");
 			for (int i = 1; i < ai.GetComponent<AIScriptNew>().characters.Count; i++)
 			{
 				if (ai.GetComponent<AIScriptNew>().possition[x] == i && !ai.GetComponent<AIScriptNew>().good1[i]) // itterating through enemes is any of them on this tile?
@@ -243,9 +240,12 @@ public class GameControllerScriptNew : MonoBehaviour
 				}
 			}
 		}
-		if (playerMoveCount >= 3)
+		Debug.Log("player move count" + playerMoveCount);
+		if (playerMoveCount > 2)
 		{
 			playerTurn = false;
+			ai.GetComponent<AIScriptNew>().finishedTurn = false;
+			playerMoveCount = ai.GetComponent<AIScriptNew>().NPCTurn();
 		}		
 	}
 
