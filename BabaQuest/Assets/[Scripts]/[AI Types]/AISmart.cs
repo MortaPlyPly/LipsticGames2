@@ -963,6 +963,48 @@ namespace Assets._Scripts_._AI_Types_
 					}
 				}
 			}
-		}
-	}
+        }
+
+        private void WalkFunction()
+        {
+           /* walk = character.ReachW;
+
+            while (walk > 0) // can I go away?
+            {
+                if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                {
+                    if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                    {
+                        myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                        actions[2] = 1;
+                        actions[5] = myNewPos;
+                        actions[8] = targetNr;
+                        walk = 0;
+                    }
+                    else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                    {
+                        myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                        actions[2] = 1;
+                        actions[5] = myNewPos;
+                        actions[8] = targetNr;
+                        walk = 0;
+                    }
+                    else
+                    {
+                        walk--;
+                        if (walk == 0)
+                        {
+                            actions[2] = 3;
+                            actions[5] = myNewPos;
+                            actions[8] = myNr;
+                        }
+                    }
+                }
+                else
+                {
+                    walk--;
+                }*/
+            }
+        }
+    }
 }
