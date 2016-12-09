@@ -166,7 +166,7 @@ public class AIScriptNew : MonoBehaviour
 							///////////////////////////
 							//////////DEBUG////////////
 							///////////////////////////
-							Debug.Log("ATTACK WHO " + characters[actions[j + 6]].LeftLife);
+							Debug.Log("ATTACK WHO " + actions[j + 6]);
 							///////////////////////////
 							//actions[j+6] -> target
 							characters[actions[j + 6]].GetHurt(characters[i].Attack());
