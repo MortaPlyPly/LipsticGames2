@@ -203,7 +203,9 @@ public class AIScriptNew : MonoBehaviour
 		Debug.Log("friend " + characters[1].FullLife);
 		possition[1] = 1;
 		gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * 1, -2.3f, 0), Quaternion.identity));
-	}
+        gameObj[0].GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.5f);
+
+    }
 
 	private void Spawnenemies(CharacterTypeInterface player)
 	{
@@ -310,10 +312,13 @@ public class AIScriptNew : MonoBehaviour
 			
 			// set appearance ...
 		}
-		//good[0] = true;
-		//good1.Insert(0, true);
-		//possition[0] = 0;
-		created = true;
+        gameObj[1].GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+        gameObj[2].GetComponent<SpriteRenderer>().color = new Color(0.75f, 0, 0, 0.5f);
+        gameObj[3].GetComponent<SpriteRenderer>().color = new Color(0.5f, 0, 0, 0.5f);
+        //good[0] = true;
+        //good1.Insert(0, true);
+        //possition[0] = 0;
+        created = true;
 	}
 
 	private void RollTurns()
