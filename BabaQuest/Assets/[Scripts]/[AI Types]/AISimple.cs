@@ -59,21 +59,21 @@ namespace Assets._Scripts_._AI_Types_
 				actions[4] = myNewPos;
 				actions[6] = target;
 				actions[7] = target;
-				CheckAttack(characters[myNr], possitions, good1.ElementAt(myNr), good1, 2);
+				CheckAttack(characters[myNr], possitions, good1[myNr], good1, 2);
 			}
 			else if (characters[myNr].LeftLife / characters[myNr].FullLife < 0.3)
 			{
 				actions[0] = 3;
 				actions[3] = myNewPos;
 				actions[6] = target;
-				CheckAttack(characters[myNr], possitions, good1.ElementAt(myNr), good1, 1);
-				CheckAttack(characters[myNr], possitions, good1.ElementAt(myNr), good1, 2);
+				CheckAttack(characters[myNr], possitions, good1[myNr], good1, 1);
+				CheckAttack(characters[myNr], possitions, good1[myNr], good1, 2);
 			}
 			else
 			{
-				CheckAttack(characters[myNr], possitions, good1.ElementAt(myNr), good1, 0);
-				CheckAttack(characters[myNr], possitions, good1.ElementAt(myNr), good1, 1);
-				CheckAttack(characters[myNr], possitions, good1.ElementAt(myNr), good1, 2);
+				CheckAttack(characters[myNr], possitions, good1[myNr], good1, 0);
+				CheckAttack(characters[myNr], possitions, good1[myNr], good1, 1);
+				CheckAttack(characters[myNr], possitions, good1[myNr], good1, 2);
 			}
 			return actions; //action, action, action, tile, tile, tile, target, target, target
 		}
@@ -81,7 +81,6 @@ namespace Assets._Scripts_._AI_Types_
 		//private void CheckAttack(CharacterTypeInterface character, int[] possitions, bool myAlignment, bool[] good, int action)
 		private void CheckAttack(CharacterTypeInterface character, int[] possitions, bool myAlignment, List<bool> good1, int action)
 		{
-			Debug.Log("a");
 			int min = 7;
 			int myReach = character.ReachA;
 			int myWalk = character.ReachW;
@@ -90,9 +89,9 @@ namespace Assets._Scripts_._AI_Types_
 
 			for (int j = 0; j < 7; j++) // itterating through tiles
 			{
-				for(int i = 0; i < 4; i++) //later 6; itterating through alignment
+				for(int i = 0; i < good1.Count(); i++) //itterating through alignment
 				{
-					if (good1.ElementAt(i) != myAlignment && possitions[j] == i) // is it against me and is he standing on this tile?
+					if (good1[i] != myAlignment && possitions[j] == i) // is it against me and is he standing on this tile?
 					{
 						if(Math.Abs(j - myNewPos) <= min) //calculate possition; is it closest?
 						{
@@ -103,21 +102,49 @@ namespace Assets._Scripts_._AI_Types_
 					}
 				}
 			}
-			if (myReach > min) //atack
+            //Debug.Log("This " + myNewPos + " targets: " + pos);
+			if (myReach >= min) //atack ??>=??
 			{
 				actions[action] = 2;
 				actions[action + 3] = myNewPos;
-				actions[action + 6] = target;
+				actions[action + 6] = nr;
 			}
 			else if (character.GetType().Name != "Mage") //walk for rogue & warrior
 			{
 				int walk = character.ReachW;
 				while (walk != 0)
 				{
-					if (good1.ElementAt(possitions[myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * myWalk]) != myAlignment) // is it against me and is he standing on this tile?
+                    if ((myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk) >= 0 && (myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk) < 7)
+                    {
+                        if (possitions[myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk] == -1)
+                        {
+                            myNewPos = myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk;
+                            actions[action] = 1;
+                            actions[action + 3] = myNewPos;
+                            actions[action + 6] = target;
+                        }
+                        else if (good1[possitions[myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk]] == myAlignment)
+                        {
+                            myNewPos = myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * walk;
+                            actions[action] = 1;
+                            actions[action + 3] = myNewPos;
+                            actions[action + 6] = target;
+                        }
+                        else
+                        {
+                            walk--;
+                            if (walk == 0)
+                            {
+                                actions[action] = 3;
+                                actions[action + 3] = myNewPos;
+                                actions[action + 6] = target;
+                            }
+                        }
+                    }
+					/*if (good1[possitions[myNewPos + ((pos - myNewPos) / Math.Abs(pos - myNewPos)) * myWalk]] != myAlignment) // is it against me and is he standing on this tile?
 					{
 						walk--;
-						if (walk == 0) // I cannot neither walk, nor attack, I just heal
+						if (walk == 0) // I cannot  neitherwalk, nor attack, I just heal
 						{
 							actions[action] = 3;
 							actions[action + 3] = myNewPos;
@@ -131,7 +158,7 @@ namespace Assets._Scripts_._AI_Types_
 						actions[action + 3] = myNewPos;
 						actions[action + 6] = target;
 						walk = 0;
-					}
+					}*/
 				}
 			}
 			else // walk for mage
@@ -144,17 +171,17 @@ namespace Assets._Scripts_._AI_Types_
 				bool t0 = true; // is it free?
 				bool t6 = true;
 				bool t3 = true;
-				for (int i = 0; i < 4; i++) //later 6; where are possible teleportation tiles?
+				for (int i = 0; i < good1.Count(); i++) //later 6; where are possible teleportation tiles?
 				{
-					if (good1.ElementAt(i) != myAlignment && i == 0) // is it against me and is he standing on this tile?
+					if (good1[i] != myAlignment && i == 0) // is it against me and is he standing on this tile?
 					{
 						t0 = false;
 					}
-					if (good1.ElementAt(i) != myAlignment && i == 3) // is it against me and is he standing on this tile?
+					if (good1[i] != myAlignment && i == 3) // is it against me and is he standing on this tile?
 					{
 						t3 = false;
 					}
-					if (good1.ElementAt(i) != myAlignment && i == 6) // is it against me and is he standing on this tile?
+					if (good1[i] != myAlignment && i == 6) // is it against me and is he standing on this tile?
 					{
 						t6 = false;
 					}

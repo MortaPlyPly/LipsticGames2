@@ -40,7 +40,14 @@ public class AIScriptNew : MonoBehaviour
 		int bad = 0;
 		if (created)
 		{
-			for (int i = 1; i < characters.Count; i++) // checking every not player is it dead
+            foreach (bool b in good1)
+            {
+                if (!b)
+                {
+                    bad++;
+                }
+            }
+            for (int i = 1; i < characters.Count; i++) // checking every not player is it dead
 			{
 				if (characters[i].LeftLife < 1)
 				{
@@ -73,13 +80,6 @@ public class AIScriptNew : MonoBehaviour
 				Debug.Log("ALL ENEMIES DEAD");
 				///////////////////////////
 				allEnemiesDead = true;
-			}
-		}
-		foreach (bool b in good1)
-		{
-			if (!b)
-			{
-				bad++;
 			}
 		}
 	}
@@ -278,33 +278,36 @@ public class AIScriptNew : MonoBehaviour
 		}*/
 		Debug.Log("lvl " + lvl);
 		characters.Add(new Warior(lvl)); // [1]
-		good1.Add(true);
+		good1.Add(false);
 		aiType.Add(new AISimple());
+        //possition[4] = 2;
 		Debug.Log("mob 1 " + characters[2].FullLife);
 		characters.Add(new Rogue(lvl)); // [2]
-		good1.Add(true);
+		good1.Add(false);
 		aiType.Add(new AISimple());
-		Debug.Log("mob 2 " + characters[3].FullLife);
+        //possition[5] = 3;
+        Debug.Log("mob 2 " + characters[3].FullLife);
 		characters.Add(new Mage(lvl)); // [3]
-		good1.Add(true);
+		good1.Add(false);
 		aiType.Add(new AISimple());
-		Debug.Log("mob 3 " + characters[4].FullLife);
+        //possition[6] = 4;
+        Debug.Log("mob 3 " + characters[4].FullLife);
 		int y = 4;
-		for (int i = 2; i < characters.Count; i++) // setting good/bad, prefabs and TILES
+		for (int i = 2; i < characters.Count(); i++) // setting good/bad, prefabs and TILES
 		{
-			//good[i] = false;
-			good1.Add(false);
 			if (characters[i].GetType().Name == "Mage")
 			{
 				possition[6] = i;
-			}
+                gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * 6, -2.3f, 0), Quaternion.identity));
+            }
 			else
 			{
 				possition[y] = i;
-				y++;
+                gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * y, -2.3f, 0), Quaternion.identity));
+                y++;
 			}
 			// create prefab -> set vector by possition index
-			gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * y, -2.3f, 0), Quaternion.identity));
+			
 			// set appearance ...
 		}
 		//good[0] = true;

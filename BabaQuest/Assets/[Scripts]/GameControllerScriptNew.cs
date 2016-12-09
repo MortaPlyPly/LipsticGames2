@@ -98,11 +98,19 @@ public class GameControllerScriptNew : MonoBehaviour
 				{
 					if (Mathf.Abs(i - myTile) <= player.ReachW) // if its in players reach
 					{
-						if (ai.GetComponent<AIScriptNew>().possition[i] != -1 && !ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]) // is enemies standing there?
+                        //Debug.Log(!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]);
+						if (ai.GetComponent<AIScriptNew>().possition[i] != -1) // is someone standing there?
 						{
-							Debug.Log(ai.GetComponent<AIScriptNew>().possition[i]);
-							Debug.Log("e");
-							gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
+                            Debug.Log("not empty");
+                            if(!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]) // is enemy standing there?
+                            {
+                                Debug.Log("enemy on tile");
+                                gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
+                            }
+                            else
+                            {
+                                gridParts[i].GetComponent<SpriteRenderer>().sprite = blue;
+                            }
 						}
 						else // its free
 						{

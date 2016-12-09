@@ -22,7 +22,7 @@ namespace Assets._Scripts_._AI_Types_
 			List<int> lives = new List<int>();
 			int mages = 0;
 			int target = myNr;
-
+            Debug.Log("_1_");
 			for (int i = 0; i < 7; i++) // calculating my possition
 			{
 				if (possitions[i] == myNr)
@@ -42,11 +42,11 @@ namespace Assets._Scripts_._AI_Types_
 			{
 				twoMages = true;
 			}
-
-			for (int i = 0; i < 4; i++) // later 6; getting our target with least left life
+            Debug.Log("_2_");
+            for (int i = 0; i < good1.Count(); i++) // later 6; getting our target with least left life
 			{
 				//if (good1.ElementAt(i] != good1.ElementAt(myNr])
-				if (good1.ElementAt(i) != good1.ElementAt(myNr))
+				if (good1[i] != good1[myNr])
 				{
 					lives.Add(i);
 				}
@@ -67,8 +67,8 @@ namespace Assets._Scripts_._AI_Types_
 					targetPos = i; //target possition
 				}
 			}
-
-			if (characters[myNr].LeftLife / characters[myNr].FullLife < 0.1) // how many times do I heal?
+            Debug.Log("_3_");
+            if (characters[myNr].LeftLife / characters[myNr].FullLife < 0.1) // how many times do I heal?
 			{
 				actions[0] = 3;
 				actions[1] = 3;
@@ -88,22 +88,28 @@ namespace Assets._Scripts_._AI_Types_
 				actions[4] = myNewPos;
 				actions[6] = target;
 				actions[7] = target;
-				//CheckAttack(characters[myNr], good, possitions, 1, target, myNr);
-				CheckAttack(characters[myNr], good1, possitions, 1, target, myNr);
-			}
+                Debug.Log("_4_");
+                //CheckAttack(characters[myNr], good, possitions, 1, target, myNr);
+                CheckAttack(characters[myNr], good1, possitions, 1, target, myNr);
+                Debug.Log("_5_");
+            }
 			else if (characters[myNr].LeftLife / characters[myNr].FullLife < 0.3)
 			{
 				actions[0] = 3;
 				actions[3] = myNewPos;
 				actions[6] = target;
-				//CheckAttack(characters[myNr], good, possitions, 2, target, myNr);
-				CheckAttack(characters[myNr], good1, possitions, 2, target, myNr);
-			}
+                Debug.Log("_6_");
+                //CheckAttack(characters[myNr], good, possitions, 2, target, myNr);
+                CheckAttack(characters[myNr], good1, possitions, 2, target, myNr);
+                Debug.Log("_7_");
+            }
 			else
 			{
-				//CheckAttack(characters[myNr], good, possitions, 3, target, myNr);
-				CheckAttack(characters[myNr], good1, possitions, 3, target, myNr);
-			}
+                Debug.Log("_8_");
+                //CheckAttack(characters[myNr], good, possitions, 3, target, myNr);
+                CheckAttack(characters[myNr], good1, possitions, 3, target, myNr);
+                Debug.Log("_9_");
+            }
 			return actions; //action, action, action, tile, tile, tile, target, target, target
 		}
 
@@ -143,9 +149,37 @@ namespace Assets._Scripts_._AI_Types_
 						actions[7] = targetNr;
 
 						walk = character.ReachW;
+
 						while (walk != 0) // can I go away?
 						{
-							if (good1.ElementAt(possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 3;
+                                        actions[5] = myNewPos;
+                                        actions[8] = myNr;
+                                    }
+                                }
+                            }
+                                /*if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]
 								&& myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk < 7 
 								&& myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk >= 0) // can I go there?
 							{
@@ -164,16 +198,43 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
+							}*/
 						}
 					}
 					// GET CLOSE AND HIT
-					else if (Math.Abs(targetPos - (myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk)) <= myReach) // if I can go near him and hit him
+					else if (Math.Abs(targetPos - (myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk)) <= myReach) // if I can go near him and hit him
 					{
 						walk = character.ReachW;
 						while (walk != 0) // can I go closer?
 						{
-							if (good1.ElementAt(possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)) // can I go there?
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 3;
+                                        actions[5] = myNewPos;
+                                        actions[8] = myNr;
+                                    }
+                                }
+                            }
+                            /*if (good1[possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]) // can I go there?
 							{
 								walk--;
 								if (walk == 0) // I cannot neither walk, nor attack, I just heal
@@ -190,8 +251,8 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
-						}
+							}*/
+                        }
 
 						if (Math.Abs(targetPos - myNewPos) <= myReach) // if I am close enough now
 						{
@@ -212,7 +273,34 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk != 0) // can I go closer?
 						{
-							if (good1.ElementAt(possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)) // can I go there?
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 3;
+                                        actions[5] = myNewPos;
+                                        actions[8] = myNr;
+                                    }
+                                }
+                            }
+                            /*if (good1[possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]) // can I go there?
 							{
 								walk--;
 								if (walk == 0) // I cannot neither walk, nor attack, I just heal
@@ -229,8 +317,8 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
-						}
+							}*/
+                        }
 
 						actions[2] = 3;
 						actions[5] = myNewPos;
@@ -253,7 +341,34 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk != 0) // can I go away?
 						{
-							if (good1.ElementAt(possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 2;
+                                        actions[5] = myNewPos;
+                                        actions[8] = targetPos;
+                                    }
+                                }
+                            }
+                            /*if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]
 								&& myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk < 7
 								&& myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk >= 0) // can I go there?
 							{
@@ -272,8 +387,8 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
-						}
+							}*/
+                        }
 					}
 					// GET CLOSE, HIT, RETREAT
 					else if (Math.Abs(targetPos - (myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk)) <= myReach) // if I need one move to go toward and
@@ -281,7 +396,34 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk != 0) // can I go closer?
 						{
-							if (good1.ElementAt(possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)) // can I go there?
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 3;
+                                        actions[5] = myNewPos;
+                                        actions[8] = myNr;
+                                    }
+                                }
+                            }
+                            /*if (good1[possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]) // can I go there?
 							{
 								walk--;
 								if (walk == 0) // I cannot neither walk, nor attack, I just heal
@@ -298,8 +440,8 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
-						}
+							}*/
+                        }
 						if (Math.Abs(targetPos - myNewPos) <= myReach) // if I am close enough now
 						{
 							actions[2] = 2;
@@ -312,7 +454,7 @@ namespace Assets._Scripts_._AI_Types_
 							actions[5] = myNewPos;
 							actions[8] = myNr;
 						}
-						myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk;
+						myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
 						actions[2] = 1;
 						actions[5] = myNewPos;
 						actions[8] = targetNr;
@@ -323,7 +465,34 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk != 0) // can I go closer?
 						{
-							if (good1.ElementAt(possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)) // can I go there?
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 3;
+                                        actions[5] = myNewPos;
+                                        actions[8] = myNr;
+                                    }
+                                }
+                            }
+                            /*if (good1[possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]) // can I go there?
 							{
 								walk--;
 								if (walk == 0) // I cannot neither walk, nor attack, I just heal
@@ -340,12 +509,39 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
-						}
+							}*/
+                        }
 						walk = character.ReachW;
 						while (walk != 0) // can I go closer?
 						{
-							if (good1.ElementAt(possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)) // can I go there?
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 3;
+                                        actions[5] = myNewPos;
+                                        actions[8] = myNr;
+                                    }
+                                }
+                            }
+                            /*if (good1[possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]) // can I go there?
 							{
 								walk--;
 								if (walk == 0) // I cannot neither walk, nor attack, I just heal
@@ -362,8 +558,8 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
-						}
+							}*/
+                        }
 						if (Math.Abs(targetPos - myNewPos) <= myReach) // if I am close enough now
 						{
 							actions[2] = 2;
@@ -383,7 +579,34 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk != 0) // can I go closer?
 						{
-							if (good1.ElementAt(possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)) // can I go there?
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 3;
+                                        actions[5] = myNewPos;
+                                        actions[8] = myNr;
+                                    }
+                                }
+                            }
+                            /*if (good1[possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]) // can I go there?
 							{
 								walk--;
 								if (walk == 0) // I cannot neither walk, nor attack, I just heal
@@ -400,12 +623,39 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
-						}
+							}*/
+                        }
 						walk = character.ReachW;
 						while (walk != 0) // can I go closer?
 						{
-							if (good1.ElementAt(possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)) // can I go there?
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 3;
+                                        actions[5] = myNewPos;
+                                        actions[8] = myNr;
+                                    }
+                                }
+                            }
+                            /*if (good1[possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]) // can I go there?
 							{
 								walk--;
 								if (walk == 0) // I cannot neither walk, nor attack, I just heal
@@ -422,12 +672,39 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
-						}
+							}*/
+                        }
 						walk = character.ReachW;
 						while (walk != 0) // can I go closer?
 						{
-							if (good1.ElementAt(possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]) != good1.ElementAt(myNr)) // can I go there?
+                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+                            {
+                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+                                {
+                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+                                    actions[2] = 1;
+                                    actions[5] = myNewPos;
+                                    actions[8] = targetNr;
+                                }
+                                else
+                                {
+                                    walk--;
+                                    if (walk == 0)
+                                    {
+                                        actions[2] = 3;
+                                        actions[5] = myNewPos;
+                                        actions[8] = myNr;
+                                    }
+                                }
+                            }
+                            /*if (good1[possitions[myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * myWalk]] != good1[myNr]) // can I go there?
 							{
 								walk--;
 								if (walk == 0) // I cannot neither walk, nor attack, I just heal
@@ -444,8 +721,8 @@ namespace Assets._Scripts_._AI_Types_
 								actions[5] = myNewPos;
 								actions[8] = targetNr;
 								walk = 0;
-							}
-						}
+							}*/
+                        }
 					}
 				}
 			}
@@ -458,17 +735,17 @@ namespace Assets._Scripts_._AI_Types_
 				bool t0 = true; // is it free?
 				bool t6 = true;
 				bool t3 = true;
-				for (int i = 0; i < 4; i++) //later 6; where are possible teleportation tiles?
+				for (int i = 0; i < good1.Count(); i++) //later 6; where are possible teleportation tiles?
 				{
-					if (good1.ElementAt(i) != good1.ElementAt(myNr) && i == 0) // is it against me and is he standing on this tile?
+					if (good1[i] != good1[myNr] && i == 0) // is it against me and is he standing on this tile?
 					{
 						t0 = false;
 					}
-					if (good1.ElementAt(i) != good1.ElementAt(myNr) && i == 3) // is it against me and is he standing on this tile?
+					if (good1[i] != good1[myNr] && i == 3) // is it against me and is he standing on this tile?
 					{
 						t3 = false;
 					}
-					if (good1.ElementAt(i) != good1.ElementAt(myNr) && i == 6) // is it against me and is he standing on this tile?
+					if (good1[i] != good1[myNr] && i == 6) // is it against me and is he standing on this tile?
 					{
 						t6 = false;
 					}
