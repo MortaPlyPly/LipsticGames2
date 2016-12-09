@@ -35,7 +35,7 @@ namespace Assets._Scripts_._Character_Types_
         {
             get
             {
-                return 7;
+                return 5;
             }
         }
 

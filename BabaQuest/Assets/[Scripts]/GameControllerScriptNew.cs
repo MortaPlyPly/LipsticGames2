@@ -63,16 +63,17 @@ public class GameControllerScriptNew : MonoBehaviour
 		player = new Rogue(10); // CAN BE AN ERROR!!! Monobehavior is not allowed with new keyword!
 		// SET STATS BEFORE DEBUGGING
 		//player.CalculateStats(10);
-		playerGameObj = (GameObject)Instantiate(ai.GetComponent<AIScriptNew>().charTry, new Vector3(-7.5f, -2.3f, 0), Quaternion.identity);
+		playerGameObj = (GameObject)Instantiate(ai.GetComponent<AIScriptNew>().charTry, new Vector3(-7.5f + 5f, -2.3f, 0), Quaternion.identity);
 		// set appearance
 	}
 	
 	void Update ()
 	{
 		grid.SetActive(encounter);
-		//Debug.Log("Encounter " + encounter);
-
-		int myTile = 0;
+        //Debug.Log("Encounter " + encounter);
+        playerGameObj.GetComponentInChildren<TextMesh>().text = "NAME: 0" + System.Environment.NewLine + "LIFE: " + player.LeftLife
+                                                                + System.Environment.NewLine + "TYPE: " + player.GetType().Name;
+        int myTile = 0;
 		MoveBackground();
 		// ENCOUNTER
 		if (encounter) //starting from playing and iterating through others
@@ -128,7 +129,7 @@ public class GameControllerScriptNew : MonoBehaviour
 
 			if (playerTurn /*&& (myTime - myTimeWas) > 0.3f */)//this is where player pokes screen
 			{
-				Debug.Log("PLAYERS TURN");
+				//Debug.Log("PLAYERS TURN");
 				/*Touch touch = Input.GetTouch(0);
 				Vector2 v = touch.position;*/
 				//int x = Mathf.FloorToInt(v.x / 41.143f); // turn x coord to index [0..6]
@@ -240,7 +241,6 @@ public class GameControllerScriptNew : MonoBehaviour
 				}
 			}
 		}
-		Debug.Log("player move count" + playerMoveCount);
 		if (playerMoveCount > 2)
 		{
 			playerTurn = false;

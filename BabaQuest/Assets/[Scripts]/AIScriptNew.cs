@@ -58,19 +58,19 @@ public class AIScriptNew : MonoBehaviour
 							possition[j] = -1;
 						}
 					}
-					///////////////////////////
-					//////////DEBUG////////////
-					///////////////////////////
 					Debug.Log("NPC " + i + " DIED");
-					///////////////////////////
-					characters.Remove(characters[i]);
+                    /*characters.RemoveAt(i);
 					good1.Remove(good1[i]);
 					aiType.Remove(aiType[i]);
-					gameObj[i - 1].SetActive(false);
-
-					//*********
-					//gameObj.ElementAt(i).SetActive(false);
-				}
+					gameObj[i - 1].SetActive(false);*/
+                    characters.RemoveAt(i);
+                    good1.RemoveAt(i);
+                    aiType.RemoveAt(i);
+                    gameObj[i - 1].SetActive(false);
+                    //break;
+                    //*********
+                    //gameObj.ElementAt(i).SetActive(false);
+                }
 			}
 			if (bad == 0) // FIX THIS!
 			{
@@ -82,7 +82,13 @@ public class AIScriptNew : MonoBehaviour
 				allEnemiesDead = true;
 			}
 		}
-	}
+
+        for (int i = 1; i < characters.Count(); i++)
+        {
+            gameObj[i - 1].GetComponentInChildren<TextMesh>().text = "NAME: " + i + System.Environment.NewLine + "LIFE: " + characters[i].LeftLife
+                                                                + System.Environment.NewLine + "TYPE: " + characters[i].GetType().Name;
+        }
+    }
 
 	public void Spawn(CharacterTypeInterface player)
 	{
@@ -95,12 +101,15 @@ public class AIScriptNew : MonoBehaviour
 		// CHARACTER SPAWNING
 		characters.Add(player);
 		good1.Add(true);
-		possition[0] = 0;
+		possition[2] = 0;
 		aiType.Add(new AISmart()); // not used but needed for better indexing
 		// SPAWN ELSE
 		SpawnFriends(); //done (empty)
 		Spawnenemies(player); //done
 		RollTurns(); //whatevs for now
+
+        
+
 	}
 
 	public void EmptyLists()
@@ -158,18 +167,13 @@ public class AIScriptNew : MonoBehaviour
 						}
 					case 2:
 						{
-							///////////////////////////
-							//////////DEBUG////////////
-							///////////////////////////
 							Debug.Log("ATTACK WITH " + characters[i].Attack());
-							///////////////////////////
-							///////////////////////////
-							//////////DEBUG////////////
-							///////////////////////////
 							Debug.Log("ATTACK WHO " + actions[j + 6]);
-							///////////////////////////
-							//actions[j+6] -> target
-							characters[actions[j + 6]].GetHurt(characters[i].Attack());
+                            if (actions[j + 6] > characters.Count() - 1)
+                            {
+                                break;
+                            }
+							characters[actions[j + 6]].GetHurt(characters[i].Attack()); // ERROR
 							break;
 						}
 					case 3:
@@ -201,10 +205,15 @@ public class AIScriptNew : MonoBehaviour
 		characters.Add(new Warior(lvl)); // [1]
 		good1.Add(true);
 		aiType.Add(new AISmart());
-		Debug.Log("friend " + characters[1].FullLife);
 		possition[1] = 1;
 		gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * 1, -2.3f, 0), Quaternion.identity));
         gameObj[0].GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.5f);
+        characters.Add(new Mage(lvl)); // [2]
+        good1.Add(true);
+        aiType.Add(new AISmart());
+        possition[0] = 2;
+        gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * 0, -2.3f, 0), Quaternion.identity));
+        gameObj[1].GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 0.5f);
 
     }
 
@@ -296,7 +305,7 @@ public class AIScriptNew : MonoBehaviour
         //possition[6] = 4;
         Debug.Log("mob 3 " + characters[4].FullLife);
 		int y = 4;
-		for (int i = 2; i < characters.Count(); i++) // setting good/bad, prefabs and TILES
+		for (int i = 3; i < characters.Count(); i++) // setting good/bad, prefabs and TILES
 		{
 			if (characters[i].GetType().Name == "Mage")
 			{
@@ -313,12 +322,9 @@ public class AIScriptNew : MonoBehaviour
 			
 			// set appearance ...
 		}
-        gameObj[1].GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
-        gameObj[2].GetComponent<SpriteRenderer>().color = new Color(0.75f, 0, 0, 0.5f);
-        gameObj[3].GetComponent<SpriteRenderer>().color = new Color(0.5f, 0, 0, 0.5f);
-        //good[0] = true;
-        //good1.Insert(0, true);
-        //possition[0] = 0;
+        gameObj[2].GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+        gameObj[3].GetComponent<SpriteRenderer>().color = new Color(0.75f, 0, 0, 0.5f);
+        gameObj[4].GetComponent<SpriteRenderer>().color = new Color(0.5f, 0, 0, 0.5f);
         created = true;
 	}
 
