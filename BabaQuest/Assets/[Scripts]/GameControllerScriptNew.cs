@@ -194,11 +194,11 @@ public class GameControllerScriptNew : MonoBehaviour
 				}
 			}
 		}
-		else
+		/*else
 		{
-			//backgroundMove = true;
+			backgroundMove = true;
 			//grid.SetActive(false);
-		}
+		}*/
 	}
 
 	private void PlayerInputKey(int x)
@@ -345,7 +345,7 @@ public class GameControllerScriptNew : MonoBehaviour
 
 	public void YesVillageButton()
 	{
-		//load village level if not encounter
+		//load mobZone level if not encounter
 		SceneManager.LoadScene(3);
 	}
 
