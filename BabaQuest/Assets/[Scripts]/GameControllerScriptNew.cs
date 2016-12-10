@@ -27,7 +27,7 @@ public class GameControllerScriptNew : MonoBehaviour
 	public Sprite red;
 	public Sprite blue;
 	public GameObject background; //background prefab
-	// PUBLIC
+								  // PUBLIC
 	public float backgroundSpeed = 0.04f; //backround moving speed script
 	public bool backgroundMove = false;
 	// PRIVATE
@@ -45,12 +45,12 @@ public class GameControllerScriptNew : MonoBehaviour
 	private float myTimeWas;
 	private float myTime;
 
-	void Start ()
+	void Start()
 	{
 		//Debug.Log("GameControllerScriptNew -> Start()");
 
 		background1 = (GameObject)Instantiate(background, new Vector3(0, 0, 0), Quaternion.identity);
-		
+
 		int i = 0;
 		foreach (Transform child in grid.transform) // getting grid tiles
 		{
@@ -61,19 +61,19 @@ public class GameControllerScriptNew : MonoBehaviour
 
 		// get player from save file or smth
 		player = new Rogue(10); // CAN BE AN ERROR!!! Monobehavior is not allowed with new keyword!
-		// SET STATS BEFORE DEBUGGING
-		//player.CalculateStats(10);
+								// SET STATS BEFORE DEBUGGING
+								//player.CalculateStats(10);
 		playerGameObj = (GameObject)Instantiate(ai.GetComponent<AIScriptNew>().charTry, new Vector3(-7.5f + 5f, -2.3f, 0), Quaternion.identity);
 		// set appearance
 	}
-	
-	void Update ()
+
+	void Update()
 	{
 		grid.SetActive(encounter);
-        //Debug.Log("Encounter " + encounter);
-        playerGameObj.GetComponentInChildren<TextMesh>().text = "NAME: 0" + System.Environment.NewLine + "LIFE: " + player.LeftLife
-                                                                + System.Environment.NewLine + "TYPE: " + player.GetType().Name;
-        int myTile = 0;
+		//Debug.Log("Encounter " + encounter);
+		playerGameObj.GetComponentInChildren<TextMesh>().text = "NAME: 0" + System.Environment.NewLine + "LIFE: " + player.LeftLife
+																+ System.Environment.NewLine + "TYPE: " + player.GetType().Name;
+		int myTile = 0;
 		MoveBackground();
 		// ENCOUNTER
 		if (encounter) //starting from playing and iterating through others
@@ -98,17 +98,17 @@ public class GameControllerScriptNew : MonoBehaviour
 				{
 					if (Mathf.Abs(i - myTile) <= player.ReachW) // if its in players reach
 					{
-                        //Debug.Log(!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]);
+						//Debug.Log(!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]);
 						if (ai.GetComponent<AIScriptNew>().possition[i] > -1) // is someone standing there?
 						{// ERROR
-                            if(!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]) // is enemy standing there?
-                            {
-                                gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
-                            }
-                            else
-                            {
-                                gridParts[i].GetComponent<SpriteRenderer>().sprite = blue;
-                            }
+							if (!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]) // is enemy standing there?
+							{
+								gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
+							}
+							else
+							{
+								gridParts[i].GetComponent<SpriteRenderer>().sprite = blue;
+							}
 						}
 						else // its free
 						{
@@ -246,7 +246,7 @@ public class GameControllerScriptNew : MonoBehaviour
 			playerTurn = false;
 			ai.GetComponent<AIScriptNew>().finishedTurn = false;
 			playerMoveCount = ai.GetComponent<AIScriptNew>().NPCTurn();
-		}		
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other) //spawning trigger
@@ -287,7 +287,7 @@ public class GameControllerScriptNew : MonoBehaviour
 				background1.GetComponent<Transform>().position.y);
 			if (background1.GetComponent<Transform>().position.x < -0.3f && background1.GetComponent<Transform>().position.x > -0.35f) //spawn background2 when time
 			{
-				if(background2 != null)
+				if (background2 != null)
 				{
 					Destroy(background2.gameObject);
 				}
@@ -307,7 +307,7 @@ public class GameControllerScriptNew : MonoBehaviour
 		}
 	}
 
-	public void MeniuButton ()
+	public void MeniuButton()
 	{
 		backgroundMove = false;
 		SetMeniuButton(false);
@@ -321,7 +321,7 @@ public class GameControllerScriptNew : MonoBehaviour
 		SetMeniu(false);
 	}
 
-	public void VillageButton ()
+	public void VillageButton()
 	{
 		if (!encounter)
 		{
@@ -346,7 +346,7 @@ public class GameControllerScriptNew : MonoBehaviour
 	public void YesVillageButton()
 	{
 		//load village level if not encounter
-		SceneManager.LoadScene(0);
+		SceneManager.LoadScene(1);
 	}
 
 	public void YesExitButton()
@@ -374,7 +374,7 @@ public class GameControllerScriptNew : MonoBehaviour
 		vilageT.SetActive(b);
 		vilageY.SetActive(b);
 		vilageN.SetActive(b);
-}
+	}
 
 	private void SetExit(bool b)
 	{
@@ -382,5 +382,5 @@ public class GameControllerScriptNew : MonoBehaviour
 		exitT.SetActive(b);
 		exitY.SetActive(b);
 		exitN.SetActive(b);
-}
+	}
 }

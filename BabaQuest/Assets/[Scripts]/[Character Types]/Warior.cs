@@ -55,8 +55,8 @@ namespace Assets._Scripts_._Character_Types_
         public void CalculateStats(int lvl) //not balanced
         {
             fullLife = 100 * lvl;
-            att = 10 * lvl;
-            heal = fullLife / 10;
+            att = 5 * lvl;
+            heal = fullLife / 5;
 			leftLife = fullLife;
 		}
 

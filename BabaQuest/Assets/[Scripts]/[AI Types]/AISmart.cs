@@ -41,7 +41,7 @@ namespace Assets._Scripts_._AI_Types_
 			{
 				twoMages = true;
 			}
-            for (int i = 0; i < good1.Count(); i++) // later 6; getting our target with least left life
+			for (int i = 0; i < good1.Count(); i++) // later 6; getting our target with least left life
 			{
 				//if (good1.ElementAt(i] != good1.ElementAt(myNr])
 				if (good1[i] != good1[myNr])
@@ -50,7 +50,7 @@ namespace Assets._Scripts_._AI_Types_
 				}
 			}
 			minLife = characters[lives[0]].LeftLife;
-			foreach(int l in lives)
+			foreach (int l in lives)
 			{
 				if (characters[l].LeftLife < minLife)
 				{
@@ -65,7 +65,7 @@ namespace Assets._Scripts_._AI_Types_
 					targetPos = i; //target possition
 				}
 			}
-            if (characters[myNr].LeftLife / characters[myNr].FullLife < 0.1) // how many times do I heal?
+			if (characters[myNr].LeftLife / characters[myNr].FullLife < 0.1) // how many times do I heal?
 			{
 				actions[0] = 3;
 				actions[1] = 3;
@@ -85,22 +85,22 @@ namespace Assets._Scripts_._AI_Types_
 				actions[4] = myNewPos;
 				actions[6] = target;
 				actions[7] = target;
-                //CheckAttack(characters[myNr], good, possitions, 1, target, myNr);
-                CheckAttack(characters[myNr], good1, possitions, 1, target, myNr);
-            }
+				//CheckAttack(characters[myNr], good, possitions, 1, target, myNr);
+				CheckAttack(characters[myNr], good1, possitions, 1, target, myNr);
+			}
 			else if (characters[myNr].LeftLife / characters[myNr].FullLife < 0.3)
 			{
 				actions[0] = 3;
 				actions[3] = myNewPos;
 				actions[6] = target;
-                //CheckAttack(characters[myNr], good, possitions, 2, target, myNr);
-                CheckAttack(characters[myNr], good1, possitions, 2, target, myNr);
-            }
+				//CheckAttack(characters[myNr], good, possitions, 2, target, myNr);
+				CheckAttack(characters[myNr], good1, possitions, 2, target, myNr);
+			}
 			else
 			{
-                //CheckAttack(characters[myNr], good, possitions, 3, target, myNr);
-                CheckAttack(characters[myNr], good1, possitions, 3, target, myNr);
-            }
+				//CheckAttack(characters[myNr], good, possitions, 3, target, myNr);
+				CheckAttack(characters[myNr], good1, possitions, 3, target, myNr);
+			}
 			return actions; //action, action, action, tile, tile, tile, target, target, target
 		}
 
@@ -143,35 +143,35 @@ namespace Assets._Scripts_._AI_Types_
 
 						while (walk > 0) // can I go away?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 3;
-                                        actions[5] = myNewPos;
-                                        actions[8] = myNr;
-                                    }
-                                }
-                            }
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 3;
+										actions[5] = myNewPos;
+										actions[8] = myNr;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -204,35 +204,35 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 3;
-                                        actions[5] = myNewPos;
-                                        actions[8] = myNr;
-                                    }
-                                }
-                            }
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 3;
+										actions[5] = myNewPos;
+										actions[8] = myNr;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -276,35 +276,35 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 3;
-                                        actions[5] = myNewPos;
-                                        actions[8] = myNr;
-                                    }
-                                }
-                            }
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 3;
+										actions[5] = myNewPos;
+										actions[8] = myNr;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -350,35 +350,35 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go away?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 2;
-                                        actions[5] = myNewPos;
-                                        actions[8] = targetPos;
-                                    }
-                                }
-                            }
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 2;
+										actions[5] = myNewPos;
+										actions[8] = targetPos;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -411,35 +411,35 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 3;
-                                        actions[5] = myNewPos;
-                                        actions[8] = myNr;
-                                    }
-                                }
-                            }
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 3;
+										actions[5] = myNewPos;
+										actions[8] = myNr;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -486,35 +486,35 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 3;
-                                        actions[5] = myNewPos;
-                                        actions[8] = myNr;
-                                    }
-                                }
-                            }
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 3;
+										actions[5] = myNewPos;
+										actions[8] = myNr;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -541,35 +541,35 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 3;
-                                        actions[5] = myNewPos;
-                                        actions[8] = myNr;
-                                    }
-                                }
-                            }
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 3;
+										actions[5] = myNewPos;
+										actions[8] = myNr;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -612,35 +612,35 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
-									walk = 0;
-                                }
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 3;
-                                        actions[5] = myNewPos;
-                                        actions[8] = myNr;
-                                    }
-                                }
-                            }
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
+									walk = 0;
+								}
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 3;
+										actions[5] = myNewPos;
+										actions[8] = myNr;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -667,35 +667,35 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 3;
-                                        actions[5] = myNewPos;
-                                        actions[8] = myNr;
-                                    }
-                                }
-                            }
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 3;
+										actions[5] = myNewPos;
+										actions[8] = myNr;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -722,36 +722,36 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-                            if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                            {
-                                if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							{
+								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 								}
-                                else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                                {
-                                    myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                                    actions[2] = 1;
-                                    actions[5] = myNewPos;
-                                    actions[8] = targetNr;
+								else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+								{
+									myNewPos = myNewPos + ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+									actions[2] = 1;
+									actions[5] = myNewPos;
+									actions[8] = targetNr;
 									walk = 0;
 
 								}
-                                else
-                                {
-                                    walk--;
-                                    if (walk == 0)
-                                    {
-                                        actions[2] = 3;
-                                        actions[5] = myNewPos;
-                                        actions[8] = myNr;
-                                    }
-                                }
-                            }
+								else
+								{
+									walk--;
+									if (walk == 0)
+									{
+										actions[2] = 3;
+										actions[5] = myNewPos;
+										actions[8] = myNr;
+									}
+								}
+							}
 							else
 							{
 								walk--;
@@ -963,48 +963,48 @@ namespace Assets._Scripts_._AI_Types_
 					}
 				}
 			}
-        }
+		}
 
-        private void WalkFunction()
-        {
-           /* walk = character.ReachW;
+		private void WalkFunction()
+		{
+			/* walk = character.ReachW;
 
-            while (walk > 0) // can I go away?
-            {
-                if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
-                {
-                    if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
-                    {
-                        myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                        actions[2] = 1;
-                        actions[5] = myNewPos;
-                        actions[8] = targetNr;
-                        walk = 0;
-                    }
-                    else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
-                    {
-                        myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
-                        actions[2] = 1;
-                        actions[5] = myNewPos;
-                        actions[8] = targetNr;
-                        walk = 0;
-                    }
-                    else
-                    {
-                        walk--;
-                        if (walk == 0)
-                        {
-                            actions[2] = 3;
-                            actions[5] = myNewPos;
-                            actions[8] = myNr;
-                        }
-                    }
-                }
-                else
-                {
-                    walk--;
-                }*/
-            }
-        }
-    }
+			 while (walk > 0) // can I go away?
+			 {
+				 if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+				 {
+					 if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
+					 {
+						 myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+						 actions[2] = 1;
+						 actions[5] = myNewPos;
+						 actions[8] = targetNr;
+						 walk = 0;
+					 }
+					 else if (good1[possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]] == good1[myNr])
+					 {
+						 myNewPos = myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk;
+						 actions[2] = 1;
+						 actions[5] = myNewPos;
+						 actions[8] = targetNr;
+						 walk = 0;
+					 }
+					 else
+					 {
+						 walk--;
+						 if (walk == 0)
+						 {
+							 actions[2] = 3;
+							 actions[5] = myNewPos;
+							 actions[8] = myNr;
+						 }
+					 }
+				 }
+				 else
+				 {
+					 walk--;
+				 }
+			 }*/
+		}
+	}
 }

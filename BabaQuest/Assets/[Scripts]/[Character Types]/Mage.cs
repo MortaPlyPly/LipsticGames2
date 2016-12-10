@@ -56,7 +56,7 @@ namespace Assets._Scripts_._Character_Types_
         {
             fullLife = 50 * lvl;
             att = 7 * lvl;
-            heal = fullLife / 10;
+            heal = fullLife / 15;
 			leftLife = fullLife;
 		}
 
