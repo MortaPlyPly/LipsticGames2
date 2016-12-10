@@ -36,7 +36,7 @@ public class AIScriptNew : MonoBehaviour
 
 	void Update()
 	{
-		lvl = 1;
+		lvl = 1; //characters[0].Lvl;	<< bugged, mb cuz character[0] dar neidetas i list
 		int bad = 0;
 		if (created)
 		{

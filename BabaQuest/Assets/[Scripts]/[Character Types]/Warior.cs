@@ -5,6 +5,7 @@ namespace Assets._Scripts_._Character_Types_
 {
 	class Warior : MonoBehaviour, CharacterTypeInterface
 	{
+		int lvl;
 		int att;
 		int heal;
 		int leftLife;
@@ -47,6 +48,14 @@ namespace Assets._Scripts_._Character_Types_
 			}
 		}
 
+		public int Lvl
+		{
+			get
+			{
+				return lvl;
+			}
+		}
+
 		public int Attack()
 		{
 			return att;
@@ -54,6 +63,7 @@ namespace Assets._Scripts_._Character_Types_
 
 		public void CalculateStats(int lvl) //not balanced
 		{
+			this.lvl = lvl;
 			fullLife = 100 + 20 * lvl;
 			att = 5 + 7 * lvl;
 			heal = fullLife / 10;

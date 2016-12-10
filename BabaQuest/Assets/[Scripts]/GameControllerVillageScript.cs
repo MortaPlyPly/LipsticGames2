@@ -31,6 +31,7 @@ public class GameControllerVillageScript : MonoBehaviour
 	void Start()
 	{
 		background1 = (GameObject)Instantiate(background, new Vector3(0, 0, 0), Quaternion.identity);
+		///////////FIX///////////
 		player = new Rogue(10); // GET PLAYER FROM MOB ZONE
 	}
 

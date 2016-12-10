@@ -2,6 +2,7 @@
 {
     public interface CharacterTypeInterface
     {
+		int Lvl { get; }
         int LeftLife { get; }
         int FullLife { get; }
         int ReachA { get; }

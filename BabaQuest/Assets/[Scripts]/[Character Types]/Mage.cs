@@ -5,6 +5,7 @@ namespace Assets._Scripts_._Character_Types_
 {
 	class Mage : MonoBehaviour, CharacterTypeInterface
 	{
+		int lvl;
 		int att;
 		int heal;
 		int leftLife;
@@ -47,6 +48,14 @@ namespace Assets._Scripts_._Character_Types_
 			}
 		}
 
+		public int Lvl
+		{
+			get
+			{
+				return lvl;
+			}
+		}
+
 		public int Attack()
 		{
 			return att;
@@ -54,6 +63,7 @@ namespace Assets._Scripts_._Character_Types_
 
 		public void CalculateStats(int lvl) //not balanced
 		{
+			this.lvl = lvl;
 			fullLife = 50 + 10 * lvl;
 			att = 5 + 5 * lvl;
 			heal = fullLife / 15;

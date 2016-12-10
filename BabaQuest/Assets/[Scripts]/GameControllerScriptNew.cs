@@ -259,7 +259,7 @@ public class GameControllerScriptNew : MonoBehaviour
 
 		if (other.transform.tag == "Spawn")
 		{
-			ai.GetComponent<AIScriptNew>().lvl = 1; // should be from player...
+			ai.GetComponent<AIScriptNew>().lvl = player.Lvl; // should be from player...
 			encounter = true;
 			other.enabled = false;
 			StartEncounter();
