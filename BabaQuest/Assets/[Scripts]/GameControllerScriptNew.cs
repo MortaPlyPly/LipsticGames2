@@ -27,9 +27,9 @@ public class GameControllerScriptNew : MonoBehaviour
 	public Sprite red;
 	public Sprite blue;
 	public GameObject background; //background prefab
-								  // PUBLIC
+	// PUBLIC
 	public float backgroundSpeed = 0.04f; //backround moving speed script
-	public bool backgroundMove = false;
+	public bool backgroundMove = true;
 	// PRIVATE
 	GameObject background1; //background gameobj
 	GameObject background2; //background gameobj
@@ -196,7 +196,7 @@ public class GameControllerScriptNew : MonoBehaviour
 		}
 		else
 		{
-			backgroundMove = true;
+			//backgroundMove = true;
 			//grid.SetActive(false);
 		}
 	}
@@ -346,7 +346,7 @@ public class GameControllerScriptNew : MonoBehaviour
 	public void YesVillageButton()
 	{
 		//load village level if not encounter
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene(3);
 	}
 
 	public void YesExitButton()
