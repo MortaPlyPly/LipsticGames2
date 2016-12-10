@@ -36,7 +36,7 @@ public class AIScriptNew : MonoBehaviour
 
 	void Update()
 	{
-		lvl = 5;
+		lvl = 1;
 		int bad = 0;
 		if (created)
 		{

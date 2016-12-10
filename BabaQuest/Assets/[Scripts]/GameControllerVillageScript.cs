@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 using Assets._Scripts_._Character_Types_;
 
 public class GameControllerVillageScript : MonoBehaviour
@@ -23,32 +21,25 @@ public class GameControllerVillageScript : MonoBehaviour
 	public GameObject exitN;
 	// GAME OBJECTS OR PREFABS
 	public GameObject background; //background prefab
-								  // PUBLIC
+	public GameObject noticeBoard;
+	public GameObject page;
 	public bool backgroundMove = false;
 	// PRIVATE
 	GameObject background1; //background gameobj
-	Vector3 backgroundPossition = new Vector3(18.2f, 0, 0);
-	private bool encounter = false;
-	private bool playerTurn = true;
-	private int playerMoveCount = 0;
-	private List<GameObject> gridParts = new List<GameObject>();
 	private CharacterTypeInterface player;
-	private GameObject playerGameObj;
-	int playerPos;
-	//int x;
-	private float myTimeWas;
-	private float myTime;
 
 	void Start()
 	{
 		background1 = (GameObject)Instantiate(background, new Vector3(0, 0, 0), Quaternion.identity);
-		player = new Rogue(10);
-		//playerGameObj = (GameObject)Instantiate(ai.GetComponent<AIScriptNew>().charTry, new Vector3(-7.5f + 5f, -2.3f, 0), Quaternion.identity);
-		// set appearance
+		player = new Rogue(10); // GET PLAYER FROM MOB ZONE
 	}
 
-	void Update()
-	{}	
+	void Update() { }
+
+	public void NoticeBoard()
+	{
+		page.SetActive(true);
+	}
 
 	public void MeniuButton()
 	{

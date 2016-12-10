@@ -60,7 +60,7 @@ public class GameControllerScriptNew : MonoBehaviour
 
 
 		// get player from save file or smth
-		player = new Rogue(10); // CAN BE AN ERROR!!! Monobehavior is not allowed with new keyword!
+		player = new Rogue(1); // CAN BE AN ERROR!!! Monobehavior is not allowed with new keyword!
 								// SET STATS BEFORE DEBUGGING
 								//player.CalculateStats(10);
 		playerGameObj = (GameObject)Instantiate(ai.GetComponent<AIScriptNew>().charTry, new Vector3(-7.5f + 5f, -2.3f, 0), Quaternion.identity);
@@ -259,7 +259,7 @@ public class GameControllerScriptNew : MonoBehaviour
 
 		if (other.transform.tag == "Spawn")
 		{
-			ai.GetComponent<AIScriptNew>().lvl = 10; // should be from player...
+			ai.GetComponent<AIScriptNew>().lvl = 1; // should be from player...
 			encounter = true;
 			other.enabled = false;
 			StartEncounter();
