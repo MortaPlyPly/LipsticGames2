@@ -90,5 +90,20 @@ namespace Assets._Scripts_._Character_Types_
 			//trigger animation?
 			//for eatch tile walked
 		}
+
+		public void IddleAnim()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void AttackAnim()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetHitAnim()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

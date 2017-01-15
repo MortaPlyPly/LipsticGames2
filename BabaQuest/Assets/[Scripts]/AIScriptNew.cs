@@ -4,12 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets._Scripts_._Character_Types_;
 using Assets._Scripts_._AI_Types_;
+using UnityEngine.UI;
 
 public class AIScriptNew : MonoBehaviour
 {
 	//PRIVATE
 	private List<AITypeInterface> aiType = new List<AITypeInterface>();
-	private List<GameObject> gameObj = new List<GameObject>();
+	public List<GameObject> gameObj = new List<GameObject>();
 	//private bool[] good = new bool[4]; //later 6 "is good"
 	public List<bool> good1 = new List<bool>();
 	//private aiStyle[] ai;
@@ -25,6 +26,9 @@ public class AIScriptNew : MonoBehaviour
 	public bool finishedTurn = true;
 	//public int[] dmgForMob this shoul be sent straight from player to mob by touch
 	public bool created = false;
+	public bool charHitAnim = false;
+
+	public Sprite[] sprites; // good/bad [x/x+9]; warrior/rogue/mage [x/x+3]; iddle/attack/get hit [x/x+1];
 
 	void Start()
 	{
@@ -123,9 +127,60 @@ public class AIScriptNew : MonoBehaviour
 		}
 	}
 
-	public int NPCTurn()
+	public void AnimHelp (int character, int time) // time = 0 - iddle, = 1 - attack, = 2 - hit
 	{
-		int[] actions = new int[9]; // action, action, action, tile, tile, tile, target, target, target
+		if (character == 0)
+		{
+			charHitAnim = true;
+			return;
+		}
+
+		switch (character) // character who got hurt // NOT OPTIMISED!!!!
+		{
+			case 1: // good knight
+				{
+					gameObj[character - 1].GetComponent<SpriteRenderer>().sprite = sprites[0 + time];
+					break;
+				}
+			case 2: // good mage
+				{
+					gameObj[character - 1].GetComponent<SpriteRenderer>().sprite = sprites[6 + time];
+					break;
+				}
+			case 3: // bad knight
+				{
+					gameObj[character - 1].GetComponent<SpriteRenderer>().sprite = sprites[9 + time];
+					break;
+				}
+			case 4: // bad rogue
+				{
+					gameObj[character - 1].GetComponent<SpriteRenderer>().sprite = sprites[12 + time];
+					break;
+				}
+			case 5: // bad mage
+				{
+					gameObj[character - 1].GetComponent<SpriteRenderer>().sprite = sprites[15 + time];
+					break;
+				}
+		}
+	}
+
+	public void Animating (int victim, int attacker, bool time)
+	{
+		if (time)
+		{
+			AnimHelp(victim, 2);
+			AnimHelp(attacker, 1);
+		}
+		else
+		{
+			AnimHelp(victim, 0);
+			AnimHelp(attacker, 0);
+		}
+	}
+
+	IEnumerator NPCActions(int[] actions)
+	{
 		for (int i = 1; i < characters.Count; i++) // turns for everybody, except player, who is last in characters array
 		{
 			///////////////////////////
@@ -150,8 +205,10 @@ public class AIScriptNew : MonoBehaviour
 							///////////////////////////
 							//////////DEBUG////////////
 							///////////////////////////
-							Debug.Log("WALK");
+							//Debug.Log("WALK");
 							///////////////////////////
+							if (GameObject.Find("Dmg") != null)
+								GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
 							gameObj[i - 1].transform.position = new Vector3(-7.5f + 2.5f * actions[j + 3], -2.3f, 0);
 							characters[i].Walk(); //animation shit
 												  // tiles/possition
@@ -163,27 +220,36 @@ public class AIScriptNew : MonoBehaviour
 								}
 								possition[j + 3] = i;
 							}
+							yield return new WaitForSeconds(0.5f);
 							break;
 						}
-					case 2:
+					case 2: // COLOR
 						{
-							Debug.Log("ATTACK WITH " + characters[i].Attack());
-							Debug.Log("ATTACK WHO " + actions[j + 6]);
-                            if (actions[j + 6] > characters.Count() - 1)
-                            {
-                                break;
-                            }
+							//Debug.Log("ATTACK WITH " + characters[i].Attack());
+							//Debug.Log("ATTACK WHO " + actions[j + 6]);
+							if (actions[j + 6] > characters.Count() - 1)
+							{
+								break;
+							}
+							Animating(actions[j + 6], i, true);
 							characters[actions[j + 6]].GetHurt(characters[i].Attack()); // ERROR
+							if (GameObject.Find("Dmg") != null)
+								GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0" + characters[i].Attack().ToString();
+							yield return new WaitForSeconds(0.5f);
+							Animating(actions[j + 6], i, false);
 							break;
 						}
-					case 3:
+					case 3:  // COLOR
 						{
 							///////////////////////////
 							//////////DEBUG////////////
 							///////////////////////////
-							Debug.Log("HEAL");
+							//Debug.Log("HEAL");
 							///////////////////////////
+							if (GameObject.Find("Dmg") != null)
+								GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
 							characters[i].Heal();
+							yield return new WaitForSeconds(0.5f);
 							break;
 						}
 				}
@@ -191,10 +257,18 @@ public class AIScriptNew : MonoBehaviour
 			///////////////////////////
 			//////////DEBUG////////////
 			///////////////////////////
-			Debug.Log("LEFT LIFE" + characters[i].LeftLife);
+			//Debug.Log("LEFT LIFE" + characters[i].LeftLife);
 			///////////////////////////
 		}
 		finishedTurn = true;
+	}
+
+	public int NPCTurn()
+	{
+		int[] actions = new int[9]; // action, action, action, tile, tile, tile, target, target, target
+									// for coroutine
+		StartCoroutine(NPCActions(actions));
+		
 		return 0;
 	}
 
@@ -207,15 +281,17 @@ public class AIScriptNew : MonoBehaviour
 		aiType.Add(new AISmart());
 		possition[1] = 1;
 		gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * 1, -2.3f, 0), Quaternion.identity));
-        gameObj[0].GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.5f);
-        characters.Add(new Mage(lvl)); // [2]
+		//gameObj[0].GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.5f);
+		gameObj[0].GetComponent<SpriteRenderer>().sprite = sprites[0]; // warrior iddle
+		characters.Add(new Mage(lvl)); // [2]
         good1.Add(true);
         aiType.Add(new AISmart());
         possition[0] = 2;
         gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * 0, -2.3f, 0), Quaternion.identity));
-        gameObj[1].GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 0.5f);
+		//gameObj[1].GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 0.5f);
+		gameObj[1].GetComponent<SpriteRenderer>().sprite = sprites[6]; // mage iddle
 
-    }
+	}
 
 	private void Spawnenemies(CharacterTypeInterface player)
 	{
@@ -322,10 +398,13 @@ public class AIScriptNew : MonoBehaviour
 			
 			// set appearance ...
 		}
-        gameObj[2].GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
-        gameObj[3].GetComponent<SpriteRenderer>().color = new Color(0.75f, 0, 0, 0.5f);
-        gameObj[4].GetComponent<SpriteRenderer>().color = new Color(0.5f, 0, 0, 0.5f);
-        created = true;
+		//gameObj[2].GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+		//gameObj[3].GetComponent<SpriteRenderer>().color = new Color(0.75f, 0, 0, 0.5f);
+		//gameObj[4].GetComponent<SpriteRenderer>().color = new Color(0.5f, 0, 0, 0.5f);
+		gameObj[2].GetComponent<SpriteRenderer>().sprite = sprites[9]; // warrior iddle
+		gameObj[3].GetComponent<SpriteRenderer>().sprite = sprites[12]; // rogue iddle
+		gameObj[4].GetComponent<SpriteRenderer>().sprite = sprites[15]; // mage iddle
+		created = true;
 	}
 
 	private void RollTurns()

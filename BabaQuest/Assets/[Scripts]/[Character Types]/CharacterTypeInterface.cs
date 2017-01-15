@@ -13,5 +13,9 @@
         void Heal(); //heal yourself
         void Walk(); //just for triggering walking animation
         void GetHurt(int dmg);
-    }
+
+		void IddleAnim();
+		void AttackAnim();
+		void GetHitAnim();
+	}
 }
