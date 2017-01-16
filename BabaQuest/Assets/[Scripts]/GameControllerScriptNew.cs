@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Assets._Scripts_._Character_Types_;
+using UnityEngine.UI;
 
 public class GameControllerScriptNew : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class GameControllerScriptNew : MonoBehaviour
 	public GameObject exitT;
 	public GameObject exitY;
 	public GameObject exitN;
+	public GameObject lost;
+	public GameObject turn;
+	public GameObject prntDmg;
 	// GAME OBJECTS OR PREFABS
 	public GameObject grid;
 	public GameObject ai;
@@ -64,20 +68,29 @@ public class GameControllerScriptNew : MonoBehaviour
 								// SET STATS BEFORE DEBUGGING
 								//player.CalculateStats(10);
 		playerGameObj = (GameObject)Instantiate(ai.GetComponent<AIScriptNew>().charTry, new Vector3(-7.5f + 5f, -2.3f, 0), Quaternion.identity);
-		// set appearance
+		playerGameObj.GetComponent<SpriteRenderer>().sprite = ai.GetComponent<AIScriptNew>().sprites[3]; // rogue iddle
+																	   // set appearance
 	}
 
 	void Update()
 	{
+		if (ai.GetComponent<AIScriptNew>().charHitAnim)
+		{
+			StartCoroutine(HurtAnim());
+			ai.GetComponent<AIScriptNew>().charHitAnim = false;
+		}
+
 		grid.SetActive(encounter);
 		//Debug.Log("Encounter " + encounter);
 		playerGameObj.GetComponentInChildren<TextMesh>().text = "NAME: 0" + System.Environment.NewLine + "LIFE: " + player.LeftLife
 																+ System.Environment.NewLine + "TYPE: " + player.GetType().Name;
 		int myTile = 0;
 		MoveBackground();
+		prntDmg.SetActive(false);
 		// ENCOUNTER
 		if (encounter) //starting from playing and iterating through others
 		{
+			prntDmg.SetActive(true);
 			backgroundMove = false;
 			// TILES
 			for (int i = 0; i < 7; i++) // finding players tile
@@ -125,6 +138,11 @@ public class GameControllerScriptNew : MonoBehaviour
 			if (ai.GetComponent<AIScriptNew>().finishedTurn)
 			{
 				playerTurn = true;
+				turn.SetActive(true);
+			}
+			else
+			{
+				turn.SetActive(false);
 			}
 
 			if (playerTurn /*&& (myTime - myTimeWas) > 0.3f */)//this is where player pokes screen
@@ -133,9 +151,17 @@ public class GameControllerScriptNew : MonoBehaviour
 				/*Touch touch = Input.GetTouch(0);
 				Vector2 v = touch.position;*/
 				//int x = Mathf.FloorToInt(v.x / 41.143f); // turn x coord to index [0..6]
-				///
+				///Input.mousePosition
 				float timeElapsed = 0.3f;
-				if (Input.GetKey("q") && (Time.time - myTimeWas) > timeElapsed)
+				if (Input.GetMouseButtonDown(0) && (Time.time - myTimeWas) > timeElapsed)
+				{
+					int x = Mathf.FloorToInt(Input.mousePosition.x / (Screen.width / 7));
+					myTimeWas = Time.time;
+					PlayerInputKey(x);
+				}
+
+				//float timeElapsed = 0.3f;
+				/*if (Input.GetKey("q") && (Time.time - myTimeWas) > timeElapsed)
 				{
 					myTimeWas = Time.time;
 					PlayerInputKey(0);
@@ -169,29 +195,30 @@ public class GameControllerScriptNew : MonoBehaviour
 				{
 					myTimeWas = Time.time;
 					PlayerInputKey(6);
-				}
+				}*/
 
 				///
 			}
 			else
 			{
 				Debug.Log("NPC TURN");
-				/////////////////////////////
-				if (ai.GetComponent<AIScriptNew>().allEnemiesDead)
-				{
-					Debug.Log("YOU WIN");
-					///////////////////////////
-					encounter = false;
-					ai.GetComponent<AIScriptNew>().allEnemiesDead = false;
-					ai.GetComponent<AIScriptNew>().EmptyLists();
-					ai.GetComponent<AIScriptNew>().created = false;
-				}
-				else if (player.LeftLife < 1)
-				{
-					Debug.Log("YOU LOSE");
-					///////////////////////////
-					SceneManager.LoadScene(1);
-				}
+			}
+			if (ai.GetComponent<AIScriptNew>().allEnemiesDead)
+			{
+				Debug.Log("YOU WIN");
+				///////////////////////////
+				encounter = false;
+				ai.GetComponent<AIScriptNew>().allEnemiesDead = false;
+				ai.GetComponent<AIScriptNew>().EmptyLists();
+				ai.GetComponent<AIScriptNew>().created = false;
+			}
+			if (player.LeftLife < 1)
+			{
+
+				Debug.Log("YOU LOSE");
+				///////////////////////////
+				StartCoroutine(Lost());
+				//SceneManager.LoadScene(1);
 			}
 		}
 		/*else
@@ -199,6 +226,15 @@ public class GameControllerScriptNew : MonoBehaviour
 			backgroundMove = true;
 			//grid.SetActive(false);
 		}*/
+	}
+
+	IEnumerator Lost()
+	{
+		yield return new WaitForSeconds(1.5f);
+		fullMeniuB.SetActive(true);
+		lost.SetActive(true);
+		yield return new WaitForSeconds(3);
+		SceneManager.LoadScene(1);
 	}
 
 	private void PlayerInputKey(int x)
@@ -215,12 +251,16 @@ public class GameControllerScriptNew : MonoBehaviour
 		{
 			if (ai.GetComponent<AIScriptNew>().possition[x] == 0)
 			{
-				player.Heal();
+				if (GameObject.Find("Dmg") != null)
+					GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
+				player.Heal();  // COLOR
 				Debug.Log("Player heals: " + player.LeftLife);
 				playerMoveCount++;
 			}
 			else
 			{
+				if (GameObject.Find("Dmg") != null)
+					GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
 				Debug.Log("Player walks.");
 				player.Walk();
 				playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);
@@ -234,9 +274,12 @@ public class GameControllerScriptNew : MonoBehaviour
 			for (int i = 1; i < ai.GetComponent<AIScriptNew>().characters.Count; i++)
 			{
 				if (ai.GetComponent<AIScriptNew>().possition[x] == i && !ai.GetComponent<AIScriptNew>().good1[i]) // itterating through enemes is any of them on this tile?
-				{
+				{ // COLOR
 					ai.GetComponent<AIScriptNew>().characters[i].GetHurt(player.Attack()); // bug? every enemy on this tile will get hurt
 					Debug.Log("Player attacks: " + player.Attack() + " tile " + x + " left life " + ai.GetComponent<AIScriptNew>().characters[i].LeftLife);
+					if (GameObject.Find("Dmg") != null)
+						GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0" + player.Attack().ToString();
+					StartCoroutine(Anim(i));
 					playerMoveCount++;
 				}
 			}
@@ -247,6 +290,22 @@ public class GameControllerScriptNew : MonoBehaviour
 			ai.GetComponent<AIScriptNew>().finishedTurn = false;
 			playerMoveCount = ai.GetComponent<AIScriptNew>().NPCTurn();
 		}
+	}
+
+	IEnumerator Anim(int i)
+	{
+		playerGameObj.GetComponent<SpriteRenderer>().sprite = ai.GetComponent<AIScriptNew>().sprites[4];
+		ai.GetComponent<AIScriptNew>().AnimHelp(i, 2);
+		yield return new WaitForSeconds(0.5f);
+		ai.GetComponent<AIScriptNew>().AnimHelp(i, 0);
+		playerGameObj.GetComponent<SpriteRenderer>().sprite = ai.GetComponent<AIScriptNew>().sprites[3];
+	}
+
+	IEnumerator HurtAnim()
+	{
+		playerGameObj.GetComponent<SpriteRenderer>().sprite = ai.GetComponent<AIScriptNew>().sprites[5];
+		yield return new WaitForSeconds(0.5f);
+		playerGameObj.GetComponent<SpriteRenderer>().sprite = ai.GetComponent<AIScriptNew>().sprites[3];
 	}
 
 	void OnTriggerEnter2D(Collider2D other) //spawning trigger

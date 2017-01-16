@@ -78,7 +78,7 @@ public class GameControllerVillageScript : MonoBehaviour
 	public void YesMobButton()
 	{
 		//load mobZone level
-		SceneManager.LoadScene(0);
+		SceneManager.LoadScene(2);
 	}
 
 	public void YesExitButton()
