@@ -74,6 +74,13 @@ public class GameControllerScriptNew : MonoBehaviour
 
 	void Update()
 	{
+		Debug.Log(ai.GetComponent<AIScriptNew>().possition[0] + " " +
+			ai.GetComponent<AIScriptNew>().possition[1] + " " +
+			ai.GetComponent<AIScriptNew>().possition[2] + " " +
+			ai.GetComponent<AIScriptNew>().possition[3] + " " +
+			ai.GetComponent<AIScriptNew>().possition[4] + " " +
+			ai.GetComponent<AIScriptNew>().possition[5] + " " +
+			ai.GetComponent<AIScriptNew>().possition[6]);
 		if (ai.GetComponent<AIScriptNew>().charHitAnim)
 		{
 			StartCoroutine(HurtAnim());
@@ -87,7 +94,11 @@ public class GameControllerScriptNew : MonoBehaviour
 		int myTile = 0;
 		MoveBackground();
 		prntDmg.SetActive(false);
+		if (ai.GetComponent<AIScriptNew>().allEnemiesDead)
+			encounter = false;
 		// ENCOUNTER
+		if (!encounter)
+			backgroundMove = true;
 		if (encounter) //starting from playing and iterating through others
 		{
 			prntDmg.SetActive(true);
@@ -114,6 +125,7 @@ public class GameControllerScriptNew : MonoBehaviour
 						//Debug.Log(!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]);
 						if (ai.GetComponent<AIScriptNew>().possition[i] > -1) // is someone standing there?
 						{// ERROR
+							Debug.Log("PLAYER ERROR WATCH: " + ai.GetComponent<AIScriptNew>().possition[i]);
 							if (!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]) // is enemy standing there?
 							{
 								gridParts[i].GetComponent<SpriteRenderer>().sprite = red;
@@ -257,7 +269,7 @@ public class GameControllerScriptNew : MonoBehaviour
 			if (ai.GetComponent<AIScriptNew>().possition[x] == 0)
 			{
 				if (GameObject.Find("Dmg") != null)
-					GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
+					GameObject.Find("Dmg").GetComponent<Text>().text = "Healing.";
 				player.Heal();  // COLOR
 				//Debug.Log("Player heals: " + player.LeftLife);
 				playerMoveCount++;
@@ -265,7 +277,7 @@ public class GameControllerScriptNew : MonoBehaviour
 			else
 			{
 				if (GameObject.Find("Dmg") != null)
-					GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
+					GameObject.Find("Dmg").GetComponent<Text>().text = "Walking.";
 				//Debug.Log("Player walks.");
 				player.Walk();
 				playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);

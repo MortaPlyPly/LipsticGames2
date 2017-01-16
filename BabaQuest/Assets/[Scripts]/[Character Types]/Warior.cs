@@ -10,6 +10,7 @@ namespace Assets._Scripts_._Character_Types_
 		int heal;
 		int leftLife;
 		int fullLife;
+		int pos;
 
 		Sprite iddle;
 		Sprite attack;
@@ -57,6 +58,19 @@ namespace Assets._Scripts_._Character_Types_
 			get
 			{
 				return lvl;
+			}
+		}
+
+		public int Pos
+		{
+			get
+			{
+				return this.pos;
+			}
+
+			set
+			{
+				this.pos = value;
 			}
 		}
 

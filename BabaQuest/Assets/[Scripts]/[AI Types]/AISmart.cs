@@ -143,7 +143,14 @@ namespace Assets._Scripts_._AI_Types_
 
 						while (walk > 0) // can I go away?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{
@@ -204,7 +211,14 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{
@@ -276,7 +290,14 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{
@@ -350,7 +371,14 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go away?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{
@@ -411,7 +439,15 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							Debug.Log("ERROR LOOKOUT: " + possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]);
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{
@@ -486,7 +522,14 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{
@@ -541,7 +584,14 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{
@@ -612,7 +662,14 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{
@@ -667,7 +724,14 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{
@@ -722,7 +786,14 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-							if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
+							if (targetPos - myNewPos == 0)
+							{
+								actions[2] = 3;
+								actions[5] = myNewPos;
+								actions[8] = myNr;
+								walk--;
+							}
+							else if ((myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) >= 0 && (myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk) < 7)
 							{
 								if (possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk] == -1)
 								{

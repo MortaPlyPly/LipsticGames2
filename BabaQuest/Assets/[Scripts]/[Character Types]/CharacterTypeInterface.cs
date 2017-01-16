@@ -7,6 +7,7 @@
         int FullLife { get; }
         int ReachA { get; }
         int ReachW { get; }
+		int Pos { get; set; }
         //int: lvl, exp, hp, att, heal, leftLife, fullLife, str, int, dex
         void CalculateStats(int lvl);
         int Attack(); //basically return att

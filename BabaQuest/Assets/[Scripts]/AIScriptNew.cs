@@ -51,31 +51,7 @@ public class AIScriptNew : MonoBehaviour
                     bad++;
                 }
             }
-            for (int i = 1; i < characters.Count; i++) // checking every not player is it dead
-			{
-				if (characters[i].LeftLife < 1)
-				{
-					for (int j = 0; j < 7; j++)
-					{
-						if (possition[j] == i)
-						{
-							possition[j] = -1;
-						}
-					}
-					Debug.Log("NPC " + i + " DIED " + possition[i]);
-                    /*characters.RemoveAt(i);
-					good1.Remove(good1[i]);
-					aiType.Remove(aiType[i]);
-					gameObj[i - 1].SetActive(false);*/
-                    characters.RemoveAt(i);
-                    good1.RemoveAt(i);
-                    aiType.RemoveAt(i);
-                    gameObj[i - 1].SetActive(false);
-                    //break;
-                    //*********
-                    //gameObj.ElementAt(i).SetActive(false);
-                }
-			}
+			//CheckDeath();
 			if (bad == 0) // FIX THIS!
 			{
 				///////////////////////////
@@ -86,12 +62,16 @@ public class AIScriptNew : MonoBehaviour
 				allEnemiesDead = true;
 			}
 		}
-
-        for (int i = 1; i < characters.Count(); i++)
+		/*for (int j = 0; j < 7; j++)
+		{
+			possition[j] = -1;
+		}*/
+		for (int i = 1; i < characters.Count(); i++)
         {
             gameObj[i - 1].GetComponentInChildren<TextMesh>().text = "NAME: " + i + System.Environment.NewLine + "LIFE: " + characters[i].LeftLife
                                                                 + System.Environment.NewLine + "TYPE: " + characters[i].GetType().Name;
-        }
+			possition[characters[i].Pos] = i;
+		}
     }
 
 	public void Spawn(CharacterTypeInterface player)
@@ -125,6 +105,11 @@ public class AIScriptNew : MonoBehaviour
 		{
 			possition[i] = -1;
 		}
+		for (int i = 0; i < 6; i++)
+		{
+			gameObj[i].SetActive(false);
+		}
+		gameObj.RemoveRange(0, gameObj.Count);
 	}
 
 	public void AnimHelp (int character, int time) // time = 0 - iddle, = 1 - attack, = 2 - hit
@@ -165,6 +150,48 @@ public class AIScriptNew : MonoBehaviour
 		}
 	}
 
+	public void CheckDeath()
+	{
+		for (int i = 1; i < characters.Count; i++) // checking every not player is it dead
+		{
+			if (characters[i].LeftLife < 1)
+			{
+				for (int j = 0; j < 7; j++)
+				{
+					if (possition[j] == i)
+					{
+						possition[j] = -1;
+					}
+				}
+				Debug.Log("NPC " + i + " DIED " + possition[i]);
+				/*characters.RemoveAt(i);
+				good1.Remove(good1[i]);
+				aiType.Remove(aiType[i]);
+				gameObj[i - 1].SetActive(false);*/
+				characters.RemoveAt(i);
+				good1.RemoveAt(i);
+				aiType.RemoveAt(i);
+				gameObj[i - 1].SetActive(false);
+				//gameObj.Remove(gameObj[i - 1]);
+				//break;
+				//*********
+				//gameObj.ElementAt(i).SetActive(false);
+			}
+		}
+		int bad = 0;
+		foreach (bool b in good1)
+		{
+			if (!b)
+			{
+				bad++;
+			}
+		};
+		if (bad == 0) // FIX THIS!
+		{
+			allEnemiesDead = true;
+		}
+	}
+
 	public void Animating (int victim, int attacker, bool time)
 	{
 		if (time)
@@ -181,83 +208,75 @@ public class AIScriptNew : MonoBehaviour
 
 	IEnumerator NPCActions(int[] actions)
 	{
+		CheckDeath();
 		for (int i = 1; i < characters.Count; i++) // turns for everybody, except player, who is last in characters array
 		{
-			///////////////////////////
-			//////////DEBUG////////////
-			///////////////////////////
-			//Debug.Log("TURN FOR NPC " + i);
-			///////////////////////////
-
-			///////////////////////////
-			//////////DEBUG////////////
-			///////////////////////////
-			//Debug.Log("LEFT LIFE" + characters[i].LeftLife);
-			///////////////////////////
-
-			actions = aiType[i].Turn(characters, possition, i, good1);
-			for (int j = 0; j < 3; j++)
+			CheckDeath();
+			if (i < characters.Count)
 			{
-				switch (actions[j])
+				actions = aiType[i].Turn(characters, possition, i, good1);
+				for (int j = 0; j < 3; j++)
 				{
-					case 1:
-						{
-							///////////////////////////
-							//////////DEBUG////////////
-							///////////////////////////
-							//Debug.Log("WALK");
-							///////////////////////////
-							if (GameObject.Find("Dmg") != null)
-								GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
-							gameObj[i - 1].transform.position = new Vector3(-7.5f + 2.5f * actions[j + 3], -2.3f, 0);
-							characters[i].Walk(); //animation shit
-												  // tiles/possition
-							for (int x = 0; x < 7; x++)
+					switch (actions[j])
+					{
+						case 1:
 							{
-								if (possition[x] == i)
+								///////////////////////////
+								//////////DEBUG////////////
+								///////////////////////////
+								//Debug.Log("WALK");
+								///////////////////////////
+								if (GameObject.Find("Dmg") != null)
+									GameObject.Find("Dmg").GetComponent<Text>().text = "Walking.";
+								gameObj[i - 1].transform.position = new Vector3(-7.5f + 2.5f * actions[j + 3], -2.3f, 0);
+								characters[i].Walk(); //animation shit
+													  // tiles/possition
+								for (int x = 0; x < 7; x++)
 								{
-									possition[x] = -1; // empty possition
+									if (possition[x] == i)
+									{
+										possition[x] = -1; // empty possition
+									}
+									//possition[j + 3] = i;
 								}
-								possition[j + 3] = i;
-							}
-							yield return new WaitForSeconds(0.5f);
-							break;
-						}
-					case 2: // COLOR
-						{
-							Debug.Log(i+" ATTACK WITH " + characters[i].Attack() + " ATTACK WHO " + actions[j + 6]);
-							if (actions[j + 6] > characters.Count() - 1)
-							{
+								possition[actions[j + 3]] = i;
+								characters[i].Pos = actions[j + 3];
+								yield return new WaitForSeconds(0.5f);
 								break;
 							}
-							Animating(actions[j + 6], i, true);
-							characters[actions[j + 6]].GetHurt(characters[i].Attack()); // ERROR
-							if (GameObject.Find("Dmg") != null)
-								GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0" + characters[i].Attack().ToString();
-							yield return new WaitForSeconds(0.5f);
-							Animating(actions[j + 6], i, false);
-							break;
-						}
-					case 3:  // COLOR
-						{
-							///////////////////////////
-							//////////DEBUG////////////
-							///////////////////////////
-							//Debug.Log("HEAL");
-							///////////////////////////
-							if (GameObject.Find("Dmg") != null)
-								GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
-							characters[i].Heal();
-							yield return new WaitForSeconds(0.5f);
-							break;
-						}
+						case 2: // COLOR
+							{
+								Debug.Log(i + " ATTACK WITH " + characters[i].Attack() + " ATTACK WHO " + actions[j + 6]);
+								if (actions[j + 6] > characters.Count() - 1)
+								{
+									break;
+								}
+								Animating(actions[j + 6], i, true);
+								characters[actions[j + 6]].GetHurt(characters[i].Attack()); // ERROR
+								if (GameObject.Find("Dmg") != null)
+									GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: " + characters[i].Attack().ToString();
+								yield return new WaitForSeconds(0.5f);
+								Animating(actions[j + 6], i, false);
+								break;
+							}
+						case 3:  // COLOR
+							{
+								///////////////////////////
+								//////////DEBUG////////////
+								///////////////////////////
+								//Debug.Log("HEAL");
+								///////////////////////////
+								if (GameObject.Find("Dmg") != null)
+									GameObject.Find("Dmg").GetComponent<Text>().text = "Healing.";
+								characters[i].Heal();
+								yield return new WaitForSeconds(0.5f);
+								break;
+							}
+					}
 				}
+				possition[characters[i].Pos] = i;
 			}
-			///////////////////////////
-			//////////DEBUG////////////
-			///////////////////////////
-			//Debug.Log("LEFT LIFE" + characters[i].LeftLife);
-			///////////////////////////
+			CheckDeath();
 		}
 		finishedTurn = true;
 	}
