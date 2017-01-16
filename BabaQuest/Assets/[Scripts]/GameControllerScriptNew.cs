@@ -199,10 +199,10 @@ public class GameControllerScriptNew : MonoBehaviour
 
 				///
 			}
-			else
+			/*else
 			{
 				Debug.Log("NPC TURN");
-			}
+			}*/
 			if (ai.GetComponent<AIScriptNew>().allEnemiesDead)
 			{
 				Debug.Log("YOU WIN");
@@ -232,6 +232,10 @@ public class GameControllerScriptNew : MonoBehaviour
 	{
 		yield return new WaitForSeconds(1.5f);
 		fullMeniuB.SetActive(true);
+		prntDmg.SetActive(false);
+		turn.SetActive(false);
+		encounter = false;
+			// add btn for player input
 		lost.SetActive(true);
 		yield return new WaitForSeconds(3);
 		SceneManager.LoadScene(1);
@@ -239,6 +243,7 @@ public class GameControllerScriptNew : MonoBehaviour
 
 	private void PlayerInputKey(int x)
 	{
+		//Debug.Log("input "+x);
 		playerPos = 0;
 		for (int i = 0; i < 7; i++) // getting players possition
 		{
@@ -254,14 +259,14 @@ public class GameControllerScriptNew : MonoBehaviour
 				if (GameObject.Find("Dmg") != null)
 					GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
 				player.Heal();  // COLOR
-				Debug.Log("Player heals: " + player.LeftLife);
+				//Debug.Log("Player heals: " + player.LeftLife);
 				playerMoveCount++;
 			}
 			else
 			{
 				if (GameObject.Find("Dmg") != null)
 					GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0";
-				Debug.Log("Player walks.");
+				//Debug.Log("Player walks.");
 				player.Walk();
 				playerGameObj.transform.position = new Vector3(-7.5f + 2.5f * x, -2.3f, 0);
 				ai.GetComponent<AIScriptNew>().possition[x] = 0;
@@ -276,7 +281,7 @@ public class GameControllerScriptNew : MonoBehaviour
 				if (ai.GetComponent<AIScriptNew>().possition[x] == i && !ai.GetComponent<AIScriptNew>().good1[i]) // itterating through enemes is any of them on this tile?
 				{ // COLOR
 					ai.GetComponent<AIScriptNew>().characters[i].GetHurt(player.Attack()); // bug? every enemy on this tile will get hurt
-					Debug.Log("Player attacks: " + player.Attack() + " tile " + x + " left life " + ai.GetComponent<AIScriptNew>().characters[i].LeftLife);
+					//Debug.Log("Player attacks: " + player.Attack() + " tile " + x + " left life " + ai.GetComponent<AIScriptNew>().characters[i].LeftLife);
 					if (GameObject.Find("Dmg") != null)
 						GameObject.Find("Dmg").GetComponent<Text>().text = "Damage: 0" + player.Attack().ToString();
 					StartCoroutine(Anim(i));

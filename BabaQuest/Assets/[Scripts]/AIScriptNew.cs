@@ -62,7 +62,7 @@ public class AIScriptNew : MonoBehaviour
 							possition[j] = -1;
 						}
 					}
-					Debug.Log("NPC " + i + " DIED");
+					Debug.Log("NPC " + i + " DIED " + possition[i]);
                     /*characters.RemoveAt(i);
 					good1.Remove(good1[i]);
 					aiType.Remove(aiType[i]);
@@ -186,13 +186,13 @@ public class AIScriptNew : MonoBehaviour
 			///////////////////////////
 			//////////DEBUG////////////
 			///////////////////////////
-			Debug.Log("TURN FOR NPC " + i);
+			//Debug.Log("TURN FOR NPC " + i);
 			///////////////////////////
 
 			///////////////////////////
 			//////////DEBUG////////////
 			///////////////////////////
-			Debug.Log("LEFT LIFE" + characters[i].LeftLife);
+			//Debug.Log("LEFT LIFE" + characters[i].LeftLife);
 			///////////////////////////
 
 			actions = aiType[i].Turn(characters, possition, i, good1);
@@ -225,8 +225,7 @@ public class AIScriptNew : MonoBehaviour
 						}
 					case 2: // COLOR
 						{
-							//Debug.Log("ATTACK WITH " + characters[i].Attack());
-							//Debug.Log("ATTACK WHO " + actions[j + 6]);
+							Debug.Log(i+" ATTACK WITH " + characters[i].Attack() + " ATTACK WHO " + actions[j + 6]);
 							if (actions[j + 6] > characters.Count() - 1)
 							{
 								break;

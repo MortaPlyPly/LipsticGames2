@@ -13,9 +13,7 @@ namespace Assets._Scripts_._Character_Types_
 
 		public Rogue(int lvl)
 		{
-			Debug.Log(lvl);
 			CalculateStats(lvl);
-			//Debug.Log(leftLife);
 		}
 
 		public int LeftLife
