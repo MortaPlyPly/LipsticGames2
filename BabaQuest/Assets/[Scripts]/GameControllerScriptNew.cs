@@ -264,8 +264,11 @@ public class GameControllerScriptNew : MonoBehaviour
 		turn.SetActive(false);
 		// add btn for player input
 		won.SetActive(true);
-		yield return new WaitForSeconds(3);
-		SceneManager.LoadScene(0);
+		yield return new WaitForSeconds(2);
+		fullMeniuB.SetActive(false);
+		won.SetActive(false);
+		yield return new WaitForSeconds(1.5f);
+		SceneManager.LoadScene(3);
 	}
 
 	private void PlayerInputKey(int x)
