@@ -71,6 +71,7 @@ public class AIScriptNew : MonoBehaviour
             gameObj[i - 1].GetComponentInChildren<TextMesh>().text = "NAME: " + i + System.Environment.NewLine + "LIFE: " + characters[i].LeftLife
                                                                 + System.Environment.NewLine + "TYPE: " + characters[i].GetType().Name;
 			possition[characters[i].Pos] = i;
+			Debug.Log(characters[i].Pos);
 		}
     }
 
@@ -84,6 +85,7 @@ public class AIScriptNew : MonoBehaviour
 		//roll exp by lvl
 		// CHARACTER SPAWNING
 		characters.Add(player);
+		characters[0].Pos = 2;
 		good1.Add(true);
 		possition[2] = 0;
 		aiType.Add(new AISmart()); // not used but needed for better indexing
@@ -91,9 +93,6 @@ public class AIScriptNew : MonoBehaviour
 		SpawnFriends(); //done (empty)
 		Spawnenemies(player); //done
 		RollTurns(); //whatevs for now
-
-        
-
 	}
 
 	public void EmptyLists()
@@ -185,7 +184,7 @@ public class AIScriptNew : MonoBehaviour
 			{
 				bad++;
 			}
-		};
+		}
 		if (bad == 0) // FIX THIS!
 		{
 			allEnemiesDead = true;
@@ -295,6 +294,7 @@ public class AIScriptNew : MonoBehaviour
 		// AI types from save files!
 		// Later 0-2 friends, for now it's only 1
 		characters.Add(new Warior(lvl)); // [1]
+		characters[1].Pos = 1;
 		good1.Add(true);
 		aiType.Add(new AISmart());
 		possition[1] = 1;
@@ -302,7 +302,8 @@ public class AIScriptNew : MonoBehaviour
 		//gameObj[0].GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.5f);
 		gameObj[0].GetComponent<SpriteRenderer>().sprite = sprites[0]; // warrior iddle
 		characters.Add(new Mage(lvl)); // [2]
-        good1.Add(true);
+		characters[2].Pos = 0;
+		good1.Add(true);
         aiType.Add(new AISmart());
         possition[0] = 2;
         gameObj.Add((GameObject)Instantiate(charTry, new Vector3(-7.5f + 2.5f * 0, -2.3f, 0), Quaternion.identity));
@@ -383,21 +384,24 @@ public class AIScriptNew : MonoBehaviour
 			aiType.Add(new AISimple()); // simplyfied for destytojas :D
 		}*/
 		Debug.Log("lvl " + lvl);
-		characters.Add(new Warior(lvl)); // [1]
+		characters.Add(new Warior(lvl)); // [4]
+		characters[3].Pos = 4;
 		good1.Add(false);
 		aiType.Add(new AISimple());
-        //possition[4] = 2;
-		Debug.Log("mob 1 " + characters[2].FullLife);
-		characters.Add(new Rogue(lvl)); // [2]
+        //possition[4] = 4;
+		Debug.Log("mob 4 " + characters[3].FullLife);
+		characters.Add(new Rogue(lvl)); // [5]
+		characters[4].Pos = 5;
 		good1.Add(false);
 		aiType.Add(new AISimple());
-        //possition[5] = 3;
-        Debug.Log("mob 2 " + characters[3].FullLife);
-		characters.Add(new Mage(lvl)); // [3]
+        //possition[5] = 5;
+        Debug.Log("mob 5 " + characters[4].FullLife);
+		characters.Add(new Mage(lvl)); // [6]
+		characters[5].Pos = 6;
 		good1.Add(false);
 		aiType.Add(new AISimple());
-        //possition[6] = 4;
-        Debug.Log("mob 3 " + characters[4].FullLife);
+        //possition[6] = 6;
+        Debug.Log("mob 6 " + characters[5].FullLife);
 		int y = 4;
 		for (int i = 3; i < characters.Count(); i++) // setting good/bad, prefabs and TILES
 		{
