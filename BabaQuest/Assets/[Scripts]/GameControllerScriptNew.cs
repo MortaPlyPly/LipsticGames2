@@ -23,6 +23,7 @@ public class GameControllerScriptNew : MonoBehaviour
 	public GameObject exitY;
 	public GameObject exitN;
 	public GameObject lost;
+	public GameObject won;
 	public GameObject turn;
 	public GameObject prntDmg;
 	// GAME OBJECTS OR PREFABS
@@ -220,9 +221,11 @@ public class GameControllerScriptNew : MonoBehaviour
 				Debug.Log("YOU WIN");
 				///////////////////////////
 				encounter = false;
+				StartCoroutine(Win());
 				ai.GetComponent<AIScriptNew>().allEnemiesDead = false;
 				ai.GetComponent<AIScriptNew>().EmptyLists();
 				ai.GetComponent<AIScriptNew>().created = false;
+
 			}
 			if (player.LeftLife < 1)
 			{
@@ -251,6 +254,18 @@ public class GameControllerScriptNew : MonoBehaviour
 		lost.SetActive(true);
 		yield return new WaitForSeconds(3);
 		SceneManager.LoadScene(1);
+	}
+
+	IEnumerator Win()
+	{
+		yield return new WaitForSeconds(1.5f);
+		fullMeniuB.SetActive(true);
+		prntDmg.SetActive(false);
+		turn.SetActive(false);
+		// add btn for player input
+		won.SetActive(true);
+		yield return new WaitForSeconds(3);
+		SceneManager.LoadScene(0);
 	}
 
 	private void PlayerInputKey(int x)
