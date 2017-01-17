@@ -171,6 +171,7 @@ public class AIScriptNew : MonoBehaviour
 				good1.RemoveAt(i);
 				aiType.RemoveAt(i);
 				gameObj[i - 1].SetActive(false);
+				EmptyLists();
 				//gameObj.Remove(gameObj[i - 1]);
 				//break;
 				//*********
@@ -213,6 +214,7 @@ public class AIScriptNew : MonoBehaviour
 			CheckDeath();
 			if (i < characters.Count)
 			{
+				gameObj[i - 1].GetComponent<TurnOnOff>().Set(true);
 				actions = aiType[i].Turn(characters, possition, i, good1);
 				for (int j = 0; j < 3; j++)
 				{
@@ -274,6 +276,7 @@ public class AIScriptNew : MonoBehaviour
 					}
 				}
 				possition[characters[i].Pos] = i;
+				gameObj[i - 1].GetComponent<TurnOnOff>().Set(false);
 			}
 			CheckDeath();
 		}
