@@ -439,7 +439,7 @@ namespace Assets._Scripts_._AI_Types_
 						walk = character.ReachW;
 						while (walk > 0) // can I go closer?
 						{
-							Debug.Log("ERROR LOOKOUT: " + possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]);
+							//Debug.Log("ERROR LOOKOUT: " + possitions[myNewPos - ((targetPos - myNewPos) / Math.Abs(targetPos - myNewPos)) * walk]);
 							if (targetPos - myNewPos == 0)
 							{
 								actions[2] = 3;

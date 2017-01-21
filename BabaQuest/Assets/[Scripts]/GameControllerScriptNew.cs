@@ -126,7 +126,7 @@ public class GameControllerScriptNew : MonoBehaviour
 						//Debug.Log(!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]);
 						if (ai.GetComponent<AIScriptNew>().possition[i] > -1) // is someone standing there?
 						{// ERROR
-							Debug.Log("PLAYER ERROR WATCH: " + ai.GetComponent<AIScriptNew>().possition[i]);
+							//Debug.Log("PLAYER ERROR WATCH: " + ai.GetComponent<AIScriptNew>().possition[i]);
 							if (!ai.GetComponent<AIScriptNew>().good1[ai.GetComponent<AIScriptNew>().possition[i]]) // is enemy standing there?
 							{
 								gridParts[i].GetComponent<SpriteRenderer>().sprite = red;

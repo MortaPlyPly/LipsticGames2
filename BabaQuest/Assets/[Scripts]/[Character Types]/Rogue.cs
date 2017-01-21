@@ -80,6 +80,7 @@ namespace Assets._Scripts_._Character_Types_
 			this.lvl = lvl;
 			fullLife = 70 + 15 * lvl;
 			att = 10 + 7 * lvl;
+			//att = 150;	//1shot
 			heal = fullLife / 10;
 			leftLife = fullLife;
 		}

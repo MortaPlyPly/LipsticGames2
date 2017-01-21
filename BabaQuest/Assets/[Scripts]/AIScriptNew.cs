@@ -71,7 +71,6 @@ public class AIScriptNew : MonoBehaviour
             gameObj[i - 1].GetComponentInChildren<TextMesh>().text = "NAME: " + i + System.Environment.NewLine + "LIFE: " + characters[i].LeftLife
                                                                 + System.Environment.NewLine + "TYPE: " + characters[i].GetType().Name;
 			possition[characters[i].Pos] = i;
-			Debug.Log(characters[i].Pos);
 		}
     }
 
@@ -104,7 +103,7 @@ public class AIScriptNew : MonoBehaviour
 		{
 			possition[i] = -1;
 		}
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < gameObj.Count; i++)
 		{
 			gameObj[i].SetActive(false);
 		}
@@ -171,7 +170,7 @@ public class AIScriptNew : MonoBehaviour
 				good1.RemoveAt(i);
 				aiType.RemoveAt(i);
 				gameObj[i - 1].SetActive(false);
-				EmptyLists();
+				gameObj.RemoveAt(i - 1);
 				//gameObj.Remove(gameObj[i - 1]);
 				//break;
 				//*********
@@ -189,6 +188,7 @@ public class AIScriptNew : MonoBehaviour
 		if (bad == 0) // FIX THIS!
 		{
 			allEnemiesDead = true;
+			EmptyLists();
 		}
 	}
 
@@ -247,7 +247,7 @@ public class AIScriptNew : MonoBehaviour
 							}
 						case 2: // COLOR
 							{
-								Debug.Log(i + " ATTACK WITH " + characters[i].Attack() + " ATTACK WHO " + actions[j + 6]);
+								//Debug.Log(i + " ATTACK WITH " + characters[i].Attack() + " ATTACK WHO " + actions[j + 6]);
 								if (actions[j + 6] > characters.Count() - 1)
 								{
 									break;
